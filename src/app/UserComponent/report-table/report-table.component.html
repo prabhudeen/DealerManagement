@@ -1,0 +1,190 @@
+<div class="main-content">
+
+
+
+  <div class="container">
+
+    <div class="row">
+      <div class="col">
+        <h3 class="mr-auto text-muted">
+          <b> Report</b>
+        </h3>
+      </div>
+    </div>
+    <mat-divider style="margin-bottom: 6px;"></mat-divider>
+    <h4 class="text-muted" style="margin-top: 8px">Incentives</h4>
+
+    <div class="row">
+
+      <div class="col-lg-3 col-md-6 col-sm-6">
+        <div class="card">
+          <div class=card-body>
+            <h4 class="text-success">
+              <small>Last week</small>
+            </h4>
+            <h4 class="text-muted ">
+              <b>&#x20b9; 28,356</b>
+            </h4>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-md-6 col-sm-6">
+        <div class="card">
+          <div class=card-body>
+
+            <h4 class="text-warning">
+              <small>Last Month</small>
+            </h4>
+            <h4 class="text-muted ">
+              <b>&#x20b9; 28,356</b>
+            </h4>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-body table-full-width">
+        <div class="table-responsive">
+          <!-- <table class="table table-hover">
+            <thead>
+              <tr>            
+
+                <th>{{ tableData3.headerRow[0] }}</th>
+                <th class="dropdown">
+                  <a class="dropdown-toggle" id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">{{ tableData3.headerRow[1] }}</a>
+                  <ul class="dropdown-menu">
+                    <li>
+                      <a href="#">Inbox</a>
+                    </li>
+                    <li>
+                      <a href="#">Drafts</a>
+                    </li>
+                    <li>
+                      <a href="#">Sent Items</a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                      <a href="#">Trash</a>
+                    </li>
+                  </ul>
+                </th>
+                <th>{{ tableData3.headerRow[2] }}</th>
+                <th class="dropdown">
+                  <a class="dropdown-toggle" id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">{{ tableData3.headerRow[3] }}</a>
+                  <ul class="dropdown-menu">
+
+                  </ul>
+                </th>
+                <th>{{ tableData3.headerRow[4] }}</th>
+                <th class="dropdown">
+                  <a class="dropdown-toggle" id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">{{ tableData3.headerRow[5] }}</a>
+                  <ul class="dropdown-menu">
+                    <li>
+                      <a href="#">R</a>
+                    </li>
+                    <li>
+                      <a href="#">W</a>
+                    </li>
+
+                  </ul>
+                </th>
+
+              </tr>
+            </thead>
+            <tbody>
+
+              <tr *ngFor="let row of tableData3.dataRows">
+                <td class="pl-4">{{row[0]}}</td>
+                <td>{{row[1]}}</td>
+                <td>{{row[2]}}</td>
+                <td>{{row[3]}}</td>
+                <td> {{row[4]}}</td>
+                <td *ngIf="row[5]=='R'">
+
+                  <i class="material-icons pl-4">done</i>
+
+                </td>
+                <td *ngIf="row[5]=='W'">
+
+                  <i class="material-icons pl-4">close</i>
+
+                </td>
+
+              </tr>
+            </tbody>
+          </table> -->
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th style="width:10%" class="text-center">{{ tableData3.headerRow[0] }}</th>
+                <th style="width: 15%" class="text-center">
+                  <mat-form-field>
+                    <mat-select class="text-justify" [(ngModel)]="sales" placeholder="sales">
+                      <mat-option *ngFor="let sales of saleTypeList" [value]="sales">{{sales}}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </th>
+                <th style="width: 10%" class="text-center">{{ tableData3.headerRow[2] }}</th>
+                <!-- <th class="dropdown">
+                  <a class="dropdown-toggle" id="dropdownMenu" data-toggle="dropdow{{sales}}</mat-option>
+                  </mat-select>
+                </th>n" aria-haspopup="true" aria-expanded="true">{{ tableData3.headerRow[3] }}</a>
+                  <ul class="dropdown-menu">
+
+                  </ul>
+                </th> -->
+                <th style="width: 20%" class="text-center">
+                  <mat-form-field class="example-full-width">
+                    <input matInput [owlDateTime]="dt10" [selectMode]="'range'" [(ngModel)]="dateTimeRange" placeholder="Date/Time ">
+                    <owl-date-time #dt10></owl-date-time>
+                    <mat-datepicker-toggle matSuffix [for]="picker">
+                      <mat-icon [owlDateTimeTrigger]="dt10" matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+
+                    </mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                  </mat-form-field>
+
+                </th>
+                <th style="width: 10%" class="text-center">{{ tableData3.headerRow[4] }}</th>
+                <th style="width: 20%" class="text-center">
+                  <mat-form-field>
+                    <mat-select class="ml-2" [(ngModel)]="status" placeholder="Settlement">
+                      <mat-option *ngFor="let status of statusArray" [value]="status">{{status}}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+
+              <tr *ngFor="let row of transactionDataList | filter:status | filter: sales | dateFilterPipe :dateTimeRange[0] : dateTimeRange[1]">
+                <td style="width: 10%" class="text-center">{{row.TxId}}</td>
+                <td style="width: 20%" class="text-center">{{row.saleType}}</td>
+                <td style="width: 10%" class="text-center">{{row.saleAmount}}</td>
+                <td style="width: 20%" class="text-center"> {{row.txCreatedTime | date:'medium'}}</td>
+                <td style="width: 10%" class="text-center"> {{row.commission}}</td>
+
+                <td style="width: 20% " *ngIf="row.commissionSettlement==='True'">
+
+                  <i class="material-icons text-success text-center pl-5">done</i>
+
+                </td>
+                <td style="width: 20%;" *ngIf="row.commissionSettlement==='False'">
+
+                  <i class="material-icons  text-danger text-center pl-5">close</i>
+
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

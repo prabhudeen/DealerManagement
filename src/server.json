@@ -1,0 +1,54 @@
+{
+  "employees": [
+    {
+      "transactionId": "001",
+      "saleType": "Device",
+      "amount": 234,
+      "timeStamp": "224738473847",
+      "commissionType": "sale",
+      "commissionSettlement": true
+    },
+    {
+      "transactionId": "002",
+      "saleType": "Jio",
+      "amount": 234,
+      "timeStamp": "224738473847",
+      "commissionType": "sale",
+      "commissionSettlement": true
+    },
+    {
+      "transactionId": "001",
+      "saleType": "Device",
+      "amount": 234,
+      "timeStamp": "224738473847",
+      "commissionType": "sale",
+      "commissionSettlement": true,
+      "id": 127
+    },
+    {
+      "transactionId": "001",
+      "saleType": "Device",
+      "amount": 234,
+      "timeStamp": "224738473847",
+      "commissionType": "sale",
+      "commissionSettlement": true,
+      "id": 128
+    },
+    {
+      "planId": "12",
+      "commissionType": "Recharge",
+      "totalSaleAmount": 444,
+      "saleType": "Recharge",
+      "saleItems": [
+        {
+          "itemType": "Jio Phone",
+          "itemId": "dosapati",
+          "itemDetail": "dosapati",
+          "saleAmount": "222"
+        }
+      ],
+      "id": 129
+    }
+  ],
+  "login": []
+}

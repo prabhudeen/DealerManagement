@@ -1,0 +1,63 @@
+<div class="wrapper wrapper-full-page">
+  <div class="container">
+    <div class="col-lg-5 col-md-6 col-sm-6 ml-auto mr-auto">
+      <div class="page-header">
+        <form [formGroup]="login" class="form-horizontal" (ngSubmit)="loginUser()">
+          <div class="header">
+            <div class="ml-auto mr-auto" style="height: 100px; width: 100px; border-radius: 50px; overflow: hidden;">
+              <img src="/assets/img/jio_logo_3.png" alt="" height="100%" width="100%">
+            </div>
+            <div class="title">
+              <h3 class="text-dark font-weight-bold">Jio Dealer Management Platform</h3>
+            </div>
+            <div class="body">
+              <p class="description text-center">Dealer Login</p>
+
+              <div class="col-lg-12 bmd-form-group">
+                <div class="input-group">
+                  <div class="input-group-prepend col-lg-2">
+                    <span class="input-group-text">
+                      <i class="material-icons">person</i>
+                    </span>
+                  </div>
+                  <mat-form-field class="col-lg-10">
+                    <input matInput type="text" placeholder="UserName" id="userName" name="userName" (ngModelChange)="userNameValidationLogin($event)"
+                      formControlName="userName">
+
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div class="col-lg-12 bmd-form-group">
+                <div class="input-group">
+                  <div class="input-group-prepend col-lg-2">
+                    <span class="input-group-text">
+                      <i class="material-icons">lock_outline</i>
+                    </span>
+                  </div>
+                  <mat-form-field class="col-lg-10">
+                    <input matInput type="text" placeholder="Password" id="password" name="password" (ngModelChange)="passwordValidationLogin($event)"
+                      formControlName="password">
+                    <!-- <app-field-error-display [displayError]="isFieldValid(login, 'password')" errorMsg="Enter a valid password.">
+                    </app-field-error-display>                  -->
+                    </mat-form-field>
+                  <!-- <mat-form-field>
+                    <mat-error *ngIf="invalidUser()">Invalid Username or Password</mat-error>
+                  </mat-form-field> -->
+                </div>  
+              </div>
+            </div>
+
+            <div class="col-lg-12 mt-3 pl-5 pr-3">
+              <button class="btn btn-info btn-round btn-block" (click)="onSubmit()">Login</button>
+            </div>
+
+            <div class="col-lg-12  text-right pt-3" style="color:  rgb(25, 176, 247)">
+              <a routerLink="/forgetpassword" class="text-sm">Forgot Password?</a>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
