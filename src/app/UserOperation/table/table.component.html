@@ -190,7 +190,7 @@
                 <th style="width: 15%" class="text-center">
                   <mat-form-field>
                     <mat-select class="text-justify" [(ngModel)]="sales" placeholder="Sales">
-                      <mat-option *ngFor="let sales of saleTypeList" [value]="sales">{{sales}}</mat-option>
+                      <mat-option *ngFor="let sales of saleTypeList" [value]="sales">{{sales.name}}</mat-option>
                     </mat-select>
                   </mat-form-field>
                 </th>

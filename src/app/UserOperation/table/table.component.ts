@@ -4,6 +4,7 @@ import { Statement } from '@angular/compiler';
 import { FormControl, Validators, NgForm, FormGroup, FormBuilder } from '@angular/forms';
 import { CommonService, User } from '../../shared/common.service';
 import { HttpHeaders } from '@angular/common/http';
+import { ReportService } from '../../UserComponent/report-table/report.service';
 
 
 
@@ -12,14 +13,88 @@ import { HttpHeaders } from '@angular/common/http';
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.Default
 })
 export class TableComponent implements OnInit {
-  user: User;
+  user: any;
   status: string;
   @ViewChild('form2') form2: NgForm;
   saleInfoData2: any;
   public dateTimeRange = [];
+
+  ngOnInit() {
+
+    this.reportService.transactionDataListObs.subscribe(
+      (response) => {
+        this.transactionDataList = response;
+      });
+
+    console.log("inside ngonint");
+    this.user = this.server.getUser();
+    console.log(this.user
+
+    );
+
+    if (this.user.username != null) {
+      const headers1 = new HttpHeaders({
+        'dealerId': this.user.username,
+      });
+
+      console.log(headers1);
+      this.server.sendRequest('post', '/getDealerDataByDealerId', null, headers1, null).subscribe(
+
+        (data) => {
+          console.log(JSON.stringify(this.transactionDataList));
+          setTimeout(() => {
+            this.transactionDataList = JSON.parse(JSON.stringify(data['body']));
+            console.log(JSON.stringify(this.transactionDataList));
+          }, 500);
+
+
+
+        }
+      );
+    } else {
+      this.transactionDataList = [{
+        "deviceExchange": "0",
+        "deviceSale": "0.1",
+        "recharge": "2",
+        "simActivation": "3",
+        "totalCommision": "4",
+        "totalSale": "0"
+      }];
+
+    }
+
+
+
+    this.salesItems = [{
+      saleType: '',
+      itemType: '',
+      itemId: '',
+      quantity: '',
+      planId: '',
+      saleAmount: ''
+    }];
+
+
+
+    this.submit();
+    this.tableData3 = {
+      headerRow: ['Txn ID', 'Sale Type', 'Amount', 'Date/Time', 'Commission', 'Statement'],
+      dataRows: null
+    };
+
+  }
+
+  //   isEmpty(obj) {
+  //     for(var prop in obj) {
+  //         if(obj.hasOwnProperty(prop))
+  //             return false;
+  //     }
+
+  //     return JSON.stringify(obj) === JSON.stringify({});
+  // }
 
   totalAmountfunction() {
     let total = 0;
@@ -31,8 +106,8 @@ export class TableComponent implements OnInit {
 
   createdDate() {
     let date = new Date();
-    let month=date.getMonth()+1;
-    return '' + date.getDate() + '/' + (date.getMonth()+1) + '/' + date.getFullYear();
+    let month = date.getMonth() + 1;
+    return '' + date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
   }
   userNameValidationLogin(e) {
     const re = /^([0-9]*)$/;
@@ -81,7 +156,7 @@ export class TableComponent implements OnInit {
     this.salesItems.splice(i, 1);
   }
 
-  transactionDataList: any;
+  transactionDataList: any=[];
   tableData3: TableData;
   step: string;
   response: any;
@@ -207,17 +282,8 @@ export class TableComponent implements OnInit {
   public statusArray: string[] = ["All", "True", "False"]
   displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
 
-  constructor(private server: CommonService) {
-    this.transactionDataList = [{
-      "deviceExchange": "0",
-      "deviceSale": "0",
-      "recharge": "0",
-      "simActivation": "0",
-      "totalCommision": "0",
-      "totalSale": "0"
-    }];
-
-
+  constructor(private server: CommonService, private reportService: ReportService) {
+    console.log('inside constructor');
   }
 
   UpdateTable() {
@@ -242,21 +308,27 @@ export class TableComponent implements OnInit {
 
 
   onSubmission() {
+
+    this.reportService.addTransactionData(this.saleInfoData).subscribe(
+      (response) => {
+
+      });
+
+
     console.log(this.saleInfoData);
     const headers = new HttpHeaders({
       'Content-Type': "application/json"
     })
     this.server.sendRequest('post', '/submitSaleTransaction', this.saleInfoData, headers, null).subscribe(
       (data) => {
+        console.log("inside response!")
         console.log(data);
-        if (data['status'] == 200) {
-          setTimeout(() => {
-            this.UpdateTable();
-          }, 15000);
 
-        } else {
-          console.log("Error");
-        }
+        setTimeout(() => {
+          this.UpdateTable();
+        }, 30000);
+
+
       }
     );
 
@@ -277,42 +349,14 @@ export class TableComponent implements OnInit {
 
   }
 
-  ngOnInit() {
-    this.salesItems = [{
-      saleType: '',
-      itemType: '',
-      itemId: '',
-      quantity: '',
-      planId: '',
-      saleAmount: ''
-    }];
 
-    // this.transactionDataList=[{
-    //   "deviceExchange": "0",
-    //   "deviceSale": "0",
-    //   "recharge": "0",
-    //   "simActivation": "0",
-    //   "totalCommision": "0",
-    //   "totalSale": "0"
-    // }];
-
-
-    this.user = this.server.getUser();
-
-    this.submit();
-    this.tableData3 = {
-      headerRow: ['Txn ID', 'Sale Type', 'Amount', 'Date/Time', 'Commission', 'Statement'],
-      dataRows: null
-    };
-
-  }
 
   dicountedAmount() {
     return Math.round(this.saleInfoData.totalSaleAmount * .95);
   }
 
   SimActivationPercentage() {
-    let number1:number= parseInt(this.transactionDataList[this.transactionDataList.length - 1].simActivation) / (parseInt(this.transactionDataList[this.transactionDataList.length - 1].simActivation) + parseInt(this.transactionDataList[this.transactionDataList.length - 1].recharge) + parseInt(this.transactionDataList[this.transactionDataList.length - 1].deviceSale) + parseInt(this.transactionDataList[this.transactionDataList.length - 1].deviceExchange));
+    let number1: number = parseInt(this.transactionDataList[this.transactionDataList.length - 1].simActivation) / (parseInt(this.transactionDataList[this.transactionDataList.length - 1].simActivation) + parseInt(this.transactionDataList[this.transactionDataList.length - 1].recharge) + parseInt(this.transactionDataList[this.transactionDataList.length - 1].deviceSale) + parseInt(this.transactionDataList[this.transactionDataList.length - 1].deviceExchange));
     if (Number.isNaN(number1)) {
       number1 = 0;
     }
@@ -400,19 +444,19 @@ export class TableComponent implements OnInit {
     //   "totalSale": "6450"
     // }];
 
-    const headers1 = new HttpHeaders({
-      'dealerId': this.user.username,
-    });
+    // const headers1 = new HttpHeaders({
+    //   'dealerId': this.user.username,
+    // });
 
 
-    this.server.sendRequest('post', '/getDealerDataByDealerId', null, headers1, null).subscribe(
+    // this.server.sendRequest('post', '/getDealerDataByDealerId', null, headers1, null).subscribe(
 
-      (data) => {
-        this.transactionDataList = data['body'];
-        console.log(this.transactionDataList);
+    //   (data) => {
+    //     this.transactionDataList = data['body'].slice();
+    //     console.log(JSON.stringify(this.transactionDataList));
 
-      }
-    );
+    //   }
+    // );
 
 
   }

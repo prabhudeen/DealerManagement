@@ -15,7 +15,9 @@ export class User {
 export class CommonService {
   constructor(private httpClient: HttpClient) { }
   private subject = new Subject<any>();
-  private user = new User();
+  private user = {
+  username:null,
+  };
 
   setUser(user: User) {
     this.user = user;
@@ -58,6 +60,10 @@ export class CommonService {
             (response) => {
               //   this.displayToaster(response);
               observe.next(response);
+            },
+            (error) => {
+              console.log(JSON.stringify(error));
+              observe.next(error);
             }
           );
         });

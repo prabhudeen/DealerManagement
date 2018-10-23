@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { CommonService, User } from '../../../shared/common.service';
 import { HttpHeaders } from '@angular/common/http';
 import { ERROR_COLLECTOR_TOKEN } from '@angular/platform-browser-dynamic/src/compiler_factory';
+import { TableComponent } from '../../table/table.component';
 
 @Component({
   selector: 'app-login',
@@ -23,6 +24,7 @@ export class LoginComponent123 implements OnInit {
     this.server.sendRequest('post', '/login', null, headers, null).subscribe(
       (data) => {
         console.log(data);
+        console.log("login submit !")
         this.validateUser(data['status']);
       }
     );
@@ -33,11 +35,14 @@ export class LoginComponent123 implements OnInit {
     if (data == 200) {
       this.user.username = this.login.value.userName;
       this.server.setUser(this.user);
+
       this.router.navigate(['table']);
     } else {
       this.router.navigate(['Login']);
     }
   }
+
+  
 
   invalidUser() {
     return this.invalid;

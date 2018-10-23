@@ -231,16 +231,16 @@
         background-size: cover;
         background-position: center center;
 
-        &:after{
-            position: absolute;
-            z-index: 3;
-            width: 100%;
-            height: 100%;
-            content: "";
-            display: block;
-            background: #FFFFFF;
-            opacity: .93;
-        }
+        // &:after{
+        //     position: absolute;
+        //     z-index: 3;
+        //     width: 100%;
+        //     height: 100%;
+        //     content: "";
+        //     display: block;
+        //     background: rgb(35, 11, 170);
+        //     opacity: .93;
+        // }
     }
 
     .logo{
@@ -258,7 +258,7 @@
         a.logo-mini{
             opacity: 1;
             float: left;
-            width: 30px;
+            width: 40px;
             text-align: center;
             margin-left: 23px;
             margin-right: 15px;
