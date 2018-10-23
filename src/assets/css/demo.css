@@ -30,6 +30,8 @@
 
 }
 
+
+
 .places-buttons .btn{
     margin-bottom: 30px
 }
@@ -82,3 +84,14 @@
     }
 }
 
+
+.cmp-logo {
+background-image: url("/assets/img/jio_logo_3.png") no-repeat center;
+size: 100%;
+background-size: 105%;
+
+}  
+
+.navbar{
+    border-radius: 0px !important
+}

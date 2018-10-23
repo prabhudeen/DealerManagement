@@ -61,6 +61,7 @@ import { FilterPipe } from './UserOperation/table/Filter.pipe';
 import { DatepickerComponent } from './datepicker/datepicker.component';
 import { DatefilterpipePipe } from './datefilterpipe.pipe';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+import { ReportService } from './UserComponent/report-table/report.service';
 
 
 
@@ -128,7 +129,7 @@ export class MaterialModule { }
 
     FilterPipe, DatepickerComponent, DatefilterpipePipe
   ],
-  providers: [CommonService],
+  providers: [CommonService, ReportService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
