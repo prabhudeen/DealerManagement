@@ -1,14 +1,14 @@
 import { Subject, Observable, Observer, BehaviorSubject } from "rxjs";
 import { CommonService, User } from "../../shared/common.service";
 import { HttpHeaders } from "@angular/common/http";
-import { Injectable } from "@angular/core";
+import { Injectable, EventEmitter } from "@angular/core";
 
 @Injectable()
 export class ReportService {
 
     private obser = new BehaviorSubject<any>("");
 
-    transactionDataListObs = this.obser.asObservable();
+    transactionDataListObs = new EventEmitter<any[]>();
 
     transactionDataList: any = [{
         "TxId": "001",
@@ -92,7 +92,10 @@ export class ReportService {
                 this.getTransactionDetails().subscribe(
                     (response) => {
                         // this.transactionDataListObs = response['body'];
-                        this.obser.next(response['body']);
+                        // this.obser.next(response['body']);
+                        this.transactionDataListObs.emit(response);
+
+                        console.log(JSON.stringify(response));
                     });
 
                 promiseTemp.next("Successful Added");

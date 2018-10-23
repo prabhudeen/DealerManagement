@@ -27,6 +27,7 @@ export class TableComponent implements OnInit {
     this.reportService.transactionDataListObs.subscribe(
       (response) => {
         this.transactionDataList = response;
+        console.log(JSON.stringify(response));
       });
 
     console.log("inside ngonint");
