@@ -20,11 +20,11 @@ export class ReportTableComponent implements OnInit {
   headers1: HttpHeaders;
   public statusArray: string[] = ["All", "True", "False"];
   public saleTypeList = [
-    'All',
-    'SIM Activation',
-    'Recharge',
-    'Device',
-    'Device Exchange'
+    { name: 'All', value: 'All' },
+    { name: 'SIM Activation', value: 'SimActivation' },
+    { name: 'Recharge', value: 'Recharge' },
+    { name: 'Device', value: 'Device' },
+    { name: 'Device Exchange', value: 'DeviceExchange' }
   ]
 
   constructor(private reportService: ReportService) {

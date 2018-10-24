@@ -23,6 +23,16 @@ export class TableComponent implements OnInit {
   public dateTimeRange = [];
 
   ngOnInit() {
+    
+
+    this.transactionDataList = [{
+      "deviceExchange":"0",
+      "deviceSale":"0",
+      "recharge":"5",
+      "simActivation":"0",
+      "totalCommision":"226.80",
+      "totalSale":"3744"
+    }];
 
     this.reportService.transactionDataListObs.subscribe(
       (response) => {
@@ -55,17 +65,7 @@ export class TableComponent implements OnInit {
 
         }
       );
-    } else {
-      this.transactionDataList = [{
-        "deviceExchange": "0",
-        "deviceSale": "0.1",
-        "recharge": "2",
-        "simActivation": "3",
-        "totalCommision": "4",
-        "totalSale": "0"
-      }];
-
-    }
+    } 
 
 
 
@@ -392,6 +392,8 @@ export class TableComponent implements OnInit {
     return (Math.round(number1 * 100)) + '%';
 
   }
+
+  
 
   CommissionPercentage() {
 
