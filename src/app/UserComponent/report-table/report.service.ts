@@ -2,9 +2,11 @@ import { Subject, Observable, Observer, BehaviorSubject } from "rxjs";
 import { CommonService, User } from "../../shared/common.service";
 import { HttpHeaders } from "@angular/common/http";
 import { Injectable, EventEmitter } from "@angular/core";
+import { SessionService } from "../../shared/session.service";
 
 @Injectable()
 export class ReportService {
+    private userName:string;
 
     private obser = new BehaviorSubject<any>("");
 
@@ -34,15 +36,15 @@ export class ReportService {
         lastMonth: 100
     };
 
-    constructor(private server: CommonService) {
-        this.user = this.server.getUser();
+    constructor(private server: CommonService, private sessionService:SessionService) {
+        this.userName = this.sessionService.get('userName');
     }
 
     getTransactionDetails() {
 
         let promiseTemp = new Subject<any>();
         const headers1 = new HttpHeaders({
-            'dealerId': this.user.username,
+            'dealerId': this.userName,
         });
 
 
@@ -63,7 +65,7 @@ export class ReportService {
     getTransaction() {
         let promiseTemp = new Subject<any>();
         const headers1 = new HttpHeaders({
-            'dealerId': this.user.username,
+            'dealerId': this.userName,
         });
         this.server.sendRequest('post', '/getTransactionRange', null, headers1, null).subscribe(
             (response) => {

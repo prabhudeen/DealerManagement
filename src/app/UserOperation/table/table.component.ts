@@ -5,6 +5,7 @@ import { FormControl, Validators, NgForm, FormGroup, FormBuilder } from '@angula
 import { CommonService, User } from '../../shared/common.service';
 import { HttpHeaders } from '@angular/common/http';
 import { ReportService } from '../../UserComponent/report-table/report.service';
+import { SessionService } from '../../shared/session.service';
 
 
 
@@ -16,22 +17,22 @@ import { ReportService } from '../../UserComponent/report-table/report.service';
   changeDetection: ChangeDetectionStrategy.Default
 })
 export class TableComponent implements OnInit {
-  user: any;
+  userName: string;
   status: string;
   @ViewChild('form2') form2: NgForm;
   saleInfoData2: any;
   public dateTimeRange = [];
 
   ngOnInit() {
-    
+
 
     this.transactionDataList = [{
-      "deviceExchange":"0",
-      "deviceSale":"0",
-      "recharge":"5",
-      "simActivation":"0",
-      "totalCommision":"226.80",
-      "totalSale":"3744"
+      "deviceExchange": "0",
+      "deviceSale": "0",
+      "recharge": "0",
+      "simActivation": "0",
+      "totalCommision": "0",
+      "totalSale": "0"
     }];
 
     this.reportService.transactionDataListObs.subscribe(
@@ -41,14 +42,12 @@ export class TableComponent implements OnInit {
       });
 
     console.log("inside ngonint");
-    this.user = this.server.getUser();
-    console.log(this.user
-
-    );
-
-    if (this.user.username != null) {
+    this.userName = this.sessionService.get('userName');
+    console.log(this.userName);
+    if (this.userName) {
+      console.log('inside if');
       const headers1 = new HttpHeaders({
-        'dealerId': this.user.username,
+        'dealerId': this.userName,
       });
 
       console.log(headers1);
@@ -65,7 +64,7 @@ export class TableComponent implements OnInit {
 
         }
       );
-    } 
+    }
 
 
 
@@ -157,7 +156,7 @@ export class TableComponent implements OnInit {
     this.salesItems.splice(i, 1);
   }
 
-  transactionDataList: any=[];
+  transactionDataList: any = [];
   tableData3: TableData;
   step: string;
   response: any;
@@ -219,7 +218,7 @@ export class TableComponent implements OnInit {
 
 
     this.saleInfoData = {
-      "dealerId": this.user.username,
+      "dealerId": this.userName,
       "totalSaleAmount": this.totalSaleAmount,
       "saleItems": this.salesItems1,
       // "planId":this.form2.get('Plan').value,
@@ -283,15 +282,15 @@ export class TableComponent implements OnInit {
   public statusArray: string[] = ["All", "True", "False"]
   displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
 
-  constructor(private server: CommonService, private reportService: ReportService) {
+  constructor(private server: CommonService,
+    private reportService: ReportService,
+    private sessionService: SessionService) {
     console.log('inside constructor');
   }
 
   UpdateTable() {
-
-
     const headers1 = new HttpHeaders({
-      'dealerId': this.user.username,
+      'dealerId': this.userName,
     });
 
 
@@ -393,7 +392,7 @@ export class TableComponent implements OnInit {
 
   }
 
-  
+
 
   CommissionPercentage() {
 

@@ -1,6 +1,12 @@
+<style>
+  .cardClass {
+    padding-right: 8px;
+    padding-left: 8px;
+  }
+</style>
 <div class="main-content">
 
-  <div class="container">
+  <div class="col-md-12">
 
     <div class="row">
       <div class="col">
@@ -27,16 +33,16 @@
     <h4 class="text-muted" style="margin-top: 8px">Today</h4>
     <div class="row">
 
-      <div class="col-lg-2 col-md-6 col-sm-6">
+      <div class="col-lg-2 col-md-6 col-sm-6 cardClass">
         <div class="card card-hieght">
           <div class=card-body>
 
-            <div class="progress progress-line-primary">
+            <!-- <div class="progress progress-line-primary">
               <div class="progress-bar progress-bar-success" style="width: 100%">
                 <span class="sr-only ">20% Complete (warning)</span>
               </div>
 
-            </div>
+            </div> -->
             <!-- <div class="ml-auto">
                                   <p ><font size="0">100%</font></p>
                           </div> -->
@@ -44,122 +50,122 @@
               <small>Sale</small>
             </h4>
             <span style="color:grey;">
-              <b>&#x20b9; {{transactionDataList[transactionDataList.length-1].totalSale}}</b>
+              <h4>&#x20b9; {{transactionDataList[transactionDataList.length-1].totalSale}}</h4>
             </span>
           </div>
         </div>
       </div>
 
-      <div class="col-lg-2 col-md-6 col-sm-6">
+      <div class="col-lg-2 col-md-6 col-sm-6 cardClass">
         <div class="card">
           <div class=card-body>
-            <div class="progress progress-line-primary mb-0">
+            <!-- <div class="progress progress-line-primary mb-0">
               <div class="progress-bar progress-bar-warning" style="width: 100%">
                 <span class="sr-only">20% Complete (warning)</span>
               </div>
-            </div>
-            <div class="d-flex" style="margin-bottom: -20px">
+            </div> -->
+            <!-- <div class="d-flex" style="margin-bottom: -20px">
               <div class="ml-auto">
                 <p>
                   <font size="0">100%</font>
                 </p>
               </div>
-            </div>
+            </div> -->
             <h4 class="text-warning">
               <small>Commission</small>
             </h4>
             <span style="color:grey;">
-              <b>&#x20b9;{{transactionDataList[transactionDataList.length-1].totalCommision}}</b>
+              <h4>&#x20b9;{{transactionDataList[transactionDataList.length-1].totalCommision}}</h4>
             </span>
           </div>
         </div>
       </div>
-      <div class="col-lg-6 col-md-12 col-sm-12">
+      <div class="col-lg-6 col-md-12 col-sm-12 cardClass">
         <div class="card card-hieght">
           <div class=card-body>
             <div class="row">
 
               <div class="col border border-left-0 border-top-0 border-bottom-0">
-                <div class="progress progress-line-primary mb-0">
+                <!-- <div class="progress progress-line-primary mb-0">
                   <div class="progress-bar " [ngStyle]="{'width': SimActivationPercentage()}">
                     <span class="sr-only">20% Complete (warning)</span>
                   </div>
-                </div>
-                <div class="d-flex" style="margin-bottom: -20px">
+                </div> -->
+                <!-- <div class="d-flex" style="margin-bottom: -20px">
                   <div class="ml-auto">
                     <p>
                       <font size="0">{{SimActivationPercentage()}}</font>
                     </p>
                   </div>
-                </div>
+                </div> -->
                 <h4 class="text-info">
                   <small>SIM Activation</small>
                 </h4>
                 <span style="color:grey;">
-                  <b> {{transactionDataList[transactionDataList.length-1].simActivation}}</b>
+                  <h4> {{transactionDataList[transactionDataList.length-1].simActivation}}</h4>
                 </span>
 
               </div>
 
               <div class="col border border-left-0 border-top-0 border-bottom-0">
-                <div class="progress progress-line-primary mb-0">
+                <!-- <div class="progress progress-line-primary mb-0">
                   <div class="progress-bar" [ngStyle]="{'width': rechargePercentage()}">
                     <span class="sr-only">20% Complete (warning)</span>
                   </div>
-                </div>
-                <div class="d-flex" style="margin-bottom: -20px">
+                </div> -->
+                <!-- <div class="d-flex" style="margin-bottom: -20px">
                   <div class="ml-auto">
                     <p>
                       <font size="0">{{rechargePercentage()}}</font>
                     </p>
                   </div>
-                </div>
+                </div> -->
                 <h4 class="text-info">
                   <small>Recharge</small>
                 </h4>
                 <span style="color:grey;">
-                  <b>{{transactionDataList[transactionDataList.length-1].recharge}}</b>
+                  <h4>{{transactionDataList[transactionDataList.length-1].recharge}}</h4>
                 </span>
               </div>
 
               <div class="col border border-left-0 border-top-0 border-bottom-0">
-                <div class="progress progress-line-primary mb-0">
+                <!-- <div class="progress progress-line-primary mb-0">
                   <div class="progress-bar " [ngStyle]="{'width': deviceSalePercentage()}">
                     <span class="sr-only">20% Complete (warning)</span>
                   </div>
-                </div>
-                <div class="d-flex" style="margin-bottom: -20px">
+                </div> -->
+                <!-- <div class="d-flex" style="margin-bottom: -20px">
                   <div class="ml-auto">
                     <p>
                       <font size="0">{{deviceSalePercentage()}}</font>
                     </p>
                   </div>
-                </div>
+                </div> -->
                 <h4 class="text-info">
                   <small>Device Sale</small>
                 </h4>
                 <span style="color:grey;">
-                  <b>{{transactionDataList[transactionDataList.length-1].deviceSale}}</b>
+                  <h4>{{transactionDataList[transactionDataList.length-1].deviceSale}}</h4>
                 </span>
               </div>
               <div class="col">
-                <div class="progress progress-line-primary mb-0">
+                <!-- <div class="progress progress-line-primary mb-0">
                   <div class="progress-bar " [ngStyle]="{'width': deviceExchangePercentage()}">
                     <span class="sr-only">20% Complete (warning)</span>
                   </div>
-                </div>
-                <div class="d-flex" style="margin-bottom: -20px">
+                </div> -->
+                <!-- <div class="d-flex" style="margin-bottom: -20px">
                   <div class="ml-auto">
                     <p>
                       <font size="0">{{deviceExchangePercentage()}}</font>
                     </p>
                   </div>
-                </div>
+                </div> -->
                 <h4 class="text-info">
                   <small>Device Exch</small>
                 </h4>
                 <span style="color:grey;">
-                  <b>{{transactionDataList[transactionDataList.length-1].deviceExchange}}</b>
+                  <h4>{{transactionDataList[transactionDataList.length-1].deviceExchange}}</h4>
                 </span>
               </div>
             </div>
@@ -167,10 +173,11 @@
         </div>
       </div>
 
-      <div class="col-lg-2 col-md-12 col-sm-12">
+      <div class="col-lg-2 col-md-12 col-sm-12 cardClass">
         <div class="card card-hieght text-white bg-info text-center add-click">
-          <div class="card-body mt-3" data-toggle="modal" data-target="#myModal" (click)="onReset()" style="cursor: pointer; ">
-            <p> Record Transactions </p>
+          <div class="card-body" data-toggle="modal" data-target="#myModal" (click)="onReset()" style="cursor: pointer;margin-top: 4px;-ms-transform: translateY(-50%);
+          transform: translateY(5%); ">
+            <p> Record <br/> Transaction</p>
 
           </div>
         </div>
@@ -289,7 +296,7 @@
                   <div class="col-lg-4 pl-3 pr-0">
                     <mat-label>Dealer ID</mat-label>
                     <p style="font-size: 14px">
-                      <b>{{user.username}}</b>
+                      <b>{{userName}}</b>
                     </p>
                   </div>
                   <div class="col-lg-4 pl-3 pr-0">
@@ -311,13 +318,13 @@
 
                 <table border="0">
                   <thead>
-                    <th style="width: 20%" class="text-center">Sale Type</th>
-                    <th style="width: 20%" class="text-center">Item Type</th>
-                    <th style="width: 20%" class="text-center">Details</th>
-                    <th style="width: 20%" class="text-center">Qty</th>
-                    <th style="width: 10%" class="text-center">Plan</th>
-                    <th style="width: 10%" class="text-center">&#x20b9;Amount</th>
-                    <th style="width: 10%" class="text-center"></th>
+                    <td style="width: 20%" class="text-center">Sale Type</td>
+                    <td style="width: 20%" class="text-center">Item Type</td>
+                    <td style="width: 20%" class="text-center">Details</td>
+                    <td style="width: 20%" class="text-center">Qty</td>
+                    <td style="width: 10%" class="text-center">Plan</td>
+                    <td style="width: 10%" class="text-center">&#x20b9;Amount</td>
+                    <td style="width: 10%" class="text-center"></td>
                   </thead>
                   <tbody>
                     <tr *ngFor="let sale of salesItems ; let i=index;">
@@ -551,7 +558,7 @@
           <div>
             <p class="text-left mb-0a">
               <b style="font-size:14px;"> Payment Methods</b>
-              <span class="float-right" style="font-size:14px;">ID : 
+              <span class="float-right" style="font-size:14px;">ID :
                 <b>-</b>
               </span>
             </p>
@@ -655,7 +662,7 @@
               <br>
               <br>
               <br>
-             
+
               <hr class="mb-1 mt-3">
               <div>
                 <small>After Promo Code Apply Discount 05%

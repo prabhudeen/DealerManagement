@@ -62,6 +62,9 @@ import { DatepickerComponent } from './datepicker/datepicker.component';
 import { DatefilterpipePipe } from './datefilterpipe.pipe';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { ReportService } from './UserComponent/report-table/report.service';
+import { AngularWebStorageModule } from 'angular-web-storage';
+import { SessionService } from './shared/session.service';
+import { AuthGuard } from './shared/auth.guard';
 
 
 
@@ -120,16 +123,27 @@ export class MaterialModule { }
     HttpClientModule,
     RouterModule.forRoot(AppRoutes),
     OwlDateTimeModule,
-    OwlNativeDateTimeModule
+    OwlNativeDateTimeModule,
+    AngularWebStorageModule
 
   ],
   declarations: [
-    AppComponent, TableComponent, AdminLayoutComponent,
-    AuthLayoutComponent, InvoicemodelComponent, ReportTableComponent, WelcomeComponent, LoginComponent123,
-
-    FilterPipe, DatepickerComponent, DatefilterpipePipe
+    AppComponent, 
+    TableComponent, 
+    AdminLayoutComponent,
+    AuthLayoutComponent, 
+    InvoicemodelComponent, 
+    ReportTableComponent, 
+    WelcomeComponent, 
+    LoginComponent123,
+    FilterPipe, 
+    DatepickerComponent, 
+    DatefilterpipePipe
   ],
-  providers: [CommonService, ReportService],
+  providers: [CommonService, 
+              ReportService,
+              SessionService,
+              AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

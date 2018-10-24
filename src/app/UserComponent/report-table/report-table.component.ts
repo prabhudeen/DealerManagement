@@ -41,6 +41,11 @@ export class ReportTableComponent implements OnInit {
       dataRows: null
     };
 
+    this.transaction = {
+          lastWeek: 0,
+          lastMonth: 0
+    }
+
     // if (this.user.username == null) {
     //   this.transaction = {
     //     lastWeek: 0,
