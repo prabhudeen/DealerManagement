@@ -6,6 +6,7 @@ import { CommonService, User } from '../../shared/common.service';
 import { HttpHeaders } from '@angular/common/http';
 import { ReportService } from '../../UserComponent/report-table/report.service';
 import { SessionService } from '../../shared/session.service';
+import { stringify } from '@angular/core/src/util';
 
 
 
@@ -16,12 +17,14 @@ import { SessionService } from '../../shared/session.service';
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.Default
 })
+
 export class TableComponent implements OnInit {
   userName: string;
   status: string;
   @ViewChild('form2') form2: NgForm;
   saleInfoData2: any;
   public dateTimeRange = [];
+  productTypeList = [];
 
   ngOnInit() {
 
@@ -44,29 +47,37 @@ export class TableComponent implements OnInit {
     console.log("inside ngonint");
     this.userName = this.sessionService.get('userName');
     console.log(this.userName);
-    if (this.userName) {
-      console.log('inside if');
-      const headers1 = new HttpHeaders({
-        'dealerId': this.userName,
+
+    this.reportService.getTransactionDetails().subscribe(
+      (response) => {
+        this.transactionDataList = response;
       });
 
-      console.log(headers1);
-      this.server.sendRequest('post', '/getDealerDataByDealerId', null, headers1, null).subscribe(
+    console.log(this.transactionDataList);
 
-        (data) => {
-          console.log(JSON.stringify(this.transactionDataList));
-          setTimeout(() => {
-            this.transactionDataList = JSON.parse(JSON.stringify(data['body']));
-            console.log(JSON.stringify(this.transactionDataList));
-          }, 500);
+    if (this.userName) {
+      // console.log('inside if');
+      // const headers1 = new HttpHeaders({
+      //   'dealerId': this.userName,
+      // });
+
+      // console.log(headers1);
+      // this.server.sendRequest('post', '/getDealerDataByDealerId', null, headers1, null).subscribe(
+
+      //   (data) => {
+      //     console.log(JSON.stringify(this.transactionDataList));
+      //     setTimeout(() => {
+      //       this.transactionDataList = JSON.parse(JSON.stringify(data['body']));
+      //       console.log(JSON.stringify(this.transactionDataList));
+      //     }, 500);
+      //   }
+      // );
+
+      //  this.transactionDataList=this.reportService.getTransactionDetails();
+      //  console.log(this.transactionDataList);
 
 
-
-        }
-      );
     }
-
-
 
     this.salesItems = [{
       saleType: '',
@@ -76,8 +87,6 @@ export class TableComponent implements OnInit {
       planId: '',
       saleAmount: ''
     }];
-
-
 
     this.submit();
     this.tableData3 = {
@@ -188,7 +197,7 @@ export class TableComponent implements OnInit {
 
   onNext() {
     // this.totalSaleAmount=this.form2.get('saleAmount').value*this.form2.get('Qty').value;
-
+    console.log(JSON.stringify(this.salesItems));
     for (let i = 0; i < this.salesItems.length; i++) {
       console.log('entered');
       if (i == 0) {
@@ -256,10 +265,17 @@ export class TableComponent implements OnInit {
   ]
 
   public saleTypeList = [
+    { name: 'SIM Activation', value: 'SimActivation' },
+    { name: 'Recharge', value: 'Recharge' },
+    { name: 'Device Sale', value: 'DeviceSale' },
+    { name: 'Device Exchange', value: 'DeviceExchange' }
+  ]
+
+  public saleTypeListHeader = [
     { name: 'All', value: 'All' },
     { name: 'SIM Activation', value: 'SimActivation' },
     { name: 'Recharge', value: 'Recharge' },
-    { name: 'Device', value: 'Device' },
+    { name: 'Device Sale', value: 'DeviceSale' },
     { name: 'Device Exchange', value: 'DeviceExchange' }
   ]
 
@@ -268,6 +284,11 @@ export class TableComponent implements OnInit {
     { id: 1, name: 'Jio Phone' },
     { id: 1, name: 'Jio Phone 2' },
     { id: 1, name: 'Jio STB' }
+  ]
+
+  public planType = [
+    { name: 'Plan 1', value: 'p1' },
+    { name: 'Plan 2', value: 'p2' },
   ]
 
   Quantity: number = 0;
@@ -288,49 +309,50 @@ export class TableComponent implements OnInit {
     console.log('inside constructor');
   }
 
-  UpdateTable() {
-    const headers1 = new HttpHeaders({
-      'dealerId': this.userName,
-    });
+  // UpdateTable() {
+  //   const headers1 = new HttpHeaders({
+  //     'dealerId': this.userName,
+  //   });
 
 
-    this.server.sendRequest('post', '/getDealerDataByDealerId', null, headers1, null).subscribe(
+  //   this.server.sendRequest('post', '/getDealerDataByDealerId', null, headers1, null).subscribe(
 
-      (data) => {
-        this.transactionDataList = data['body'];
-        console.log(this.transactionDataList);
-      }
-    );
+  //     (data) => {
+  //       this.transactionDataList = data['body'];
+  //       console.log(this.transactionDataList);
+  //     }
+  //   );
 
 
-  }
+  // }
 
 
 
   onSubmission() {
+    console.log(this.saleInfoData);
 
     this.reportService.addTransactionData(this.saleInfoData).subscribe(
       (response) => {
-
+        console.log(response);
       });
 
 
-    console.log(this.saleInfoData);
-    const headers = new HttpHeaders({
-      'Content-Type': "application/json"
-    })
-    this.server.sendRequest('post', '/submitSaleTransaction', this.saleInfoData, headers, null).subscribe(
-      (data) => {
-        console.log("inside response!")
-        console.log(data);
+  //  console.log(this.saleInfoData);
+    // const headers = new HttpHeaders({
+    //   'Content-Type': "application/json"
+    // })
+    // this.server.sendRequest('post', '/submitSaleTransaction', this.saleInfoData, headers, null).subscribe(
+    //   (data) => {
+    //     console.log("inside response!")
+    //     console.log(data);
 
-        setTimeout(() => {
-          this.UpdateTable();
-        }, 30000);
+    //     setTimeout(() => {
+    //       this.UpdateTable();
+    //     }, 30000);
 
 
-      }
-    );
+    //   }
+    // );
 
 
   }
@@ -355,48 +377,6 @@ export class TableComponent implements OnInit {
     return Math.round(this.saleInfoData.totalSaleAmount * .95);
   }
 
-  SimActivationPercentage() {
-    let number1: number = parseInt(this.transactionDataList[this.transactionDataList.length - 1].simActivation) / (parseInt(this.transactionDataList[this.transactionDataList.length - 1].simActivation) + parseInt(this.transactionDataList[this.transactionDataList.length - 1].recharge) + parseInt(this.transactionDataList[this.transactionDataList.length - 1].deviceSale) + parseInt(this.transactionDataList[this.transactionDataList.length - 1].deviceExchange));
-    if (Number.isNaN(number1)) {
-      number1 = 0;
-    }
-    return (Math.round(number1 * 100)) + '%';
-
-
-  }
-
-  rechargePercentage() {
-    let number1: number = parseInt(this.transactionDataList[this.transactionDataList.length - 1].recharge) / (parseInt(this.transactionDataList[this.transactionDataList.length - 1].simActivation) + parseInt(this.transactionDataList[this.transactionDataList.length - 1].recharge) + parseInt(this.transactionDataList[this.transactionDataList.length - 1].deviceSale) + parseInt(this.transactionDataList[this.transactionDataList.length - 1].deviceExchange));
-    if (Number.isNaN(number1)) {
-      number1 = 0;
-    }
-    return (Math.round(number1 * 100)) + '%';
-
-  }
-
-  deviceExchangePercentage() {
-    let number1: number = parseInt(this.transactionDataList[this.transactionDataList.length - 1].deviceExchange) / (parseInt(this.transactionDataList[this.transactionDataList.length - 1].simActivation) + parseInt(this.transactionDataList[this.transactionDataList.length - 1].recharge) + parseInt(this.transactionDataList[this.transactionDataList.length - 1].deviceSale) + parseInt(this.transactionDataList[this.transactionDataList.length - 1].deviceExchange));
-    if (Number.isNaN(number1)) {
-      number1 = 0;
-    }
-    return (Math.round(number1 * 100)) + '%';
-
-  }
-
-  deviceSalePercentage() {
-    let number1: number = parseInt(this.transactionDataList[this.transactionDataList.length - 1].deviceSale) / (parseInt(this.transactionDataList[this.transactionDataList.length - 1].simActivation) + parseInt(this.transactionDataList[this.transactionDataList.length - 1].recharge) + parseInt(this.transactionDataList[this.transactionDataList.length - 1].deviceSale) + parseInt(this.transactionDataList[this.transactionDataList.length - 1].deviceExchange));
-    if (Number.isNaN(number1)) {
-      number1 = 0;
-    }
-    return (Math.round(number1 * 100)) + '%';
-
-  }
-
-
-
-  CommissionPercentage() {
-
-  }
   sales: string;
   getWidth() {
     return '30%';
@@ -461,6 +441,29 @@ export class TableComponent implements OnInit {
     // );
 
 
+  }
+
+  onSaleTypeChange(saleType, index) {
+    console.log('inside onSaleTypeChange:' + saleType + index);
+      let tempList = [];
+      switch(saleType) {       
+        case 'SimActivation':
+          tempList = ['Connectivity']
+          this.productTypeList[index] = JSON.parse(JSON.stringify(tempList));
+        break;
+        case 'Recharge':
+          tempList = ['Main Plans', 'Booster Plans']
+          this.productTypeList[index] = JSON.parse(JSON.stringify(tempList));
+        break;
+        case 'DeviceSale':
+          tempList = ['JioPhone', 'STB']
+          this.productTypeList[index] = JSON.parse(JSON.stringify(tempList));
+        break;
+        case 'DeviceExchange':
+          tempList = ['Monsoon Hungama']
+          this.productTypeList[index] = JSON.parse(JSON.stringify(tempList));
+        break;
+      }
   }
 
 }

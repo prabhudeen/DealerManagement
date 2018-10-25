@@ -177,7 +177,8 @@
         <div class="card card-hieght text-white bg-info text-center add-click">
           <div class="card-body" data-toggle="modal" data-target="#myModal" (click)="onReset()" style="cursor: pointer;margin-top: 4px;-ms-transform: translateY(-50%);
           transform: translateY(5%); ">
-            <p> Record <br/> Transaction</p>
+            <p> Record
+              <br/> Transaction</p>
 
           </div>
         </div>
@@ -197,7 +198,7 @@
                 <th style="width: 15%" class="text-center">
                   <mat-form-field>
                     <mat-select class="text-justify" [(ngModel)]="sales" placeholder="Sales">
-                      <mat-option *ngFor="let sales of saleTypeList" [value]="sales.value">{{sales.name}}</mat-option>
+                      <mat-option *ngFor="let sales of saleTypeListHeader" [value]="sales.value">{{sales.name}}</mat-option>
                     </mat-select>
                   </mat-form-field>
                 </th>
@@ -234,7 +235,7 @@
             </thead>
             <tbody>
 
-              <tr *ngFor="let row of transactionDataList | filter:status | filter: sales | dateFilterPipe :dateTimeRange[0] : dateTimeRange[1]">
+              <tr *ngFor="let row of transactionDataList | filter:status | filter: sales | dateFilterPipe :dateTimeRange[0] : dateTimeRange[1] ">
                 <td style="width: 10%" class="text-center">{{row.TxId}}</td>
                 <td style="width: 20%" class="text-center">{{row.saleType}}</td>
                 <td style="width: 10%" class="text-center">{{row.saleAmount}}</td>
@@ -321,8 +322,8 @@
                     <td style="width: 20%" class="text-center">Sale Type</td>
                     <td style="width: 20%" class="text-center">Item Type</td>
                     <td style="width: 20%" class="text-center">Details</td>
-                    <td style="width: 20%" class="text-center">Qty</td>
-                    <td style="width: 10%" class="text-center">Plan</td>
+                    <td style="width: 20%" class="text-center">Plan</td>
+                    <td style="width: 10%" class="text-center">Qty</td>
                     <td style="width: 10%" class="text-center">&#x20b9;Amount</td>
                     <td style="width: 10%" class="text-center"></td>
                   </thead>
@@ -330,7 +331,8 @@
                     <tr *ngFor="let sale of salesItems ; let i=index;">
                       <td style="width: 20%" class="text-center  pt-0 pb-0 pl-1 pr-1">
                         <mat-form-field class="pb-0">
-                          <mat-select required [(ngModel)]="sale.saleType" name="saleType_{{i}}">
+                          <mat-select required [(ngModel)]="sale.saleType" name="saleType_{{i}}"
+                          (ngModelChange)="onSaleTypeChange(sale.saleType, i)">
                             <mat-option *ngFor="let sales of saleTypeList" [value]="sales.value">
                               {{sales.name}}
                             </mat-option>
@@ -341,8 +343,8 @@
                       <td style="width: 20%" class="text-center  pt-0 pb-0 pl-1 pr-1">
                         <mat-form-field class="pb-0">
                           <mat-select required [(ngModel)]="sale.itemType" name="itemType_{{i}}">
-                            <mat-option *ngFor="let items of itemType" [value]="items.name">
-                              {{ items.name }}
+                            <mat-option *ngFor="let items of productTypeList[i]" [value]="items">
+                              {{ items }}
                             </mat-option>
                           </mat-select>
                           <mat-error>Required ItemType</mat-error>
@@ -354,22 +356,34 @@
                           <mat-error>Required Details</mat-error>
                         </mat-form-field>
                       </td>
+
                       <td style="width: 20%" class="text-center  pt-0 pb-0 pl-1 pr-1">
+                        <!-- <mat-form-field class="pb-0">
+                          <input matInput required [(ngModel)]="sale.planId" name="planId_{{i}}">
+                          <mat-error>Required Plan</mat-error>
+                        </mat-form-field> -->
+
+                        <mat-form-field class="pb-0">
+                            <mat-select required [(ngModel)]="sale.planId" name="planId_{{i}}">
+                              <mat-option *ngFor="let plans of planType" [value]="plans.value">
+                                {{ plans.name }}
+                              </mat-option>
+                            </mat-select>
+                            <mat-error>Required Plan</mat-error>
+                          </mat-form-field>
+                      </td>
+
+                      <td style="width: 10%" class="text-center  pt-0 pb-0 pl-1 pr-1">
                         <mat-form-field class="p-0">
-                          <input matInput required [(ngModel)]="sale.quantity" name="quantity_{{i}}" ngModelChange>
+                          <input matInput type="number" min="0"required [(ngModel)]="sale.quantity" name="quantity_{{i}}" ngModelChange>
                           <mat-error>Required Quantity</mat-error>
                         </mat-form-field>
                       </td>
 
-                      <td style="width: 10%" class="text-center  pt-0 pb-0 pl-1 pr-1">
-                        <mat-form-field class="pb-0">
-                          <input matInput required [(ngModel)]="sale.planId" name="planId_{{i}}">
-                          <mat-error>Required Plan</mat-error>
-                        </mat-form-field>
-                      </td>
+
                       <td style="width: 10%" class="text-center pt-0 pb-0 pl-1 pr-1">
                         <mat-form-field class="pb-0">
-                          <input matInput required pattern="[0-9]*" [(ngModel)]="sale.saleAmount" name="amount_{{i}}" ngModelChange>
+                          <input matInput type="number" min="0" required  [(ngModel)]="sale.saleAmount" name="amount_{{i}}" ngModelChange>
                           <mat-error>Required SaleAmount</mat-error>
                         </mat-form-field>
                       </td>
@@ -580,6 +594,7 @@
                   </thead>
                   <tbody id="first" class="pl-3">
                     <tr *ngFor="let sale of salesItems;let i=index;">
+                      <td class="p-0">
                       <div>
                         <small class="mt-2">
                           <b>{{i+1}}.</b> {{sale.itemType}}
@@ -596,6 +611,7 @@
                           <b> &#x20b9;{{sale.saleAmount*sale.quantity}}</b>
                         </small>
                       </div>
+                    </td>
                     </tr>
                   </tbody>
                 </table>
@@ -626,7 +642,7 @@
               </div>
               <div class="table-responsive">
                 <table class="table">
-                  <thead class="m-0 ">
+                  <thead class="m-0 " style="display:table; width:100%;table-layout:fixed">
                     <th class="col-3  text-center p-2" style="width:35%;">
                       <small>Item Type</small>
                     </th>
@@ -640,30 +656,30 @@
                       <small>Amount</small>
                     </th>
                   </thead>
-                  <tbody>
-                    <tr *ngFor="let sale of salesItems;let i=index;">
-                      <td class="text-center">
+                  <tbody style="overflow-y:auto;height:160px;display: block">
+                    <tr *ngFor="let sale of salesItems;let i=index;" style="display:table; width:100%;table-layout:fixed">
+                      <td class="p-0 text-left col-3 pl-2">
                         <small>{{i+1}} {{sale.itemType}}</small>
                       </td>
-                      <td class="text-center">
+                      <td class="text-center p-0 col-3 ml-2">
                         <small> &#x20b9;{{sale.saleAmount}}</small>
                       </td>
-                      <td class="text-center">
+                      <td class="text-center p-0 col-3 ml-2">
                         <small>{{sale.quantity}}</small>
                       </td>
-                      <td class="text-center">
+                      <td class="text-center p-0 col-3 ml-2">
                         <small>&#x20b9;{{sale.saleAmount*sale.quantity}}</small>
                       </td>
                     </tr>
                   </tbody>
                 </table>
               </div>
+              <!-- <br>
               <br>
               <br>
-              <br>
-              <br>
+              <br> -->
 
-              <hr class="mb-1 mt-3">
+              <hr class="mb-1 mt-1">
               <div>
                 <small>After Promo Code Apply Discount 05%
                   <span class="float-right"> &#x20b9;{{dicountedAmount()}}</span>

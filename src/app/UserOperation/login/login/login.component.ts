@@ -32,6 +32,12 @@ export class LoginComponent123 implements OnInit {
         }
       }
     ); 
+
+    // if(200 == 200) {
+    //   this.sessionService.clear();
+    //   this.sessionService.set('userName',this.login.value.userName);
+    //   this.router.navigate(['table']);
+    // }
   }
 
   validateUser() {

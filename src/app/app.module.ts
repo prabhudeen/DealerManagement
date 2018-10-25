@@ -65,6 +65,7 @@ import { ReportService } from './UserComponent/report-table/report.service';
 import { AngularWebStorageModule } from 'angular-web-storage';
 import { SessionService } from './shared/session.service';
 import { AuthGuard } from './shared/auth.guard';
+import { OrderByPipe } from './UserOperation/table/order.pipe';
 
 
 
@@ -138,7 +139,8 @@ export class MaterialModule { }
     LoginComponent123,
     FilterPipe, 
     DatepickerComponent, 
-    DatefilterpipePipe
+    DatefilterpipePipe,
+    OrderByPipe
   ],
   providers: [CommonService, 
               ReportService,

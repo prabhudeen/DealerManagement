@@ -23,7 +23,7 @@ export class ReportTableComponent implements OnInit {
     { name: 'All', value: 'All' },
     { name: 'SIM Activation', value: 'SimActivation' },
     { name: 'Recharge', value: 'Recharge' },
-    { name: 'Device', value: 'Device' },
+    { name: 'Device Sale', value: 'DeviceSale' },
     { name: 'Device Exchange', value: 'DeviceExchange' }
   ]
 
@@ -74,7 +74,7 @@ export class ReportTableComponent implements OnInit {
     this.reportService.getTransaction().subscribe(
       (response) => {
 
-        this.transaction = response;
+         this.transaction = response;
         console.log(this.transaction);
       });
 
