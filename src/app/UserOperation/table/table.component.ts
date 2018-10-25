@@ -25,6 +25,7 @@ export class TableComponent implements OnInit {
   saleInfoData2: any;
   public dateTimeRange = [];
   productTypeList = [];
+  planList = [];
 
   ngOnInit() {
 
@@ -338,7 +339,7 @@ export class TableComponent implements OnInit {
       });
 
 
-  //  console.log(this.saleInfoData);
+    //  console.log(this.saleInfoData);
     // const headers = new HttpHeaders({
     //   'Content-Type': "application/json"
     // })
@@ -446,25 +447,73 @@ export class TableComponent implements OnInit {
 
   onSaleTypeChange(saleType, index) {
     console.log('inside onSaleTypeChange:' + saleType + index);
-      let tempList = [];
-      switch(saleType) {       
-        case 'SimActivation':
-          tempList = ['Connectivity']
-          this.productTypeList[index] = JSON.parse(JSON.stringify(tempList));
+    this.planList[index] = [];
+    this.salesItems[index].saleAmount=null;
+    this.salesItems[index].quantity=0;
+    let tempList = [];
+    switch (saleType) {
+      case 'SimActivation':
+        tempList = ['LTE Voice']
+        this.productTypeList[index] = JSON.parse(JSON.stringify(tempList));
         break;
-        case 'Recharge':
-          tempList = ['Main Plans', 'Booster Plans']
-          this.productTypeList[index] = JSON.parse(JSON.stringify(tempList));
+      case 'Recharge':
+        tempList = ['LTE Mobility']
+        this.productTypeList[index] = JSON.parse(JSON.stringify(tempList));
         break;
-        case 'DeviceSale':
-          tempList = ['JioPhone', 'STB']
-          this.productTypeList[index] = JSON.parse(JSON.stringify(tempList));
+      case 'DeviceSale':
+        tempList = ['STB', 'Feature Phone']
+        this.productTypeList[index] = JSON.parse(JSON.stringify(tempList));
         break;
-        case 'DeviceExchange':
-          tempList = ['Monsoon Hungama']
-          this.productTypeList[index] = JSON.parse(JSON.stringify(tempList));
+      case 'DeviceExchange':
+        tempList = []
+        this.productTypeList[index] = JSON.parse(JSON.stringify(tempList));
         break;
-      }
+    }
+  }
+
+  onItemTypeChange(itemType, index) {
+    console.log('inside onItemTypeChange:' + itemType + index);
+    let tempList = [];
+    switch (itemType) {
+      case 'LTE Voice':
+        tempList = [{ name: 'Plan 1', value: 'p1'}]
+        this.planList[index] = JSON.parse(JSON.stringify(tempList));
+        break;
+      case 'LTE Mobility':
+        tempList = [{ name: 'Plan 2', value: 'p2' }]
+        this.planList[index] = JSON.parse(JSON.stringify(tempList));
+        break;
+      case 'STB':
+        tempList = [{ name: 'Plan 3', value: 'p3' }]
+        this.planList[index] = JSON.parse(JSON.stringify(tempList));
+        break;
+      case 'Feature Phone':
+        tempList = [{ name: 'Plan 4', value: 'p4' }, { name: 'Plan 5', value: 'p5'}]
+        this.planList[index] = JSON.parse(JSON.stringify(tempList));
+        break;
+    }
+  }
+
+  
+  onPlanTypeChange(plan,index){
+    console.log('amount change' + index);
+    switch(plan){
+      case "p1":
+      this.salesItems[index].saleAmount=98;
+      break;
+      case "p2":
+      this.salesItems[index].saleAmount=399;
+      break;
+      case "p3":
+      this.salesItems[index].saleAmount=2000;
+      break;
+      case "p4":
+      this.salesItems[index].saleAmount=1299;
+      break;
+      case "p5":
+      this.salesItems[index].saleAmount=1499;
+      break;
+    }
   }
 
 }

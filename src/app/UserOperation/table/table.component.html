@@ -235,11 +235,11 @@
             </thead>
             <tbody>
 
-              <tr *ngFor="let row of transactionDataList | filter:status | filter: sales | dateFilterPipe :dateTimeRange[0] : dateTimeRange[1] ">
+              <tr *ngFor="let row of transactionDataList | filter:status | filter: sales | dateFilterPipe :dateTimeRange[0] : dateTimeRange[1] | orderBy: 'txCreatedTime'">
                 <td style="width: 10%" class="text-center">{{row.TxId}}</td>
                 <td style="width: 20%" class="text-center">{{row.saleType}}</td>
                 <td style="width: 10%" class="text-center">{{row.saleAmount}}</td>
-                <td style="width: 20%" class="text-center"> {{row.txCreatedTime | date:'medium'}}</td>
+                <td style="width: 20%" class="text-center"> {{row.txCreatedTime*1000 | date:'medium'}}</td>
                 <td style="width: 10%" class="text-center"> {{row.commission}}</td>
 
                 <td style="width: 20% " *ngIf="row.commissionSettlement==='True'">
@@ -342,7 +342,8 @@
                       </td>
                       <td style="width: 20%" class="text-center  pt-0 pb-0 pl-1 pr-1">
                         <mat-form-field class="pb-0">
-                          <mat-select required [(ngModel)]="sale.itemType" name="itemType_{{i}}">
+                          <mat-select required [(ngModel)]="sale.itemType" name="itemType_{{i}}"
+                          (ngModelChange)="onItemTypeChange(sale.itemType, i)">
                             <mat-option *ngFor="let items of productTypeList[i]" [value]="items">
                               {{ items }}
                             </mat-option>
@@ -364,8 +365,9 @@
                         </mat-form-field> -->
 
                         <mat-form-field class="pb-0">
-                            <mat-select required [(ngModel)]="sale.planId" name="planId_{{i}}">
-                              <mat-option *ngFor="let plans of planType" [value]="plans.value">
+                            <mat-select required [(ngModel)]="sale.planId" name="planId_{{i}}"
+                            (ngModelChange)="onPlanTypeChange(sale.planId,i)">
+                              <mat-option *ngFor="let plans of planList[i]" [value]="plans.value">
                                 {{ plans.name }}
                               </mat-option>
                             </mat-select>
@@ -375,17 +377,18 @@
 
                       <td style="width: 10%" class="text-center  pt-0 pb-0 pl-1 pr-1">
                         <mat-form-field class="p-0">
-                          <input matInput type="number" min="0"required [(ngModel)]="sale.quantity" name="quantity_{{i}}" ngModelChange>
+                          <input matInput type="number" min="0" required [(ngModel)]="sale.quantity" name="quantity_{{i}}" ngModelChange>
                           <mat-error>Required Quantity</mat-error>
                         </mat-form-field>
                       </td>
 
 
                       <td style="width: 10%" class="text-center pt-0 pb-0 pl-1 pr-1">
-                        <mat-form-field class="pb-0">
-                          <input matInput type="number" min="0" required  [(ngModel)]="sale.saleAmount" name="amount_{{i}}" ngModelChange>
-                          <mat-error>Required SaleAmount</mat-error>
-                        </mat-form-field>
+                        <!-- <mat-form-field class="pb-0"> -->
+                          <!-- <input matInput type="number" min="0" required  [(ngModel)]="sale.saleAmount" name="amount_{{i}}" ngModelChange>
+                          <mat-error>Required SaleAmount</mat-error> -->
+                          <mat-label>{{sale.saleAmount}}</mat-label>
+                        <!-- </mat-form-field> -->
                       </td>
 
                       <td style="width: 10%" class="text-center pt-0 pb-0 pl-1 pr-1">
