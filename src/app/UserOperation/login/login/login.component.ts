@@ -5,6 +5,7 @@ import { CommonService, User } from '../../../shared/common.service';
 import { HttpHeaders } from '@angular/common/http';
 import { ERROR_COLLECTOR_TOKEN } from '@angular/platform-browser-dynamic/src/compiler_factory';
 import { TableComponent } from '../../table/table.component';
+import { SessionService } from '../../../shared/session.service';
 
 @Component({
   selector: 'app-login',
@@ -16,29 +17,35 @@ export class LoginComponent123 implements OnInit {
   login: FormGroup;
   invalid: boolean = false;
   user: User = new User();
-
-
+  displayLogin = false;
+  
   onSubmit() {
     let headers = new HttpHeaders();
     headers = headers.append('username', this.login.value.userName).append('password', this.login.value.password);
-    this.server.sendRequest('post', '/login', null, headers, null).subscribe(
+   
+     this.server.sendRequest('post', '/login', null, headers, null).subscribe(
       (data) => {
-        console.log(data);
-        console.log("login submit !")
-        this.validateUser(data['status']);
+        if(data.status == 200) {
+          this.sessionService.clear();
+          this.sessionService.set('userName',this.login.value.userName);
+          this.router.navigate(['table']);
+        }
       }
-    );
-    // this.validateUser(200);
+    ); 
+
+    // if(200 == 200) {
+    //   this.sessionService.clear();
+    //   this.sessionService.set('userName',this.login.value.userName);
+    //   this.router.navigate(['table']);
+    // }
   }
 
-  validateUser(data) {
-    if (data == 200) {
-      this.user.username = this.login.value.userName;
-      this.server.setUser(this.user);
-
+  validateUser() {
+    if (this.sessionService.get('userName')) {
+      console.log(this.sessionService.get('userName'));
       this.router.navigate(['table']);
     } else {
-      this.router.navigate(['Login']);
+      this.router.navigate(['login']);
     }
   }
 
@@ -51,7 +58,10 @@ export class LoginComponent123 implements OnInit {
   validuserNameLogin = false;
   validPasswordLogin = false;
 
-  constructor(private formBuilder: FormBuilder, private router: Router, private server: CommonService) { }
+  constructor(private formBuilder: FormBuilder, 
+                  private router: Router, 
+                    private server: CommonService,
+                      private sessionService: SessionService) { }
 
   ngOnInit() {
 
@@ -59,7 +69,7 @@ export class LoginComponent123 implements OnInit {
       userName: [null, Validators.required],
       password: ['', Validators.required]
     });
-
+      this.validateUser();
   }
 
   isFieldValid(form: FormGroup, field: string) {
@@ -106,5 +116,7 @@ export class LoginComponent123 implements OnInit {
     }
   }
 
-
+  onDealerLogin() {
+    this.displayLogin = true;
+  }
 }

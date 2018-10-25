@@ -8,12 +8,13 @@ import { ReportTableComponent } from './UserComponent/report-table/report-table.
 
 import { LoginComponent123 } from './UserOperation/login/login/login.component';
 import { WelcomeComponent } from './welcome/welcome.component';
+import { AuthGuard } from './shared/auth.guard';
 
 export const AppRoutes: Routes = [
 
   {
     path: '',
-    redirectTo: 'welcome',
+    redirectTo: 'login',
     pathMatch: 'full'
   },
   {
@@ -25,14 +26,14 @@ export const AppRoutes: Routes = [
     component: AdminLayoutComponent,
     children: [
       {
-        path: 'table', component: TableComponent
+        path: 'table', component: TableComponent, canActivate: [AuthGuard]
 
       },
       {
-        path: 'invoice', component: InvoicemodelComponent
+        path: 'invoice', component: InvoicemodelComponent, canActivate: [AuthGuard]
       },
       {
-        path: 'report', component: ReportTableComponent
+        path: 'report', component: ReportTableComponent, canActivate: [AuthGuard]
       },
 
 
@@ -49,9 +50,10 @@ export const AppRoutes: Routes = [
   },
 
   {
-    path: 'Login',
+    path: 'login',
     component: LoginComponent123
-  }
+  },
+  {path: '**', redirectTo: 'login'}
 
 
 ];

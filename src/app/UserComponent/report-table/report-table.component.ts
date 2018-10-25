@@ -20,11 +20,11 @@ export class ReportTableComponent implements OnInit {
   headers1: HttpHeaders;
   public statusArray: string[] = ["All", "True", "False"];
   public saleTypeList = [
-    'All',
-    'SIM Activation',
-    'Recharge',
-    'Device',
-    'Device Exchange'
+    { name: 'All', value: 'All' },
+    { name: 'SIM Activation', value: 'SimActivation' },
+    { name: 'Recharge', value: 'Recharge' },
+    { name: 'Device Sale', value: 'DeviceSale' },
+    { name: 'Device Exchange', value: 'DeviceExchange' }
   ]
 
   constructor(private reportService: ReportService) {
@@ -40,6 +40,11 @@ export class ReportTableComponent implements OnInit {
       headerRow: ['Txn ID', 'Sale Type', 'Amount', 'Date/Time', 'Commission', 'Statement'],
       dataRows: null
     };
+
+    this.transaction = {
+          lastWeek: 0,
+          lastMonth: 0
+    }
 
     // if (this.user.username == null) {
     //   this.transaction = {
@@ -69,7 +74,7 @@ export class ReportTableComponent implements OnInit {
     this.reportService.getTransaction().subscribe(
       (response) => {
 
-        this.transaction = response;
+         this.transaction = response;
         console.log(this.transaction);
       });
 
