@@ -46,6 +46,8 @@ export class NavbarComponent implements OnInit {
           }, 300);
       }
 
+     
+
       // we simulate the window Resize so the charts will get updated in realtime.
       const simulateWindowResize = setInterval(function() {
           window.dispatchEvent(new Event('resize'));
@@ -56,6 +58,11 @@ export class NavbarComponent implements OnInit {
           clearInterval(simulateWindowResize);
       }, 1000);
     }
+
+    logout(){
+        this.router.navigate['welcome'];
+    }
+    
     hideSidebar(){
       const body = document.getElementsByTagName('body')[0];
       const sidebar = document.getElementsByClassName('sidebar')[0];

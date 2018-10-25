@@ -6,18 +6,18 @@
 
     <div class="row">
       <div class="col">
-        <h3 class="mr-auto text-muted">
+        <h3 class="mr-auto text-muted mt-0">
           <b> Report</b>
         </h3>
       </div>
     </div>
     <mat-divider style="margin-bottom: 6px;"></mat-divider>
-    <h4 class="text-muted" style="margin-top: 8px">Incentives</h4>
+    <h4 class="text-muted" style="margin-top: 8px" style="margin-bottom: -10px">Incentives</h4>
 
     <div class="row">
 
       <div class="col-lg-3 col-md-6 col-sm-6">
-        <div class="card">
+        <div class="card" >
           <div class=card-body>
             <h4 class="text-success">
               <small>Last week</small>
@@ -46,10 +46,10 @@
     </div>
   </div>
 
-  <div class="col-md-12">
-    <div class="card">
-      <div class="card-body table-full-width">
-        <div class="table-responsive">
+  <div class="col-md-12" style="margin-top: -10px">
+    <!-- <div class="card">
+      <div class="card-body table-full-width"> -->
+        <div class="table-responsive table-hover">
           <!-- <table class="table table-hover">
             <thead>
               <tr>            
@@ -118,17 +118,34 @@
               </tr>
             </tbody>
           </table> -->
-          <table class="table table-hover">
+          <table class="table table-spacing" style="overflow: hidden; z-index: -1000" style="margin-top: -20px">
             <thead>
               <tr>
                 <th style="width:10%" class="text-center">{{ tableData3.headerRow[0] }}</th>
                 <th style="width: 15%" class="text-center">
-                  <mat-form-field>
-                    <mat-select class="text-justify" [(ngModel)]="sales" placeholder="sales">
-                      <mat-option *ngFor="let sales of saleTypeList" [value]="sales">{{sales}}</mat-option>
+                  <!-- <mat-form-field>
+                    <mat-select class="text-justify" [(ngModel)]="sales" placeholder="Sales">
+                      <mat-option *ngFor="let sales of saleTypeList" [value]="sales.value">{{sales.name}}</mat-option>
                     </mat-select>
-                  </mat-form-field>
+                  </mat-form-field> -->
+                  <div class="dropdown">
+                    <a data-toggle="dropdown">Sales</a>
+                    <div class="dropdown-menu">
+                      <a class="dropdown-item" tabindex="i" (click)="selectSales(sales.value)" *ngFor="let sales of saleTypeList; let i = index" style="overflow: absolute">{{sales.name}}</a>
+                    </div>
+                  </div>
                 </th>
+
+                <!-- <th class="dropdown">
+                  <a href="#" data-toggle="dropdown" class="dropdown-toggle">Messages <b class="caret"></b></a>
+                  <ul class="dropdown-menu">
+                     <li>Inbox</li>
+                     <li><a>Drafts</a></li>
+                     <li><a>Sent Items</a></li>
+                     <li class="divider"></li>
+                     <li><a href="#">Trash</a></li>
+                  </ul>
+               </th> -->
                 <th style="width: 10%" class="text-center">{{ tableData3.headerRow[2] }}</th>
                 <!-- <th class="dropdown">
                   <a class="dropdown-toggle" id="dropdownMenu" data-toggle="dropdow{{sales}}</mat-option>
@@ -152,21 +169,27 @@
                 </th>
                 <th style="width: 10%" class="text-center">{{ tableData3.headerRow[4] }}</th>
                 <th style="width: 20%" class="text-center">
-                  <mat-form-field>
+                  <!-- <mat-form-field>
                     <mat-select class="ml-2" [(ngModel)]="status" placeholder="Settlement">
                       <mat-option *ngFor="let status of statusArray" [value]="status">{{status}}</mat-option>
                     </mat-select>
-                  </mat-form-field>
+                  </mat-form-field> -->
+                  <div class="dropdown">
+                    <a data-toggle="dropdown">Settlement</a>
+                    <div class="dropdown-menu">
+                      <a class="dropdown-item" tabindex="i" (click)="selectSettlement(status)" *ngFor="let status of statusArray; let i = index" style="overflow: absolute">{{status}}</a>
+                    </div>
+                  </div>
                 </th>
               </tr>
             </thead>
             <tbody>
 
-              <tr *ngFor="let row of transactionDataList | filter:status | filter: sales | dateFilterPipe :dateTimeRange[0] : dateTimeRange[1]">
+              <tr *ngFor="let row of transactionDataList | filter:status | filter: sales | dateFilterPipe :dateTimeRange[0] : dateTimeRange[1]; let i = index" class="custom-table">
                 <td style="width: 10%" class="text-center">{{row.TxId}}</td>
                 <td style="width: 20%" class="text-center">{{row.saleType}}</td>
                 <td style="width: 10%" class="text-center">{{row.saleAmount}}</td>
-                <td style="width: 20%" class="text-center"> {{row.txCreatedTime | date:'medium'}}</td>
+                <td style="width: 20%" class="text-center"> {{row.txCreatedTime*1000 | date:'medium'}}</td>
                 <td style="width: 10%" class="text-center"> {{row.commission}}</td>
 
                 <td style="width: 20% " *ngIf="row.commissionSettlement==='True'">
@@ -182,9 +205,11 @@
               </tr>
             </tbody>
           </table>
+          <mat-paginator [length]="length"  [pageSize]="pageSize"  [pageSizeOptions]="pageSizeOptions"  (page)="onPageChanged($event)">
+            </mat-paginator>
         </div>
 
-      </div>
-    </div>
+      <!-- </div>
+    </div> -->
   </div>
 </div>

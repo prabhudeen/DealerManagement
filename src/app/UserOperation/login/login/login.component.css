@@ -1,0 +1,3 @@
+.svgColor{
+    filter: invert(.6) sepia(1) saturate(5) hue-rotate(175deg);
+}

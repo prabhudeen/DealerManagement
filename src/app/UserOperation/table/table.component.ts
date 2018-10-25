@@ -5,6 +5,7 @@ import { FormControl, Validators, NgForm, FormGroup, FormBuilder } from '@angula
 import { CommonService, User } from '../../shared/common.service';
 import { HttpHeaders } from '@angular/common/http';
 import { ReportService } from '../../UserComponent/report-table/report.service';
+import { PageEvent, MatPaginator, MatInputModule, MatFormFieldModule } from '@angular/material';
 
 
 
@@ -19,14 +20,30 @@ export class TableComponent implements OnInit {
   user: any;
   status: string;
   @ViewChild('form2') form2: NgForm;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild('dateTimeInput') dateTimeInput: MatFormFieldModule;
   saleInfoData2: any;
   public dateTimeRange = [];
+  totalSale;
+  totalComission;
+  simActivation;
+  recharge;
+  deviceSale;
+  deviceExchange;
+  transansactionListTemp = [];
+  length: number;
+  pageSize = 10;
+  pageSizeOptions: number[] = [5, 10, 25, 100];
+  pageEvent: PageEvent;
+  viewTransaction: boolean = false;
 
   ngOnInit() {
 
+   // this.dateTimeInput.
     this.reportService.transactionDataListObs.subscribe(
       (response) => {
         this.transactionDataList = response;
+        console.log(JSON.stringify(response));
       });
 
     console.log("inside ngonint");
@@ -45,9 +62,18 @@ export class TableComponent implements OnInit {
 
         (data) => {
           console.log(JSON.stringify(this.transactionDataList));
+          console.log(data);
           setTimeout(() => {
             this.transactionDataList = JSON.parse(JSON.stringify(data['body']));
-            console.log(JSON.stringify(this.transactionDataList));
+            this.transansactionListTemp = JSON.parse(JSON.stringify(data['body']));
+            this.length = this.transansactionListTemp.length;
+            this.simActivation = this.transactionDataList[this.transactionDataList.length-1].simActivation;
+            this.recharge = this.transactionDataList[this.transactionDataList.length-1].recharge;
+            this.deviceSale = this.transactionDataList[this.transactionDataList.length-1].deviceSale;
+            this.deviceExchange = this.transactionDataList[this.transactionDataList.length-1].deviceExchange;
+           this.totalSale = this.transactionDataList[this.transactionDataList.length-1].totalSale;
+           this.totalComission = this.transactionDataList[this.transactionDataList.length-1].totalCommision;
+           this.transansactionListTemp.splice(this.transactionDataList.length-1, 1);
           }, 500);
 
 
@@ -163,8 +189,10 @@ export class TableComponent implements OnInit {
   salesItems: any[];
   private totalSaleAmount = 0;
   private salesItems1: any[];
+  
   onReset() {
     this.step = "one";
+    this.viewTransaction = false;
     this.salesItems = [];
     this.salesItems.push({
       saleType: '',
@@ -355,46 +383,7 @@ export class TableComponent implements OnInit {
     return Math.round(this.saleInfoData.totalSaleAmount * .95);
   }
 
-  SimActivationPercentage() {
-    let number1: number = parseInt(this.transactionDataList[this.transactionDataList.length - 1].simActivation) / (parseInt(this.transactionDataList[this.transactionDataList.length - 1].simActivation) + parseInt(this.transactionDataList[this.transactionDataList.length - 1].recharge) + parseInt(this.transactionDataList[this.transactionDataList.length - 1].deviceSale) + parseInt(this.transactionDataList[this.transactionDataList.length - 1].deviceExchange));
-    if (Number.isNaN(number1)) {
-      number1 = 0;
-    }
-    return (Math.round(number1 * 100)) + '%';
-
-
-  }
-
-  rechargePercentage() {
-    let number1: number = parseInt(this.transactionDataList[this.transactionDataList.length - 1].recharge) / (parseInt(this.transactionDataList[this.transactionDataList.length - 1].simActivation) + parseInt(this.transactionDataList[this.transactionDataList.length - 1].recharge) + parseInt(this.transactionDataList[this.transactionDataList.length - 1].deviceSale) + parseInt(this.transactionDataList[this.transactionDataList.length - 1].deviceExchange));
-    if (Number.isNaN(number1)) {
-      number1 = 0;
-    }
-    return (Math.round(number1 * 100)) + '%';
-
-  }
-
-  deviceExchangePercentage() {
-    let number1: number = parseInt(this.transactionDataList[this.transactionDataList.length - 1].deviceExchange) / (parseInt(this.transactionDataList[this.transactionDataList.length - 1].simActivation) + parseInt(this.transactionDataList[this.transactionDataList.length - 1].recharge) + parseInt(this.transactionDataList[this.transactionDataList.length - 1].deviceSale) + parseInt(this.transactionDataList[this.transactionDataList.length - 1].deviceExchange));
-    if (Number.isNaN(number1)) {
-      number1 = 0;
-    }
-    return (Math.round(number1 * 100)) + '%';
-
-  }
-
-  deviceSalePercentage() {
-    let number1: number = parseInt(this.transactionDataList[this.transactionDataList.length - 1].deviceSale) / (parseInt(this.transactionDataList[this.transactionDataList.length - 1].simActivation) + parseInt(this.transactionDataList[this.transactionDataList.length - 1].recharge) + parseInt(this.transactionDataList[this.transactionDataList.length - 1].deviceSale) + parseInt(this.transactionDataList[this.transactionDataList.length - 1].deviceExchange));
-    if (Number.isNaN(number1)) {
-      number1 = 0;
-    }
-    return (Math.round(number1 * 100)) + '%';
-
-  }
-
-  CommissionPercentage() {
-
-  }
+ 
   sales: string;
   getWidth() {
     return '30%';
@@ -402,64 +391,93 @@ export class TableComponent implements OnInit {
   }
 
   submit() {
-    // this.transactionDataList = [{
-    //   "TxId": "001",
-    //   "saleType": "Device",
-    //   "saleAmount": 234,
-    //   "txCreatedTime": 1539257119000,
-    //   "commission": "sale",
-    //   "commissionSettlement": "False"
-    // },
-    // {
-    //   "TxId": "002",
-    //   "saleType": "Jio",
-    //   "saleAmount": 234,
-    //   "txCreatedTime": 1536043564000,
-    //   "commission": "sale",
-    //   "commissionSettlement": "True"
-    // },
-    // {
-    //   "TxId": "001",
-    //   "saleType": "Device",
-    //   "saleAmount": 234,
-    //   "txCreatedTime": 1541313964000,
-    //   "commission": "sale",
-    //   "commissionSettlement": "False",
-    //   "id": 127
-    // },
-    // {
-    //   "TxId": "001",
-    //   "saleType": "Device",
-    //   "saleAmount": 234,
-    //   "txCreatedTime": 1538721964,
-    //   "commission": "sale",
-    //   "commissionSettlement": "True",
-    //   "id": 128
-    // }, {
-    //   "deviceExchange": "4",
-    //   "deviceSale": "9",
-    //   "recharge": "8",
-    //   "simActivation": "9",
-    //   "totalCommision": "322.50",
-    //   "totalSale": "6450"
-    // }];
+    this.transactionDataList = [{
+      "TxId": "001",
+      "saleType": "Device",
+      "saleAmount": 234,
+      "txCreatedTime": 1539257119000,
+      "commission": "sale",
+      "commissionSettlement": "False"
+    },
+    {
+      "TxId": "002",
+      "saleType": "Jio",
+      "saleAmount": 234,
+      "txCreatedTime": 1536043564000,
+      "commission": "sale",
+      "commissionSettlement": "True"
+    },
+    {
+      "TxId": "001",
+      "saleType": "Device",
+      "saleAmount": 234,
+      "txCreatedTime": 1541313964000,
+      "commission": "sale",
+      "commissionSettlement": "False",
+      "id": 127
+    },
+    {
+      "TxId": "001",
+      "saleType": "Device",
+      "saleAmount": 234,
+      "txCreatedTime": 1538721964,
+      "commission": "sale",
+      "commissionSettlement": "True",
+      "id": 128
+    }, {
+      "deviceExchange": "4",
+      "deviceSale": "9",
+      "recharge": "8",
+      "simActivation": "9",
+      "totalCommision": "322.50",
+      "totalSale": "6450"
+    }];
 
-    // const headers1 = new HttpHeaders({
-    //   'dealerId': this.user.username,
-    // });
+    this.length = this.transactionDataList.length;
+
+    const headers1 = new HttpHeaders({
+      'dealerId': this.user.username,
+    });
 
 
-    // this.server.sendRequest('post', '/getDealerDataByDealerId', null, headers1, null).subscribe(
+    this.server.sendRequest('post', '/getDealerDataByDealerId', null, headers1, null).subscribe(
 
-    //   (data) => {
-    //     this.transactionDataList = data['body'].slice();
-    //     console.log(JSON.stringify(this.transactionDataList));
+      (data) => {
+        this.transactionDataList = data['body'].slice();
+        console.log(JSON.stringify(this.transactionDataList));
 
-    //   }
-    // );
+      }
+    );
 
 
   }
+
+  sales23 = null;
+  status123=null;
+   selectSales(item : string){
+     this.sales23 = item;
+   }
+ 
+   selectSettlement(items: string){
+     this.status123 = items;
+   }
+
+   onClickListener() {
+     //this.sales
+     this.step = "three";
+     this.viewTransaction = true;
+    
+   }
+
+   setPageSizeOptions(setPageSizeOptionsInput: string) {
+     this.pageSizeOptions = setPageSizeOptionsInput.split(',').map(str => +str);
+   }
+
+   onPageChanged(e) {
+     let firstCut = e.pageIndex * e.pageSize;
+     let secondCut = firstCut + e.pageSize;
+     this.transansactionListTemp = this.transansactionListTemp.slice(firstCut, secondCut);
+   }
 
 }
 

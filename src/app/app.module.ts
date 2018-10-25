@@ -62,6 +62,8 @@ import { DatepickerComponent } from './datepicker/datepicker.component';
 import { DatefilterpipePipe } from './datefilterpipe.pipe';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { ReportService } from './UserComponent/report-table/report.service';
+import { DealerComponent } from './UserComponent/dealer/dealer.component';
+import { PlanComponent } from './UserComponent/plan/plan.component';
 
 
 
@@ -124,8 +126,8 @@ export class MaterialModule { }
 
   ],
   declarations: [
-    AppComponent, TableComponent, AdminLayoutComponent,
-    AuthLayoutComponent, InvoicemodelComponent, ReportTableComponent, WelcomeComponent, LoginComponent123,
+    AppComponent, TableComponent, AdminLayoutComponent, PlanComponent,
+    AuthLayoutComponent, InvoicemodelComponent, ReportTableComponent, WelcomeComponent, LoginComponent123, DealerComponent,
 
     FilterPipe, DatepickerComponent, DatefilterpipePipe
   ],

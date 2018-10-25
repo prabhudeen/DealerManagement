@@ -1,4 +1,4 @@
-table {
+/* table {
     width: 100%;
   }
 
@@ -13,7 +13,9 @@ table {
     border-right: 2px solid  rgba(192, 196, 194, 0.555) ;
     height: 70px;
     padding-left: 20px;
-}
+} */
+
+
 
 #first{
   overflow-y:scroll;
@@ -21,7 +23,30 @@ table {
   display: block;
 }
 
+.table-responsive {
+  overflow-x: unset;
+}
 
+mat-paginator {
+  background: none !important;
+}
+
+/* ::ng-deep .no-line .mat-form-field-underline {
+  .mat-form-field-ripple {
+    background: transparent !important;
+  }
+  
+} */
+
+.no-line {
+  .mat-form-field-underline {
+    background: transparent !important;
+  }
+}
+
+.mat-form-field-underline {
+  background-color: #3f51b5;
+}
 
 $theme-color: #3f51b5;
 

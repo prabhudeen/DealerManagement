@@ -1,10 +1,10 @@
 <div class="main-content">
 
-  <div class="container">
+  <div class="col-md-12">
 
     <div class="row">
       <div class="col">
-        <h3 class="mr-auto text-muted">
+        <h3 class="mr-auto text-muted mt-0">
           <b> Transactions</b>
 
         </h3>
@@ -24,63 +24,68 @@
     </div>
     <br>
     <mat-divider style="margin-bottom: 6px;margin-top: -20px"></mat-divider>
-    <h4 class="text-muted" style="margin-top: 8px">Today</h4>
+    <h4 class="text-muted" style="margin-top: 8px" style="margin-bottom: -10px">Today</h4>
     <div class="row">
 
       <div class="col-lg-2 col-md-6 col-sm-6">
-        <div class="card card-hieght">
+        <div class="card">
           <div class=card-body>
 
-            <div class="progress progress-line-primary">
+            <!-- <div class="progress progress-line-primary">
               <div class="progress-bar progress-bar-success" style="width: 100%">
                 <span class="sr-only ">20% Complete (warning)</span>
               </div>
 
-            </div>
+            </div> -->
             <!-- <div class="ml-auto">
                                   <p ><font size="0">100%</font></p>
                           </div> -->
+
+
             <h4 class="text-warning text-success mt-0">
               <small>Sale</small>
             </h4>
             <span style="color:grey;">
-              <b>&#x20b9; {{transactionDataList[transactionDataList.length-1].totalSale}}</b>
+              <b>&#x20b9; {{totalSale}}</b>
             </span>
+
           </div>
         </div>
       </div>
 
       <div class="col-lg-2 col-md-6 col-sm-6">
-        <div class="card card-hieght">
+        <div class="card">
           <div class=card-body>
-            <div class="progress progress-line-primary mb-0">
+            <!-- <div class="progress progress-line-primary mb-0">
               <div class="progress-bar progress-bar-warning" style="width: 100%">
                 <span class="sr-only">20% Complete (warning)</span>
               </div>
-            </div>
-            <div class="d-flex" style="margin-bottom: -20px">
+            </div> -->
+            <!-- <div class="d-flex" style="margin-bottom: -20px">              
               <div class="ml-auto">
                 <p>
                   <font size="0">100%</font>
                 </p>
               </div>
-            </div>
+            </div> -->
+
             <h4 class="text-warning">
               <small>Commission</small>
             </h4>
             <span style="color:grey;">
-              <b>&#x20b9;{{transactionDataList[transactionDataList.length-1].totalCommision}}</b>
+              <b>&#x20b9;{{totalComission}}</b>
             </span>
+
           </div>
         </div>
       </div>
       <div class="col-lg-6 col-md-12 col-sm-12">
-        <div class="card card-hieght">
+        <div class="card">
           <div class=card-body>
             <div class="row">
 
               <div class="col border border-left-0 border-top-0 border-bottom-0">
-                <div class="progress progress-line-primary mb-0">
+                <!-- <div class="progress progress-line-primary mb-0">
                   <div class="progress-bar " [ngStyle]="{'width': SimActivationPercentage()}">
                     <span class="sr-only">20% Complete (warning)</span>
                   </div>
@@ -91,18 +96,18 @@
                       <font size="0">{{SimActivationPercentage()}}</font>
                     </p>
                   </div>
-                </div>
+                </div> -->
                 <h4 class="text-info">
                   <small>SIM Activation</small>
                 </h4>
                 <span style="color:grey;">
-                  <b> {{transactionDataList[transactionDataList.length-1].simActivation}}</b>
+                  <b> {{simActivation}}</b>
                 </span>
 
               </div>
 
               <div class="col border border-left-0 border-top-0 border-bottom-0">
-                <div class="progress progress-line-primary mb-0">
+                <!-- <div class="progress progress-line-primary mb-0">
                   <div class="progress-bar" [ngStyle]="{'width': rechargePercentage()}">
                     <span class="sr-only">20% Complete (warning)</span>
                   </div>
@@ -113,17 +118,17 @@
                       <font size="0">{{rechargePercentage()}}</font>
                     </p>
                   </div>
-                </div>
+                </div> -->
                 <h4 class="text-info">
                   <small>Recharge</small>
                 </h4>
                 <span style="color:grey;">
-                  <b>{{transactionDataList[transactionDataList.length-1].recharge}}</b>
+                  <b>{{recharge}}</b>
                 </span>
               </div>
 
               <div class="col border border-left-0 border-top-0 border-bottom-0">
-                <div class="progress progress-line-primary mb-0">
+                <!-- <div class="progress progress-line-primary mb-0">
                   <div class="progress-bar " [ngStyle]="{'width': deviceSalePercentage()}">
                     <span class="sr-only">20% Complete (warning)</span>
                   </div>
@@ -134,16 +139,16 @@
                       <font size="0">{{deviceSalePercentage()}}</font>
                     </p>
                   </div>
-                </div>
+                </div> -->
                 <h4 class="text-info">
                   <small>Device Sale</small>
                 </h4>
                 <span style="color:grey;">
-                  <b>{{transactionDataList[transactionDataList.length-1].deviceSale}}</b>
+                  <b>{{deviceSale}}</b>
                 </span>
               </div>
               <div class="col">
-                <div class="progress progress-line-primary mb-0">
+                <!-- <div class="progress progress-line-primary mb-0">
                   <div class="progress-bar " [ngStyle]="{'width': deviceExchangePercentage()}">
                     <span class="sr-only">20% Complete (warning)</span>
                   </div>
@@ -154,12 +159,12 @@
                       <font size="0">{{deviceExchangePercentage()}}</font>
                     </p>
                   </div>
-                </div>
+                </div> -->
                 <h4 class="text-info">
                   <small>Device Exch</small>
                 </h4>
                 <span style="color:grey;">
-                  <b>{{transactionDataList[transactionDataList.length-1].deviceExchange}}</b>
+                  <b>{{deviceExchange}}</b>
                 </span>
               </div>
             </div>
@@ -167,10 +172,10 @@
         </div>
       </div>
 
-      <div class="col-lg-2 col-md-12 col-sm-12">
-        <div class="card card-hieght bg-info text-white text-center">
-          <div class="card-body mt-3" data-toggle="modal" data-target="#myModal" (click)="onReset()" style="cursor: pointer; ">
-            <p> Record Transactions </p>
+      <div class="col-md-12 col-sm-12 col-lg-2">
+        <div class="card bg-info text-white text-center">
+          <div class="card-body mt-2" data-toggle="modal" data-target="#myModal" (click)="onReset()" style="cursor: pointer; ">
+            <span> Record Transactions </span>
 
           </div>
         </div>
@@ -180,22 +185,26 @@
   </div>
 
   <div class="col-md-12">
-    <div class="card">
-      <div class="card-body table-full-width">
-        <div class="table-responsive">
-          <table class="table table-hover">
-            <thead>
-              <tr>
-                <th style="width:10%" class="text-center">{{ tableData3.headerRow[0] }}</th>
-                <th style="width: 15%" class="text-center">
-                  <mat-form-field>
+    <div class="table-responsive table-hover">
+      <table class="table table-spacing">
+        <thead>
+          <tr>
+            <th style="width:10%" class="text-center">{{ tableData3.headerRow[0] }}</th>
+            <th style="width: 15%" class="text-center">
+              <!-- <mat-form-field>
                     <mat-select class="text-justify" [(ngModel)]="sales" placeholder="Sales">
-                      <mat-option *ngFor="let sales of saleTypeList" [value]="sales">{{sales.name}}</mat-option>
+                      <mat-option *ngFor="let sales of saleTypeList" [value]="sales.value">{{sales.name}}</mat-option>
                     </mat-select>
-                  </mat-form-field>
-                </th>
-                <th style="width: 10%" class="text-center">{{ tableData3.headerRow[2] }}</th>
-                <!-- <th class="dropdown">
+                  </mat-form-field> -->
+              <div class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown">Sales</a> <span class="caret"></span>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" (click)="selectSales(sales.value)" *ngFor="let sales of saleTypeList; let i = index" style="overflow: absolute">{{sales.name}}</a>
+                </div>
+              </div>
+            </th>
+            <th style="width: 10%" class="text-center">{{ tableData3.headerRow[2] }}</th>
+            <!-- <th class="dropdown">
                   <a class="dropdown-toggle" id="dropdownMenu" data-toggle="dropdow{{sales}}</mat-option>
                   </mat-select>
                 </th>n" aria-haspopup="true" aria-expanded="true">{{ tableData3.headerRow[3] }}</a>
@@ -203,58 +212,74 @@
 
                   </ul>
                 </th> -->
-                <th style="width: 20%" class="text-center">
-                  <mat-form-field class="example-full-width">
-                    <input matInput [owlDateTime]="dt10" [selectMode]="'range'" [(ngModel)]="dateTimeRange" placeholder="Date/Time ">
-                    <owl-date-time #dt10></owl-date-time>
-                    <mat-datepicker-toggle matSuffix [for]="picker">
-                      <mat-icon [owlDateTimeTrigger]="dt10" matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+            <th style="width: 20%" class="text-center">
+              <mat-form-field class="no-line" style="width: 150px;">
+                <mat-label>Date/Time</mat-label>
+                <input matInput [owlDateTime]="dt10" [selectMode]="'range'" [(ngModel)]="dateTimeRange">
+                <owl-date-time #dt10></owl-date-time>
+                <mat-datepicker-toggle matSuffix [for]="picker">
+                  <mat-icon [owlDateTimeTrigger]="dt10" matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
 
-                    </mat-datepicker-toggle>
-                    <mat-datepicker #picker></mat-datepicker>
-                  </mat-form-field>
+                </mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+              <!-- Date
+              <owl-date-time #dt10></owl-date-time>
+              <mat-datepicker-toggle matSuffix [for]="picker">
+                <mat-icon [owlDateTimeTrigger]="dt10" matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+              </mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker> -->
 
-                </th>
-                <th style="width: 10%" class="text-center">{{ tableData3.headerRow[4] }}</th>
-                <th style="width: 20%" class="text-center">
-                  <mat-form-field>
+            </th>
+            <th style="width: 10%" class="text-center">{{ tableData3.headerRow[4] }}</th>
+            <th style="width: 20%" class="text-center">
+              <!-- <mat-form-field>
                     <mat-select class="ml-2" [(ngModel)]="status" placeholder="Settlement">
                       <mat-option *ngFor="let status of statusArray" [value]="status">{{status}}</mat-option>
                     </mat-select>
-                  </mat-form-field>
-                </th>
-              </tr>
-            </thead>
-            <tbody>
+                  </mat-form-field> -->
 
-              <tr *ngFor="let row of transactionDataList | filter:status | filter: sales | dateFilterPipe :dateTimeRange[0] : dateTimeRange[1]">
-                <td style="width: 10%" class="text-center">{{row.TxId}}</td>
-                <td style="width: 20%" class="text-center">{{row.saleType}}</td>
-                <td style="width: 10%" class="text-center">{{row.saleAmount}}</td>
-                <td style="width: 20%" class="text-center"> {{row.txCreatedTime | date:'medium'}}</td>
-                <td style="width: 10%" class="text-center"> {{row.commission}}</td>
+              <div class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown">Settlement</a> <span class="caret"></span>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" tabindex="i" (click)="selectSettlement(status)" *ngFor="let status of statusArray; let i = index">{{status}}</a>
+                </div>
+              </div>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of transactionDataList | filter:status | filter: sales | dateFilterPipe :dateTimeRange[0] : dateTimeRange[1]; let i = index"
+            data-toggle="modal" data-target="#myModal" class="custom-table" (click)="onClickListener()">
+            <td style="width: 10%" class="text-center">{{row.TxId}}</td>
+            <td style="width: 20%" class="text-center">{{row.saleType}}</td>
+            <td style="width: 10%" class="text-center">{{row.saleAmount}}</td>
+            <td style="width: 20%" class="text-center"> {{row.txCreatedTime*1000 | date:'medium'}}</td>
+            <td style="width: 10%" class="text-center"> {{row.commission}}</td>
 
-                <td style="width: 20% " *ngIf="row.commissionSettlement==='True'">
+            <td style="width: 20% " *ngIf="row.commissionSettlement==='True'">
 
-                  <i class="material-icons text-success text-center pl-5">done</i>
+              <i class="material-icons text-success text-center pl-5">done</i>
 
-                </td>
-                <td style="width: 20%;" *ngIf="row.commissionSettlement==='False'">
+            </td>
+            <td style="width: 20%;" *ngIf="row.commissionSettlement==='False'">
 
-                  <i class="material-icons  text-danger text-center pl-5">close</i>
+              <i class="material-icons  text-danger text-center pl-5">close</i>
 
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <p *ngIf="transansactionListTemp.length === 1">DATA NOT FOUND</p>
+      <mat-paginator [length]="length"  [pageSize]="pageSize"  [pageSizeOptions]="pageSizeOptions"  (page)="onPageChanged($event)">
+      </mat-paginator>
 
-      </div>
     </div>
+
   </div>
 </div>
 
-<div class="modal fade" id="myModal" data-backdrop="static" tabindex="-1" role="dialog" aria-hidden="true" aria-labelledby="viewModal">
+<div class="modal fade" id="myModal" data-backdrop="static" tabindex="-1" role="dialog" aria-hidden="true" aria-labelledby="myModalLabelledBy">
 
   <div class="modal-dialog modal-xl">
     <div class="modal-content pr-4 pl-4">
@@ -368,6 +393,7 @@
                   </tbody>
 
                 </table>
+
 
 
 
@@ -584,7 +610,8 @@
       </div>
       <div *ngIf="step==='three'">
         <div class="modal-header">
-          <h4>New Sale : Step 03 of 03</h4>
+          <h4 *ngIf="!viewTransaction">New Sale : Step 03 of 03</h4>
+          <h4 *ngIf="viewTransaction">Summary</h4>
           <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
         <hr>

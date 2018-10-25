@@ -8,6 +8,8 @@ import { ReportTableComponent } from './UserComponent/report-table/report-table.
 
 import { LoginComponent123 } from './UserOperation/login/login/login.component';
 import { WelcomeComponent } from './welcome/welcome.component';
+import { DealerComponent } from './UserComponent/dealer/dealer.component';
+import { PlanComponent } from './UserComponent/plan/plan.component';
 
 export const AppRoutes: Routes = [
 
@@ -29,12 +31,14 @@ export const AppRoutes: Routes = [
 
       },
       {
-        path: 'invoice', component: InvoicemodelComponent
+        path: 'dealer', component: DealerComponent
       },
       {
         path: 'report', component: ReportTableComponent
       },
-
+      {
+        path: 'plan', component: PlanComponent
+      },
 
     ]
   }, {

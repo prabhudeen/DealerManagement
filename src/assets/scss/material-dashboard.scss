@@ -84,3 +84,19 @@
 
 
 @import "dashboard/responsive";
+
+
+$blue-color:rgb(59,133,254);
+
+.blue-color{
+
+    background: $blue-color;
+    color: white;
+}
+
+.blue-color-link{
+
+    background:white;
+    color: $blue-color;
+}
+

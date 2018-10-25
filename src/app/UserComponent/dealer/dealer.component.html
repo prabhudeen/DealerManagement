@@ -1,0 +1,53 @@
+<div class="main-content">
+  
+    <div class="row">
+      
+        <h3 class="mr-auto text-muted mt-0 ml-2">
+          <b>Dealer Data</b>
+        </h3>
+      </div>
+    
+    <mat-divider></mat-divider>
+
+
+  <div class="col-md-12">
+    <div class="table-responsive table-hover" style="overflow-x: auto;">
+      <table class="table table-spacing">
+        <thead>
+          <tr>
+            <th width="20%" class="text-center">Dealer ID</th>
+            <th class="text-center">Dealer name</th>
+            <th class="text-center">Channel ID</th>
+            <th class="text-center">Dealer Type</th>
+            <th class="text-center">Dealer Tier</th>
+            <th class="text-center">L1 parent</th>
+            <th class="text-center">L2 parent</th>
+            <th class="text-center">Address</th>
+            <th class="text-center">Jio payments bank</th>
+            <th class="text-center">Mobile number</th>
+            <th class="text-center">Email address</th>
+            <th class="text-center">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          <tr *ngFor="let response of responseList"
+            class="custom-table">
+            <td  class="text-center">{{response.dealerId}}</td>
+            <td  class="text-center">{{response.dealerName}}</td>
+            <td style="width: 10%" class="text-center">{{response.channelID}}</td>
+            <td  class="text-center"> {{response.dealerType}}</td>
+            <td  class="text-center"> {{response.dealerTier}}</td>
+            <td  class="text-center">{{response.L1Parent}}</td>
+            <td  class="text-center">{{response.L2Parent}}</td>
+            <td style="width: 10%" class="text-center">{{response.Address}}</td>
+            <td style="width: 25%" class="text-center"> {{response.jioPaymentsBank}}</td>
+            <td style="width: 10%" class="text-center"> {{response.MobileNumber}}</td>
+            <td style="width: 10%" class="text-center"> {{response.Emailaddress}}</td>
+            <td style="width: 5%" class="text-center"> {{response.dealerStatus}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+</div>
+</div>
