@@ -52,21 +52,21 @@ export class ReportService {
     getTransactionDetails() {
 
         let promiseTemp = new Subject<any>();
-        const headers1 = new HttpHeaders({
-            'dealerId': this.userName,
-        });
+        // const headers1 = new HttpHeaders({
+        //     'dealerId': this.userName,
+        // });
 
 
-        this.server.sendRequest('post', '/getDealerDataByDealerId', null, headers1, null).subscribe(
-            (response) => {
-                console.log(response['body']);
-                promiseTemp.next(response['body'].slice());
-            });
+        // this.server.sendRequest('post', '/getDealerDataByDealerId', null, headers1, null).subscribe(
+        //     (response) => {
+        //         console.log(response['body']);
+        //         promiseTemp.next(response['body'].slice());
+        //     });
 
-        // setTimeout(() => {
-        //     console.log(this.transactionDataList1);
-        //     promiseTemp.next(this.transactionDataList1);
-        // }, 0);
+        setTimeout(() => {
+            console.log(this.transactionDataList1);
+            promiseTemp.next(this.transactionDataList1);
+        }, 0);
 
 
 
@@ -75,19 +75,19 @@ export class ReportService {
 
     getTransaction() {
         let promiseTemp = new Subject<any>();
-        const headers1 = new HttpHeaders({
-            'dealerId': this.userName,
-        });
-        this.server.sendRequest('post', '/getTransactionRange', null, headers1, null).subscribe(
-            (response) => {
-                console.log(response['body']);
-                promiseTemp.next(response['body']);
-            });
+    //     const headers1 = new HttpHeaders({
+    //         'dealerId': this.userName,
+    //     });
+    //     this.server.sendRequest('post', '/getTransactionRange', null, headers1, null).subscribe(
+    //         (response) => {
+    //             console.log(response['body']);
+    //             promiseTemp.next(response['body']);
+    //         });
 
-        // setTimeout(() => {
-        //     console.log(this.transation);
-        //     promiseTemp.next(this.transation);
-        // }, 0);
+        setTimeout(() => {
+            console.log(this.transation);
+            promiseTemp.next(this.transation);
+        }, 0);
 
         return promiseTemp.asObservable();
     }
@@ -95,116 +95,116 @@ export class ReportService {
     addTransactionData(jsonBody) {
 
         let promiseTemp = new Subject<any>();
-        // let jsonObject: any;
-        // let counter = jsonBody['saleItems'].length;
+        let jsonObject: any;
+        let counter = jsonBody['saleItems'].length;
 
-        // let tempCounter = 0;
-        // let size1 = this.transactionDataList1.length;
-        // let txId = parseInt(this.transactionDataList1[size1 - 2]['TxId']);
+        let tempCounter = 0;
+        let size1 = this.transactionDataList1.length;
+        let txId = parseInt(this.transactionDataList1[size1 - 2]['TxId']);
 
-        // let timerTask = setInterval(
-        //     () => {
-        //         txId++;
-        //         let size = this.transactionDataList1.length;
-        //         let jsonlastObject = this.transactionDataList1[size - 1];
-        //         this.transactionDataList1.splice(size - 1, 1);
+        let timerTask = setInterval(
+            () => {
+                txId++;
+                let size = this.transactionDataList1.length;
+                let jsonlastObject = this.transactionDataList1[size - 1];
+                this.transactionDataList1.splice(size - 1, 1);
 
-        //         var date = new Date();
+                var date = new Date();
 
-        //         jsonObject = {
-        //             "TxId": txId,
-        //             "saleType": jsonBody['saleItems'][tempCounter]['saleType'],
-        //             "saleAmount": jsonBody['saleItems'][tempCounter]['saleAmount'],
-        //             "txCreatedTime": date.getTime() * 1,
-        //             "commission": Math.round(jsonBody['saleItems'][tempCounter]['saleAmount'] * 0.1),
-        //             "commissionSettlement": "True"
-        //         }
+                jsonObject = {
+                    "TxId": txId,
+                    "saleType": jsonBody['saleItems'][tempCounter]['saleType'],
+                    "saleAmount": jsonBody['saleItems'][tempCounter]['saleAmount'],
+                    "txCreatedTime": date.getTime() * 1,
+                    "commission": Math.round(jsonBody['saleItems'][tempCounter]['saleAmount'] * 0.1),
+                    "commissionSettlement": "True"
+                }
 
-        //         switch (jsonBody['saleItems'][tempCounter]['saleType']) {
-        //             case "Recharge":
-        //                 {
+                switch (jsonBody['saleItems'][tempCounter]['saleType']) {
+                    case "Recharge":
+                        {
 
-        //                    jsonlastObject['recharge']=parseInt(jsonlastObject['recharge']) + 1;
-        //                     break;
-        //                 }
-        //             case "DeviceExchange":
-        //                 {
+                           jsonlastObject['recharge']=parseInt(jsonlastObject['recharge']) + 1;
+                            break;
+                        }
+                    case "DeviceExchange":
+                        {
 
-        //                     jsonlastObject['deviceExchange']=parseInt(jsonlastObject['deviceExchange']) + 1;
-        //                     break;
-        //                 }
-        //             case "DeviceSale":
-        //                 {
+                            jsonlastObject['deviceExchange']=parseInt(jsonlastObject['deviceExchange']) + 1;
+                            break;
+                        }
+                    case "DeviceSale":
+                        {
 
-        //                     jsonlastObject['deviceSale']=parseInt(jsonlastObject['deviceSale']) + 1;
-        //                     break;
-        //                 }
-        //             case "SimActivation":
-        //                 {
+                            jsonlastObject['deviceSale']=parseInt(jsonlastObject['deviceSale']) + 1;
+                            break;
+                        }
+                    case "SimActivation":
+                        {
 
-        //                     jsonlastObject['simActivation']= parseInt(jsonlastObject['simActivation']) + 1;
-        //                     break;
-        //                 }
-        //             default: {
-        //                 console.log('default');
-        //             }
-        //         }
+                            jsonlastObject['simActivation']= parseInt(jsonlastObject['simActivation']) + 1;
+                            break;
+                        }
+                    default: {
+                        console.log('default');
+                    }
+                }
 
-        //         let totalcommission = parseInt(jsonlastObject['totalCommision']) + parseInt(jsonObject['commission']);
-        //         let totalsale = parseInt(jsonlastObject['totalSale']) + parseInt(jsonObject['saleAmount']);
+                let totalcommission = parseInt(jsonlastObject['totalCommision']) + parseInt(jsonObject['commission']);
+                let totalsale = parseInt(jsonlastObject['totalSale']) + parseInt(jsonObject['saleAmount']);
 
-        //         jsonlastObject['totalCommision'] = totalcommission;
-        //         jsonlastObject['totalSale'] = totalsale;
+                jsonlastObject['totalCommision'] = totalcommission;
+                jsonlastObject['totalSale'] = totalsale;
 
-        //         console.log(totalcommission);
-        //         console.log(totalsale);
+                console.log(totalcommission);
+                console.log(totalsale);
 
-        //         this.transactionDataList1.push(jsonObject);
-        //         this.transactionDataList1.push(jsonlastObject);
-        //         tempCounter++;
-        //         if (tempCounter == counter) {
-        //             clearInterval(timerTask);
-        //         }
+                this.transactionDataList1.push(jsonObject);
+                this.transactionDataList1.push(jsonlastObject);
+                tempCounter++;
+                if (tempCounter == counter) {
+                    clearInterval(timerTask);
+                }
 
-        //     }, 3000);
-
-
-
-
-        const headers = new HttpHeaders({
-            'Content-Type': "application/json"
-        });
-
-        this.server.sendRequest('post', '/submitSaleTransaction', jsonBody, headers, null).subscribe(
-            (data) => {
-
-                let counter = jsonBody['saleItems'].length;
-                console.log(counter);
-
-
-                this.updateTransactionList(counter);
-                // this.getTransactionDetails().subscribe(
-                //     (response) => {
-                //         // this.transactionDataListObs = response['body'];
-                //         // this.obser.next(response['body']);
-                //         // this.transactionDataListObs.emit(response);
-
-
-                //         console.log(JSON.stringify(response));
-                //     });
-
-                promiseTemp.next("Successful Added");
-            }
-        );
+            }, 3000);
 
 
 
 
+        // const headers = new HttpHeaders({
+        //     'Content-Type': "application/json"
+        // });
+
+        // this.server.sendRequest('post', '/submitSaleTransaction', jsonBody, headers, null).subscribe(
+        //     (data) => {
+
+        //         let counter = jsonBody['saleItems'].length;
+        //         console.log(counter);
 
 
-        // this.updateTransactionList(counter);
+        //         this.updateTransactionList(counter);
+        //         // this.getTransactionDetails().subscribe(
+        //         //     (response) => {
+        //         //         // this.transactionDataListObs = response['body'];
+        //         //         // this.obser.next(response['body']);
+        //         //         // this.transactionDataListObs.emit(response);
 
-        // promiseTemp.next("Successful Added");
+
+        //         //         console.log(JSON.stringify(response));
+        //         //     });
+
+        //         promiseTemp.next("Successful Added");
+        //     }
+        // );
+
+
+
+
+
+
+        this.updateTransactionList(counter);
+
+        promiseTemp.next("Successful Added");
 
 
 

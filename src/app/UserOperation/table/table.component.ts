@@ -25,6 +25,7 @@ export class TableComponent implements OnInit {
   saleInfoData2: any;
   public dateTimeRange = [];
  productTypeList = [];
+ transactionDataListTemp = [];
   planList = [];
   simActivation;
   recharge;
@@ -35,7 +36,12 @@ export class TableComponent implements OnInit {
   length: number;
   pageSize = 10;
   pageSizeOptions: number[] = [5, 10, 25, 100];
-  pageEvent: PageEvent;
+  pageEvent: PageEvent; 
+  public tableData1: TableData;
+  public tableData2:TableData;
+
+  invoiceData:any;
+  
 
   ngOnInit() {
 
@@ -47,6 +53,8 @@ export class TableComponent implements OnInit {
       "totalCommision": "0",
       "totalSale": "0"
     }];
+
+
 
     this.reportService.transactionDataListObs.subscribe(
       (response) => {
@@ -61,14 +69,15 @@ export class TableComponent implements OnInit {
     this.reportService.getTransactionDetails().subscribe(
       (response) => {
         this.transactionDataList = response;
-        this.length = this.transactionDataList.length;
+        this.transactionDataListTemp = response;
         this.simActivation = this.transactionDataList[this.transactionDataList.length-1].simActivation;
             this.recharge = this.transactionDataList[this.transactionDataList.length-1].recharge;
             this.deviceSale = this.transactionDataList[this.transactionDataList.length-1].deviceSale;
             this.deviceExchange = this.transactionDataList[this.transactionDataList.length-1].deviceExchange;
            this.totalSale = this.transactionDataList[this.transactionDataList.length-1].totalSale;
            this.totalComission = this.transactionDataList[this.transactionDataList.length-1].totalCommision;
-
+        this.transactionDataList.splice(this.transactionDataList.length-1, 1);
+        this.length = this.transactionDataList.length;
       });
 
     console.log(this.transactionDataList);
@@ -511,6 +520,27 @@ export class TableComponent implements OnInit {
       this.salesItems[index].saleAmount=1499;
       break;
     }
+  }
+
+  onClickListener() {
+   this.tableData2 = {
+    headerRow: [ 'CASH PAID', 'PROMO CODE', 'TOTAL AMOUNT'],
+    dataRows: [
+        ['12345', 'NEW123', '$36,738']
+    ]
+  };
+
+    console.log("Invoice Data method call")
+    let headers = new HttpHeaders();
+    headers = headers.append('txnId', "Tx3");
+    this.server.sendRequest('post', '/getTransactionById', null, headers, null).subscribe(
+      (data) => {
+        console.log(data);
+        console.log("invoice data")
+        this.invoiceData=data['body'];
+      }
+    );
+
   }
 
   setPageSizeOptions(setPageSizeOptionsInput: string) {

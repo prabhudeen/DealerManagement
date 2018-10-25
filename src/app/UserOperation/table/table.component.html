@@ -257,7 +257,7 @@
         </thead>
         <tbody>
           <tr *ngFor="let row of transactionDataList | filter:status | filter: sales | dateFilterPipe :dateTimeRange[0] : dateTimeRange[1]; let i = index"
-            data-toggle="modal" data-target="#myModal" class="custom-table" (click)="onClickListener()">
+            data-toggle="modal" data-target="#invoiceModal" class="custom-table" (click)="onClickListener()">
             <td style="width: 10%" class="text-center">{{row.TxId}}</td>
             <td style="width: 20%" class="text-center">{{row.saleType}}</td>
             <td style="width: 10%" class="text-center">{{row.saleAmount}}</td>
@@ -811,3 +811,101 @@
     </div>
   </div>
 </div>
+
+<div class="modal" id="invoiceModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <!-- Modal body -->
+        <div class="modal-body" style="padding: 50px;">
+          <h4 class="modal-title" style="color: dodgerblue;">
+            <b>INVOICE</b>
+          </h4>
+          <hr style="margin-top: 0px;">
+          <div class="row">
+
+            <div class="col-lg-6" style="font-size: 12px;">
+              <p class="text-muted" style="margin-bottom: 0px;">Cutomer ID :
+                <b>12345</b>
+              </p>
+              <p class="text-muted" style="margin-bottom: 0px">{{invoiceData.customerName}}</p>
+              <p class="text-muted" style="margin-bottom: 0px">{{invoiceData.email}}</p>
+              <p class="text-muted" style="margin-bottom: 1px">8877811976</p>
+
+              <p class="text-muted" style="margin-bottom: 0px">Reliance corporate park,Ghansoli,Maharastra,pin-400709</p>
+
+            </div>
+            <div class="col-lg-6" style="text-align: right; font-size: 12px;">
+              <p class="text-muted" style="margin-bottom: -1px">Txn id-
+                <b>{{invoiceData.TxId}}</b>
+              </p>
+              <p class="text-muted">Date:
+                <b>20-Jan-2018</b>
+              </p>
+            </div>
+          </div>
+          <br>
+          <br>
+         
+            <table class="table">
+              <thead class="text-primary">
+                <tr>
+                  <th class="text-muted" style="font-size: 13px">DESCRIPTION</th>
+                  <th class="text-muted" style="font-size: 13px">SALE AMOUNT</th>
+                  <th class="text-muted" style="font-size: 13px">QTY</th>
+                  <th class="text-muted" style="font-size: 13px">AMOUNT</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="text-muted" style="font-size: 13px">
+                  <td>
+                    <b>Jio 4G Hotspot</b>
+                  </td>
+                  <td>
+                    <b>1499/-</b>
+                  </td>
+                  <td>
+                    <b>05</b>
+                  </td>
+                  <td>
+                    <b>8765</b>
+                  </td>
+
+                </tr>
+              </tbody>
+            </table>
+
+          <br>
+
+        </div>
+        <div style="background-color: dodgerblue; padding:30px 50px;">
+
+
+
+         
+          <div class="row" style="color: white;font-size: 13px">
+            <div class="col">CASH PAID</div>
+            <div class="col">PROMO CODE</div>
+            <div class="col">TOTAL AMOUNT</div>
+          </div>
+          <hr style="margin-top: 0px;margin-bottom: 1px">
+          <div class="row" style="color: white;font-size: 13px">
+              <div class="col">1234</div>
+              <div class="col">NEW123</div>
+              <div class="col">$42536</div>
+            </div>
+
+        </div>
+        <br>
+        <br>
+
+        <!-- Modal footer -->
+        <div class="modal-footer" style="color: dodgerblue;font-size: 15px">
+          <h4 class="mr-auto " style="margin-left: 26px;font-size: 15px"><b>Thank You!</b></h4>
+          <p>
+            <small>Dealer ID: D000746 | 09099788768</small>
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </div>
