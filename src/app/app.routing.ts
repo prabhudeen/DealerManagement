@@ -10,12 +10,13 @@ import { LoginComponent123 } from './UserOperation/login/login/login.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { DealerComponent } from './UserComponent/dealer/dealer.component';
 import { PlanComponent } from './UserComponent/plan/plan.component';
+import { AuthGuard } from './shared/auth.guard';
 
 export const AppRoutes: Routes = [
 
   {
     path: '',
-    redirectTo: 'welcome',
+    redirectTo: 'login',
     pathMatch: 'full'
   },
   {
@@ -27,14 +28,16 @@ export const AppRoutes: Routes = [
     component: AdminLayoutComponent,
     children: [
       {
-        path: 'table', component: TableComponent
+        path: 'table', component: TableComponent, canActivate: [AuthGuard]
 
       },
       {
         path: 'dealer', component: DealerComponent
+      },{
+        path: 'invoice', component: InvoicemodelComponent, canActivate: [AuthGuard]
       },
       {
-        path: 'report', component: ReportTableComponent
+        path: 'report', component: ReportTableComponent, canActivate: [AuthGuard]
       },
       {
         path: 'plan', component: PlanComponent
@@ -53,9 +56,10 @@ export const AppRoutes: Routes = [
   },
 
   {
-    path: 'Login',
+    path: 'login',
     component: LoginComponent123
-  }
+  },
+  {path: '**', redirectTo: 'login'}
 
 
 ];

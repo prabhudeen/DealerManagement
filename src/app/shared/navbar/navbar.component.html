@@ -65,14 +65,14 @@
 
 
 
-<nav #navbar class="navbar navbar-expand-lg  navbar-absolute">
+<nav #navbar class="navbar navbar-expand-lg  navbar-absolute" style="border-radius: 0px;">
   <div class="container-fluid">
     <div class="navbar-wrapper">
       <div class="navbar-minimize">
-        <button mat-raised-button (click)="minimizeSidebar()" class="btn btn-just-icon btn-white  btn-fab btn-rectange">
+        <button mat-raised-button (click)="minimizeSidebar()" class="btn btn-just-icon btn-white btn-fab btn-rectange">
           <!-- <i class="material-icons text_align-center visible-on-sidebar-regular">more_vert</i> -->
-          <i class="material-icons">  horizontal_split </i>
-          <i class="material-icons design_bullet-list-67 visible-on-sidebar-mini">view_list</i>
+          <i class="material-icons text_align-center visible-on-sidebar-regular" style="color: #1DA1F2;">  horizontal_split </i>
+          <i class="material-icons design_bullet-list-67 visible-on-sidebar-mini" style="color: #1DA1F2;">view_list</i>
         </button>
       </div>
          
@@ -90,7 +90,7 @@
               </a> -->
      
     </div>
-    <button mat-button class="navbar-toggler btn-no-ripple" type="button" (click)="sidebarToggle()">
+    <button mat-button class="navbar-toggler btn-no-ripple btn-primary" type="button" (click)="sidebarToggle()">
       <span class="sr-only">Toggle navigation</span>
       <span class="navbar-toggler-icon icon-bar"></span>
       <span class="navbar-toggler-icon icon-bar"></span>
@@ -120,7 +120,7 @@
             </li>
 
         <li class="nav-item">
-          <a class="nav-link" href="">
+          <a class="nav-link" style="cursor:pointer;" (click)="logoutUser()">
             <i class="material-icons ">logout</i>
             <p>
               <span class="d-lg-none d-md-block">Stats</span>

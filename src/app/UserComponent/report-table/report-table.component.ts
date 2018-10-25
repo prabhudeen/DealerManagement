@@ -29,7 +29,7 @@ export class ReportTableComponent implements OnInit {
     { name: 'All', value: 'All' },
     { name: 'SIM Activation', value: 'SimActivation' },
     { name: 'Recharge', value: 'Recharge' },
-    { name: 'Device', value: 'Device' },
+    { name: 'Device Sale', value: 'DeviceSale' },
     { name: 'Device Exchange', value: 'DeviceExchange' }
   ]
 
@@ -47,6 +47,11 @@ export class ReportTableComponent implements OnInit {
       headerRow: ['Txn ID', 'Sale Type', 'Amount', 'Date/Time', 'Commission', 'Statement'],
       dataRows: null
     };
+
+    this.transaction = {
+          lastWeek: 0,
+          lastMonth: 0
+    }
 
     // if (this.user.username == null) {
     //   this.transaction = {
@@ -76,7 +81,7 @@ export class ReportTableComponent implements OnInit {
     this.reportService.getTransaction().subscribe(
       (response) => {
 
-        this.transaction = response;
+         this.transaction = response;
         console.log(this.transaction);
       });
 

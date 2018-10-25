@@ -1,5 +1,19 @@
-/* You can add global styles to this file, and also import other style files */
-/* @import "~@angular/material/prebuilt-themes/indigo-pink.css"; */
-.borderradius{
-    border-radius: 0 px !important;
+.table-hover {
+    cursor: pointer;
+}
+
+.table-spacing {
+    border-collapse: separate;
+    border-spacing: 0px 10px;
+}
+
+.custom-table {
+  background-color: white !important;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.15);
+  transition: all 0.3s cubic-bezier(.25, .8, .25, .1);  
+}
+
+.custom-table:hover {
+    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.25), 0 5px 5px
+    rgba(92, 89, 89, 0.22);
 }

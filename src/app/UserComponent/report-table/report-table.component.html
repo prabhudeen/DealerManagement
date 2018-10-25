@@ -124,6 +124,7 @@
                 <th style="width:10%" class="text-center">{{ tableData3.headerRow[0] }}</th>
                 <th style="width: 15%" class="text-center">
                   <!-- <mat-form-field>
+                  <mat-form-field>
                     <mat-select class="text-justify" [(ngModel)]="sales" placeholder="Sales">
                       <mat-option *ngFor="let sales of saleTypeList" [value]="sales.value">{{sales.name}}</mat-option>
                     </mat-select>
@@ -157,7 +158,7 @@
                 </th> -->
                 <th style="width: 20%" class="text-center">
                   <mat-form-field class="example-full-width">
-                    <input matInput [owlDateTime]="dt10" [selectMode]="'range'" [(ngModel)]="dateTimeRange" placeholder="Date/Time ">
+                    <input matInput [owlDateTime]="dt10" [selectMode]="'range'" [owlDateTimeTrigger]="dt10" [(ngModel)]="dateTimeRange" placeholder="Date/Time ">
                     <owl-date-time #dt10></owl-date-time>
                     <mat-datepicker-toggle matSuffix [for]="picker">
                       <mat-icon [owlDateTimeTrigger]="dt10" matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>

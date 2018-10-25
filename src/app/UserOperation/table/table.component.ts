@@ -5,9 +5,9 @@ import { FormControl, Validators, NgForm, FormGroup, FormBuilder } from '@angula
 import { CommonService, User } from '../../shared/common.service';
 import { HttpHeaders } from '@angular/common/http';
 import { ReportService } from '../../UserComponent/report-table/report.service';
-import { PageEvent, MatPaginator, MatInputModule, MatFormFieldModule } from '@angular/material';
-
-
+import { SessionService } from '../../shared/session.service';
+import { stringify } from '@angular/core/src/util';
+import { MatPaginator, PageEvent } from '@angular/material';
 
 @Component({
   selector: 'app-table',
@@ -16,30 +16,38 @@ import { PageEvent, MatPaginator, MatInputModule, MatFormFieldModule } from '@an
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.Default
 })
+
 export class TableComponent implements OnInit {
-  user: any;
+  userName: string;
   status: string;
   @ViewChild('form2') form2: NgForm;
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild('dateTimeInput') dateTimeInput: MatFormFieldModule;
   saleInfoData2: any;
   public dateTimeRange = [];
-  totalSale;
-  totalComission;
+ productTypeList = [];
+  planList = [];
   simActivation;
   recharge;
   deviceSale;
   deviceExchange;
-  transansactionListTemp = [];
+  totalSale;
+  totalComission;
   length: number;
   pageSize = 10;
   pageSizeOptions: number[] = [5, 10, 25, 100];
   pageEvent: PageEvent;
-  viewTransaction: boolean = false;
 
   ngOnInit() {
 
-   // this.dateTimeInput.
+    this.transactionDataList = [{
+      "deviceExchange": "0",
+      "deviceSale": "0",
+      "recharge": "0",
+      "simActivation": "0",
+      "totalCommision": "0",
+      "totalSale": "0"
+    }];
+
     this.reportService.transactionDataListObs.subscribe(
       (response) => {
         this.transactionDataList = response;
@@ -47,52 +55,46 @@ export class TableComponent implements OnInit {
       });
 
     console.log("inside ngonint");
-    this.user = this.server.getUser();
-    console.log(this.user
+    this.userName = this.sessionService.get('userName');
+    console.log(this.userName);
 
-    );
-
-    if (this.user.username != null) {
-      const headers1 = new HttpHeaders({
-        'dealerId': this.user.username,
-      });
-
-      console.log(headers1);
-      this.server.sendRequest('post', '/getDealerDataByDealerId', null, headers1, null).subscribe(
-
-        (data) => {
-          console.log(JSON.stringify(this.transactionDataList));
-          console.log(data);
-          setTimeout(() => {
-            this.transactionDataList = JSON.parse(JSON.stringify(data['body']));
-            this.transansactionListTemp = JSON.parse(JSON.stringify(data['body']));
-            this.length = this.transansactionListTemp.length;
-            this.simActivation = this.transactionDataList[this.transactionDataList.length-1].simActivation;
+    this.reportService.getTransactionDetails().subscribe(
+      (response) => {
+        this.transactionDataList = response;
+        this.length = this.transactionDataList.length;
+        this.simActivation = this.transactionDataList[this.transactionDataList.length-1].simActivation;
             this.recharge = this.transactionDataList[this.transactionDataList.length-1].recharge;
             this.deviceSale = this.transactionDataList[this.transactionDataList.length-1].deviceSale;
             this.deviceExchange = this.transactionDataList[this.transactionDataList.length-1].deviceExchange;
            this.totalSale = this.transactionDataList[this.transactionDataList.length-1].totalSale;
            this.totalComission = this.transactionDataList[this.transactionDataList.length-1].totalCommision;
-           this.transansactionListTemp.splice(this.transactionDataList.length-1, 1);
-          }, 500);
 
+      });
 
+    console.log(this.transactionDataList);
 
-        }
-      );
-    } else {
-      this.transactionDataList = [{
-        "deviceExchange": "0",
-        "deviceSale": "0.1",
-        "recharge": "2",
-        "simActivation": "3",
-        "totalCommision": "4",
-        "totalSale": "0"
-      }];
+    if (this.userName) {
+      // console.log('inside if');
+      // const headers1 = new HttpHeaders({
+      //   'dealerId': this.userName,
+      // });
+
+      // console.log(headers1);
+      // this.server.sendRequest('post', '/getDealerDataByDealerId', null, headers1, null).subscribe(
+
+      //   (data) => {
+      //     console.log(JSON.stringify(this.transactionDataList));
+      //     setTimeout(() => {
+      //       this.transactionDataList = JSON.parse(JSON.stringify(data['body']));
+      //       console.log(JSON.stringify(this.transactionDataList));
+      //     }, 500);
+      //   }
+      // );
+
+      //  this.transactionDataList=this.reportService.getTransactionDetails();
+      //  console.log(this.transactionDataList);
 
     }
-
-
 
     this.salesItems = [{
       saleType: '',
@@ -102,8 +104,6 @@ export class TableComponent implements OnInit {
       planId: '',
       saleAmount: ''
     }];
-
-
 
     this.submit();
     this.tableData3 = {
@@ -128,7 +128,6 @@ export class TableComponent implements OnInit {
       total += this.salesItems[i].quantity * this.salesItems[i].saleAmount;
     return total;
   }
-
 
   createdDate() {
     let date = new Date();
@@ -168,7 +167,7 @@ export class TableComponent implements OnInit {
     customerType: new FormControl('', [Validators.required]),
     mobile: new FormControl('', [Validators.required]),
     promoCode: new FormControl('', [Validators.required]),
-
+    customerName: new FormControl('', [Validators.required])
 
   });
 
@@ -182,17 +181,15 @@ export class TableComponent implements OnInit {
     this.salesItems.splice(i, 1);
   }
 
-  transactionDataList: any=[];
+  transactionDataList: any = [];
   tableData3: TableData;
   step: string;
   response: any;
   salesItems: any[];
   private totalSaleAmount = 0;
   private salesItems1: any[];
-  
   onReset() {
     this.step = "one";
-    this.viewTransaction = false;
     this.salesItems = [];
     this.salesItems.push({
       saleType: '',
@@ -213,10 +210,9 @@ export class TableComponent implements OnInit {
     this.step = "two";
   }
 
-
   onNext() {
     // this.totalSaleAmount=this.form2.get('saleAmount').value*this.form2.get('Qty').value;
-
+    console.log(JSON.stringify(this.salesItems));
     for (let i = 0; i < this.salesItems.length; i++) {
       console.log('entered');
       if (i == 0) {
@@ -244,9 +240,8 @@ export class TableComponent implements OnInit {
       this.totalSaleAmount += this.salesItems1[i].saleAmount;
     }
 
-
     this.saleInfoData = {
-      "dealerId": this.user.username,
+      "dealerId": this.userName,
       "totalSaleAmount": this.totalSaleAmount,
       "saleItems": this.salesItems1,
       // "planId":this.form2.get('Plan').value,
@@ -264,7 +259,7 @@ export class TableComponent implements OnInit {
   onSubmit() {
     this.step = "three";
     this.CostumeInfo = this.form3.value;
-    // console.log(this.CostumeInfo);
+    console.log(this.CostumeInfo);
     // this.form3.reset();
 
   }
@@ -284,10 +279,17 @@ export class TableComponent implements OnInit {
   ]
 
   public saleTypeList = [
+    { name: 'SIM Activation', value: 'SimActivation' },
+    { name: 'Recharge', value: 'Recharge' },
+    { name: 'Device Sale', value: 'DeviceSale' },
+    { name: 'Device Exchange', value: 'DeviceExchange' }
+  ]
+
+  public saleTypeListHeader = [
     { name: 'All', value: 'All' },
     { name: 'SIM Activation', value: 'SimActivation' },
     { name: 'Recharge', value: 'Recharge' },
-    { name: 'Device', value: 'Device' },
+    { name: 'Device Sale', value: 'DeviceSale' },
     { name: 'Device Exchange', value: 'DeviceExchange' }
   ]
 
@@ -298,73 +300,68 @@ export class TableComponent implements OnInit {
     { id: 1, name: 'Jio STB' }
   ]
 
+  public planType = [
+    { name: 'Plan 1', value: 'p1' },
+    { name: 'Plan 2', value: 'p2' },
+  ]
+
   Quantity: number = 0;
   Amount: number = 0;
-
 
   public saleInfoData: any;
   public CostumeInfo: any;
 
-
-
   public statusArray: string[] = ["All", "True", "False"]
   displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
 
-  constructor(private server: CommonService, private reportService: ReportService) {
+  constructor(private server: CommonService,
+    private reportService: ReportService,
+    private sessionService: SessionService) {
     console.log('inside constructor');
   }
 
-  UpdateTable() {
+  // UpdateTable() {
+  //   const headers1 = new HttpHeaders({
+  //     'dealerId': this.userName,
+  //   });
 
+  //   this.server.sendRequest('post', '/getDealerDataByDealerId', null, headers1, null).subscribe(
 
-    const headers1 = new HttpHeaders({
-      'dealerId': this.user.username,
-    });
+  //     (data) => {
+  //       this.transactionDataList = data['body'];
+  //       console.log(this.transactionDataList);
+  //     }
+  //   );
 
-
-    this.server.sendRequest('post', '/getDealerDataByDealerId', null, headers1, null).subscribe(
-
-      (data) => {
-        this.transactionDataList = data['body'];
-        console.log(this.transactionDataList);
-      }
-    );
-
-
-  }
-
-
+  // }
 
   onSubmission() {
+    console.log(this.saleInfoData);
 
     this.reportService.addTransactionData(this.saleInfoData).subscribe(
       (response) => {
-
+        console.log(response);
       });
 
+    //  console.log(this.saleInfoData);
+    // const headers = new HttpHeaders({
+    //   'Content-Type': "application/json"
+    // })
+    // this.server.sendRequest('post', '/submitSaleTransaction', this.saleInfoData, headers, null).subscribe(
+    //   (data) => {
+    //     console.log("inside response!")
+    //     console.log(data);
 
-    console.log(this.saleInfoData);
-    const headers = new HttpHeaders({
-      'Content-Type': "application/json"
-    })
-    this.server.sendRequest('post', '/submitSaleTransaction', this.saleInfoData, headers, null).subscribe(
-      (data) => {
-        console.log("inside response!")
-        console.log(data);
+    //     setTimeout(() => {
+    //       this.UpdateTable();
+    //     }, 30000);
 
-        setTimeout(() => {
-          this.UpdateTable();
-        }, 30000);
-
-
-      }
-    );
-
+    //   }
+    // );
 
   }
 
   onAdd() {
-
 
     this.salesItems.push({
       saleType: '',
@@ -377,13 +374,10 @@ export class TableComponent implements OnInit {
 
   }
 
-
-
   dicountedAmount() {
     return Math.round(this.saleInfoData.totalSaleAmount * .95);
   }
 
- 
   sales: string;
   getWidth() {
     return '30%';
@@ -391,93 +385,144 @@ export class TableComponent implements OnInit {
   }
 
   submit() {
-    this.transactionDataList = [{
-      "TxId": "001",
-      "saleType": "Device",
-      "saleAmount": 234,
-      "txCreatedTime": 1539257119000,
-      "commission": "sale",
-      "commissionSettlement": "False"
-    },
-    {
-      "TxId": "002",
-      "saleType": "Jio",
-      "saleAmount": 234,
-      "txCreatedTime": 1536043564000,
-      "commission": "sale",
-      "commissionSettlement": "True"
-    },
-    {
-      "TxId": "001",
-      "saleType": "Device",
-      "saleAmount": 234,
-      "txCreatedTime": 1541313964000,
-      "commission": "sale",
-      "commissionSettlement": "False",
-      "id": 127
-    },
-    {
-      "TxId": "001",
-      "saleType": "Device",
-      "saleAmount": 234,
-      "txCreatedTime": 1538721964,
-      "commission": "sale",
-      "commissionSettlement": "True",
-      "id": 128
-    }, {
-      "deviceExchange": "4",
-      "deviceSale": "9",
-      "recharge": "8",
-      "simActivation": "9",
-      "totalCommision": "322.50",
-      "totalSale": "6450"
-    }];
+    // this.transactionDataList = [{
+    //   "TxId": "001",
+    //   "saleType": "Device",
+    //   "saleAmount": 234,
+    //   "txCreatedTime": 1539257119000,
+    //   "commission": "sale",
+    //   "commissionSettlement": "False"
+    // },
+    // {
+    //   "TxId": "002",
+    //   "saleType": "Jio",
+    //   "saleAmount": 234,
+    //   "txCreatedTime": 1536043564000,
+    //   "commission": "sale",
+    //   "commissionSettlement": "True"
+    // },
+    // {
+    //   "TxId": "001",
+    //   "saleType": "Device",
+    //   "saleAmount": 234,
+    //   "txCreatedTime": 1541313964000,
+    //   "commission": "sale",
+    //   "commissionSettlement": "False",
+    //   "id": 127
+    // },
+    // {
+    //   "TxId": "001",
+    //   "saleType": "Device",
+    //   "saleAmount": 234,
+    //   "txCreatedTime": 1538721964,
+    //   "commission": "sale",
+    //   "commissionSettlement": "True",
+    //   "id": 128
+    // }, {
+    //   "deviceExchange": "4",
+    //   "deviceSale": "9",
+    //   "recharge": "8",
+    //   "simActivation": "9",
+    //   "totalCommision": "322.50",
+    //   "totalSale": "6450"
+    // }];
 
-    this.length = this.transactionDataList.length;
+    // const headers1 = new HttpHeaders({
+    //   'dealerId': this.user.username,
+    // });
 
-    const headers1 = new HttpHeaders({
-      'dealerId': this.user.username,
-    });
+    // this.server.sendRequest('post', '/getDealerDataByDealerId', null, headers1, null).subscribe(
 
+    //   (data) => {
+    //     this.transactionDataList = data['body'].slice();
+    //     console.log(JSON.stringify(this.transactionDataList));
 
-    this.server.sendRequest('post', '/getDealerDataByDealerId', null, headers1, null).subscribe(
-
-      (data) => {
-        this.transactionDataList = data['body'].slice();
-        console.log(JSON.stringify(this.transactionDataList));
-
-      }
-    );
-
+    //   }
+    // );
 
   }
 
-  sales23 = null;
-  status123=null;
-   selectSales(item : string){
-     this.sales23 = item;
-   }
- 
-   selectSettlement(items: string){
-     this.status123 = items;
-   }
+  onSaleTypeChange(saleType, index) {
+    console.log('inside onSaleTypeChange:' + saleType + index);
+    this.planList[index] = [];
+    this.salesItems[index].saleAmount=null;
+    this.salesItems[index].quantity=0;
+    let tempList = [];
+    switch (saleType) {
+      case 'SimActivation':
+        tempList = ['LTE Voice']
+        this.productTypeList[index] = JSON.parse(JSON.stringify(tempList));
+        break;
+      case 'Recharge':
+        tempList = ['LTE Mobility']
+        this.productTypeList[index] = JSON.parse(JSON.stringify(tempList));
+        break;
+      case 'DeviceSale':
+        tempList = ['STB', 'Feature Phone']
+        this.productTypeList[index] = JSON.parse(JSON.stringify(tempList));
+        break;
+      case 'DeviceExchange':
+        tempList = []
+        this.productTypeList[index] = JSON.parse(JSON.stringify(tempList));
+        break;
+    }
+  }
 
-   onClickListener() {
-     //this.sales
-     this.step = "three";
-     this.viewTransaction = true;
-    
-   }
+  onItemTypeChange(itemType, index) {
+    console.log('inside onItemTypeChange:' + itemType + index);
+    let tempList = [];
+    switch (itemType) {
+      case 'LTE Voice':
+        tempList = [{ name: 'Plan 1', value: 'p1'}]
+        this.planList[index] = JSON.parse(JSON.stringify(tempList));
+        break;
+      case 'LTE Mobility':
+        tempList = [{ name: 'Plan 2', value: 'p2' }]
+        this.planList[index] = JSON.parse(JSON.stringify(tempList));
+        break;
+      case 'STB':
+        tempList = [{ name: 'Plan 3', value: 'p3' }]
+        this.planList[index] = JSON.parse(JSON.stringify(tempList));
+        break;
+      case 'Feature Phone':
+        tempList = [{ name: 'Plan 4', value: 'p4' }, { name: 'Plan 5', value: 'p5'}]
+        this.planList[index] = JSON.parse(JSON.stringify(tempList));
+        break;
+    }
+  }
 
-   setPageSizeOptions(setPageSizeOptionsInput: string) {
-     this.pageSizeOptions = setPageSizeOptionsInput.split(',').map(str => +str);
-   }
+  
+  onPlanTypeChange(plan,index){
+    console.log('amount change' + index);
+    switch(plan){
+      case "p1":
+      this.salesItems[index].saleAmount=98;
+      break;
+      case "p2":
+      this.salesItems[index].saleAmount=399;
+      break;
+      case "p3":
+      this.salesItems[index].saleAmount=2000;
+      break;
+      case "p4":
+      this.salesItems[index].saleAmount=1299;
+      break;
+      case "p5":
+      this.salesItems[index].saleAmount=1499;
+      break;
+    }
+  }
 
-   onPageChanged(e) {
-     let firstCut = e.pageIndex * e.pageSize;
-     let secondCut = firstCut + e.pageSize;
-     this.transansactionListTemp = this.transansactionListTemp.slice(firstCut, secondCut);
-   }
+  setPageSizeOptions(setPageSizeOptionsInput: string) {
+    this.pageSizeOptions = setPageSizeOptionsInput.split(',').map(str => +str);
+  }
+
+  onPageChanged(e) {
+    let firstCut = e.pageIndex * e.pageSize;
+    let secondCut = firstCut + e.pageSize;
+    this.transactionDataList = this.transactionDataList.slice(firstCut, secondCut);
+  }
 
 }
+
 

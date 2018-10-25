@@ -68,6 +68,15 @@
 .tim-row h3{
     margin-top: 0;
 }
+
+.mat-option:hover {
+    background: #1DA1F2 !important;
+}
+
+twitterblue {
+    background: #1DA1F2 !important;
+}
+
 @media (min-width: 992px){
 
     .typo-line{

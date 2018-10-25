@@ -1,3 +1,9 @@
+<style>
+  .cardClass {
+    padding-right: 8px;
+    padding-left: 8px;
+  }
+</style>
 <div class="main-content">
 
   <div class="col-md-12">
@@ -27,7 +33,7 @@
     <h4 class="text-muted" style="margin-top: 8px" style="margin-bottom: -10px">Today</h4>
     <div class="row">
 
-      <div class="col-lg-2 col-md-6 col-sm-6">
+      <div class="col-lg-2 col-md-6 col-sm-6 cardClass">
         <div class="card">
           <div class=card-body>
 
@@ -53,7 +59,7 @@
         </div>
       </div>
 
-      <div class="col-lg-2 col-md-6 col-sm-6">
+      <div class="col-lg-2 col-md-6 col-sm-6 cardClass">
         <div class="card">
           <div class=card-body>
             <!-- <div class="progress progress-line-primary mb-0">
@@ -68,7 +74,6 @@
                 </p>
               </div>
             </div> -->
-
             <h4 class="text-warning">
               <small>Commission</small>
             </h4>
@@ -79,8 +84,8 @@
           </div>
         </div>
       </div>
-      <div class="col-lg-6 col-md-12 col-sm-12">
-        <div class="card">
+      <div class="col-lg-6 col-md-12 col-sm-12 cardClass">
+        <div class="card card-hieght">
           <div class=card-body>
             <div class="row">
 
@@ -89,8 +94,8 @@
                   <div class="progress-bar " [ngStyle]="{'width': SimActivationPercentage()}">
                     <span class="sr-only">20% Complete (warning)</span>
                   </div>
-                </div>
-                <div class="d-flex" style="margin-bottom: -20px">
+                </div> -->
+                <!-- <div class="d-flex" style="margin-bottom: -20px">
                   <div class="ml-auto">
                     <p>
                       <font size="0">{{SimActivationPercentage()}}</font>
@@ -111,8 +116,8 @@
                   <div class="progress-bar" [ngStyle]="{'width': rechargePercentage()}">
                     <span class="sr-only">20% Complete (warning)</span>
                   </div>
-                </div>
-                <div class="d-flex" style="margin-bottom: -20px">
+                </div> -->
+                <!-- <div class="d-flex" style="margin-bottom: -20px">
                   <div class="ml-auto">
                     <p>
                       <font size="0">{{rechargePercentage()}}</font>
@@ -132,8 +137,8 @@
                   <div class="progress-bar " [ngStyle]="{'width': deviceSalePercentage()}">
                     <span class="sr-only">20% Complete (warning)</span>
                   </div>
-                </div>
-                <div class="d-flex" style="margin-bottom: -20px">
+                </div> -->
+                <!-- <div class="d-flex" style="margin-bottom: -20px">
                   <div class="ml-auto">
                     <p>
                       <font size="0">{{deviceSalePercentage()}}</font>
@@ -152,8 +157,8 @@
                   <div class="progress-bar " [ngStyle]="{'width': deviceExchangePercentage()}">
                     <span class="sr-only">20% Complete (warning)</span>
                   </div>
-                </div>
-                <div class="d-flex" style="margin-bottom: -20px">
+                </div> -->
+                <!-- <div class="d-flex" style="margin-bottom: -20px">
                   <div class="ml-auto">
                     <p>
                       <font size="0">{{deviceExchangePercentage()}}</font>
@@ -172,10 +177,12 @@
         </div>
       </div>
 
-      <div class="col-md-12 col-sm-12 col-lg-2">
-        <div class="card bg-info text-white text-center">
-          <div class="card-body mt-2" data-toggle="modal" data-target="#myModal" (click)="onReset()" style="cursor: pointer; ">
-            <span> Record Transactions </span>
+      <div class="col-lg-2 col-md-12 col-sm-12 cardClass">
+        <div class="card card-hieght text-white bg-info text-center add-click">
+          <div class="card-body" data-toggle="modal" data-target="#myModal" (click)="onReset()" style="cursor: pointer;margin-top: 4px;-ms-transform: translateY(-50%);
+          transform: translateY(5%); ">
+            <p> Record
+              <br/> Transaction</p>
 
           </div>
         </div>
@@ -270,7 +277,7 @@
           </tr>
         </tbody>
       </table>
-      <p *ngIf="transansactionListTemp.length === 1">DATA NOT FOUND</p>
+      <p *ngIf="transactionDataList.length === 1">DATA NOT FOUND</p>
       <mat-paginator [length]="length"  [pageSize]="pageSize"  [pageSizeOptions]="pageSizeOptions"  (page)="onPageChanged($event)">
       </mat-paginator>
 
@@ -282,66 +289,74 @@
 <div class="modal fade" id="myModal" data-backdrop="static" tabindex="-1" role="dialog" aria-hidden="true" aria-labelledby="myModalLabelledBy">
 
   <div class="modal-dialog modal-xl">
-    <div class="modal-content pr-4 pl-4">
+    <div class="modal-content p-3">
       <div *ngIf="step==='one'">
-        <div class="modal-header">
+        <div class="modal-header pt-2 mt-2 pl-3 pr-3">
           <h4>
             <b>New Sale : Step 01 of 03</b>
           </h4>
           <button type="button" class="close" data-dismiss="modal" (click)="form2.reset()">&times;</button>
         </div>
-        <hr>
 
-        <div class="modal-body pt-0">
+
+        <div class="modal-body pl-3 pr-3 m-1 pt-0 pb-0">
           <div class="row">
-            <div class="col-md-12">
-              <mat-label class="font-weight-bold">Sale Information</mat-label>
+            <div class="col-md-12 pl-2 pr-2 ">
 
-              <form (ngSubmit)="onNext()" #form2="ngForm">
+              <form (ngSubmit)="onNext()" #form2="ngForm" class="mb-0">
+                <hr>
+                <div>
+                  <div class="mr-auto">
+                    <strong>Sale Information</strong>
+                  </div>
+                </div>
+
                 <div class="row mt-2">
-                  <div class="col-lg-4">
+                  <div class="col-lg-4 pl-3 pr-0">
                     <mat-label>Transc ID *</mat-label>
-                    <p>
-                      <b class="small">-</b>
+                    <p style="font-size: 14px">
+                      <b style="padding-left:30px;">-</b>
                     </p>
                   </div>
-                  <div class="col-lg-4">
+                  <div class="col-lg-4 pl-3 pr-0">
                     <mat-label>Dealer ID</mat-label>
-                    <p>
-                      <b class="small">{{user.username}}</b>
+                    <p style="font-size: 14px">
+                      <b>{{userName}}</b>
                     </p>
                   </div>
-                  <div class="col-lg-4">
+                  <div class="col-lg-4 pl-3 pr-0">
                     <mat-label>Created at</mat-label>
-                    <p>
-                      <b class="small">{{createdDate()}}</b>
+                    <p style="font-size: 14px">
+                      <b>{{createdDate()}}</b>
                     </p>
                   </div>
                 </div>
-                <hr>
+                <hr class="mb-1">
                 <div>
-                  <b class="float-left pt-2">Sale Items</b>
+                  <b class="float-left" style="font-size: 18px; padding-top:5px;">Sale Items</b>
                   <button class="btn btn-info btn-round btn-sm float-right mb-3" type="button" (click)="onAdd()">+Add</button>
                 </div>
                 <br>
+                <hr class="mt-3">
 
 
 
-                <table class="table">
+                <table border="0">
                   <thead>
-                    <th style="width: 20%" class="text-center">Sale Type</th>
-                    <th style="width: 20%" class="text-center">Item Type</th>
-                    <th style="width: 20%" class="text-center">Details</th>
-                    <th style="width: 20%" class="text-center">Qty</th>
-                    <th style="width: 10%" class="text-center">Plan</th>
-                    <th style="width: 10%" class="text-center">&#x20b9;Amount</th>
-                    <th style="width: 10%" class="text-center"></th>
+                    <td style="width: 20%" class="text-center">Sale Type</td>
+                    <td style="width: 20%" class="text-center">Item Type</td>
+                    <td style="width: 20%" class="text-center">Details</td>
+                    <td style="width: 20%" class="text-center">Plan</td>
+                    <td style="width: 10%" class="text-center">Qty</td>
+                    <td style="width: 10%" class="text-center">&#x20b9;Amount</td>
+                    <td style="width: 10%" class="text-center"></td>
                   </thead>
                   <tbody>
                     <tr *ngFor="let sale of salesItems ; let i=index;">
-                      <td style="width: 20%" class="text-center">
-                        <mat-form-field>
-                          <mat-select required [(ngModel)]="sale.saleType" name="saleType_{{i}}">
+                      <td style="width: 20%" class="text-center  pt-0 pb-0 pl-1 pr-1">
+                        <mat-form-field class="pb-0">
+                          <mat-select required [(ngModel)]="sale.saleType" name="saleType_{{i}}"
+                          (ngModelChange)="onSaleTypeChange(sale.saleType, i)">
                             <mat-option *ngFor="let sales of saleTypeList" [value]="sales.value">
                               {{sales.name}}
                             </mat-option>
@@ -349,44 +364,59 @@
                           <mat-error>Required Sale Type</mat-error>
                         </mat-form-field>
                       </td>
-                      <td style="width: 20%" class="text-center">
-                        <mat-form-field>
-                          <mat-select required [(ngModel)]="sale.itemType" name="itemType_{{i}}">
-                            <mat-option *ngFor="let items of itemType" [value]="items.name">
-                              {{ items.name }}
+                      <td style="width: 20%" class="text-center  pt-0 pb-0 pl-1 pr-1">
+                        <mat-form-field class="pb-0">
+                          <mat-select required [(ngModel)]="sale.itemType" name="itemType_{{i}}"
+                          (ngModelChange)="onItemTypeChange(sale.itemType, i)">
+                            <mat-option *ngFor="let items of productTypeList[i]" [value]="items">
+                              {{ items }}
                             </mat-option>
                           </mat-select>
                           <mat-error>Required ItemType</mat-error>
                         </mat-form-field>
                       </td>
-                      <td style="width: 20%" class="text-center">
-                        <mat-form-field>
+                      <td style="width: 20%" class="text-center  pt-0 pb-0 pl-1 pr-1">
+                        <mat-form-field class="pb-0">
                           <input matInput required [(ngModel)]="sale.itemId" name="itemId_{{i}}">
                           <mat-error>Required Details</mat-error>
                         </mat-form-field>
                       </td>
-                      <td style="width: 20%" class="text-center">
-                        <mat-form-field>
-                          <input matInput required [(ngModel)]="sale.quantity" name="quantity_{{i}}" ngModelChange>
+
+                      <td style="width: 20%" class="text-center  pt-0 pb-0 pl-1 pr-1">
+                        <!-- <mat-form-field class="pb-0">
+                          <input matInput required [(ngModel)]="sale.planId" name="planId_{{i}}">
+                          <mat-error>Required Plan</mat-error>
+                        </mat-form-field> -->
+
+                        <mat-form-field class="pb-0">
+                            <mat-select required [(ngModel)]="sale.planId" name="planId_{{i}}"
+                            (ngModelChange)="onPlanTypeChange(sale.planId,i)">
+                              <mat-option *ngFor="let plans of planList[i]" [value]="plans.value">
+                                {{ plans.name }}
+                              </mat-option>
+                            </mat-select>
+                            <mat-error>Required Plan</mat-error>
+                          </mat-form-field>
+                      </td>
+
+                      <td style="width: 10%" class="text-center  pt-0 pb-0 pl-1 pr-1">
+                        <mat-form-field class="p-0">
+                          <input matInput type="number" min="0" required [(ngModel)]="sale.quantity" name="quantity_{{i}}" ngModelChange>
                           <mat-error>Required Quantity</mat-error>
                         </mat-form-field>
                       </td>
 
-                      <td style="width: 10%" class="text-center">
-                        <mat-form-field>
-                          <input matInput required [(ngModel)]="sale.planId" name="planId_{{i}}">
-                          <mat-error>Required Plan</mat-error>
-                        </mat-form-field>
-                      </td>
-                      <td style="width: 10%" class="text-center">
-                        <mat-form-field>
-                          <input matInput required pattern="[0-9]*" [(ngModel)]="sale.saleAmount" name="amount_{{i}}" ngModelChange>
-                          <mat-error>Required SaleAmount</mat-error>
-                        </mat-form-field>
+
+                      <td style="width: 10%" class="text-center pt-0 pb-0 pl-1 pr-1">
+                        <!-- <mat-form-field class="pb-0"> -->
+                          <!-- <input matInput type="number" min="0" required  [(ngModel)]="sale.saleAmount" name="amount_{{i}}" ngModelChange>
+                          <mat-error>Required SaleAmount</mat-error> -->
+                          <mat-label>{{sale.saleAmount}}</mat-label>
+                        <!-- </mat-form-field> -->
                       </td>
 
-                      <td style="width: 10%" class="text-center">
-                        <i class="material-icons" (click)="deleteTableRow(i)" style="cursor: context-menu; ">clear</i>
+                      <td style="width: 10%" class="text-center pt-0 pb-0 pl-1 pr-1">
+                        <i class="material-icons" (click)="deleteTableRow(i)" style="cursor: pointer; ">clear</i>
                       </td>
                     </tr>
 
@@ -458,42 +488,53 @@
 
 
                 <hr class="m-2">
-                <p class="float-right">
-                  <b>Total Amount: </b>&#x20b9;{{totalAmountfunction()}}/-</p>
+                <div class="float-right">
+                  <span style="width: 100px;">
+                    <b>Total Amount: </b>&#x20b9;</span>
+                  <span style="min-width: 110px; padding-right: 20px;">{{totalAmountfunction()}}/-</span>
+                </div>
                 <br>
                 <hr class="m-2">
-
                 <div class="float-right d-flex">
                   <div>
-                    <button type="button" data-dismiss="modal" class="btn btn-light btn-round btn-sm">Close</button>
+                    <button type="button" data-dismiss="modal" class="btn btn-white btn-round btn-sm">Close</button>
                   </div>
                   <div>
-                    <button type="submit" class="btn btn-info btn-round btn-sm">Next</button>
+                    <button type="submit" class="btn btn-info btn-round btn-sm" [disabled]="form2.invalid">Next</button>
                   </div>
                 </div>
 
+
               </form>
+
             </div>
           </div>
         </div>
       </div>
 
       <div *ngIf="step==='two'">
-        <div class="modal-header">
-          <h4>New Sale : Step 02 of 03</h4>
+        <div class="modal-header pt-2 mt-2 pl-3 pr-3">
+          <h4>
+            <b>New Sale : Step 02 of 03</b>
+          </h4>
           <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
-        <hr>
-        <div class="modal-body mt-0">
+
+        <div class="modal-body pl-3 pr-3 m-1 pt-0 pb-0">
+          <!-- <hr> -->
           <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-12 pl-2 pr-2">
 
-              <mat-label class="font-weight-bold">Costume information</mat-label>
-
-              <form (ngSubmit)="onSubmit()" [formGroup]="form3">
-                <div class="row p-2">
+              <form (ngSubmit)="onSubmit()" [formGroup]="form3" class="mb-0">
+                <hr>
+                <div>
+                  <div class="mr-auto pt-1">
+                    <strong>Costume information</strong>
+                  </div>
+                </div>
+                <div class="row">
                   <div class="col-lg-3">
-                    <mat-form-field>
+                    <mat-form-field class="p-0">
                       <mat-label>Customer Type</mat-label>
                       <mat-select required formControlName="customerType" name="customer">
                         <mat-option *ngFor="let customer of CustomerType" [value]="customer.name">
@@ -512,8 +553,9 @@
                   </div>
                   <div class="col-lg-3">
                     <mat-form-field>
-                      <mat-label>Customer Name </mat-label>
-                      <input matInput name="customerName">
+                      <mat-label >Customer Name </mat-label>
+                      <input matInput required formControlName="customerName" name="customerName">
+                      <mat-error *ngIf="this.form3.get('customerName').touched">You must enter a customerName</mat-error>
                     </mat-form-field>
                   </div>
                   <div class="col-lg-3">
@@ -524,7 +566,7 @@
                     </mat-form-field>
                   </div>
                 </div>
-                <div class="row p-2">
+                <div class="row">
                   <div class="col-lg-3">
                     <mat-form-field>
                       <mat-label>Customer Email</mat-label>
@@ -548,12 +590,12 @@
                   </div>
                 </div>
                 <hr>
-                <div class="header clearfix mt-3 p-2 d-flex">
+                <div>
                   <div class="mr-auto pt-1">
                     <strong>Address Details</strong>
                   </div>
                 </div>
-                <div class="row p-2">
+                <div class="row">
                   <div class="col-lg-3">
                     <mat-form-field>
                       <mat-label>Address 1</mat-label>
@@ -582,7 +624,7 @@
                     </mat-form-field>
                   </div>
                 </div>
-                <div class=" row p-2">
+                <div class=" row">
                   <div class="col-lg-3">
                     <mat-form-field>
                       <mat-label>Pin Code</mat-label>
@@ -597,7 +639,7 @@
                     <button type="button" class="btn btn-info btn-round btn-sm" (click)="onPageback2to1()">Back</button>
                   </div>
                   <div class="float-right">
-                    <button class="btn btn-light btn-round btn-sm" data-dismiss="modal">Close</button>
+                    <button class="btn btn-white btn-round btn-sm" data-dismiss="modal">Close</button>
                   </div>
                   <div class="float-right">
                     <button type="submit" class="btn btn-info btn-round btn-sm" [disabled]="form3.Invalid"> Next</button>
@@ -609,17 +651,19 @@
         </div>
       </div>
       <div *ngIf="step==='three'">
-        <div class="modal-header">
-          <h4 *ngIf="!viewTransaction">New Sale : Step 03 of 03</h4>
-          <h4 *ngIf="viewTransaction">Summary</h4>
+        <div class="modal-header pt-2 mt-2 pl-3 pr-3">
+          <h4>
+            <b>New Sale : Step 03 of 03</b>
+          </h4>
           <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
-        <hr>
-        <div class="modal-body mt-0">
+
+        <div class="modal-body  pl-3 pr-3 m-1 pt-0 pb-0">
+          <hr>
           <div>
-            <p class="text-left">
-              <b>Availabe Payment Methods</b>
-              <span class="float-right">Txn ID :
+            <p class="text-left mb-0a">
+              <b style="font-size:14px;"> Payment Methods</b>
+              <span class="float-right" style="font-size:14px;">ID :
                 <b>-</b>
               </span>
             </p>
@@ -627,7 +671,7 @@
           <div class="row">
             <div class="col-md-8 col-xs-12">
               <div class="btn-group d-flex">
-                <button type="button" class="btn btn-outline-info btn-sm btn-round active flex-fill">CASH</button>
+                <button type="button" class="btn btn-outline-info btn-sm btn-round active flex-fill" style="cursor: context-menu;">CASH</button>
                 <button type="button" class="btn btn-outline-info btn-sm btn-round flex-fill" disabled>JIO MONEY</button>
                 <button type="button" class="btn btn-outline-info btn-sm btn-round flex-fill" disabled>NETBANKING</button>
                 <button type="button" class="btn btn-outline-info btn-sm btn-round flex-fill" disabled>CARD PAYMENTS</button>
@@ -635,41 +679,53 @@
               <div class="table-responsive">
                 <table class="table">
                   <thead>
-                    <th class="paddingbot">
-                      Selling Item Details
+                    <th class="p-2">
+                      <small>Selling Item Details</small>
                     </th>
                   </thead>
                   <tbody id="first" class="pl-3">
                     <tr *ngFor="let sale of salesItems;let i=index;">
-
-                      <p class="mt-3">
-                        <b>{{i+1}}.</b> {{sale.itemType}}
-                        <b> MRP Amount &#x20b9;{{sale.saleAmount}}</b>
-                      </p>
-                      <p class="pl-3"> Quantity:
-                        <b>{{sale.quantity}}</b>
-                      </p>
-                      <p class="pl-3"> Total Amount:
-                        <b> &#x20b9;{{sale.saleAmount*sale.quantity}}</b>
-                      </p>
+                      <td class="p-0">
+                      <div>
+                        <small class="mt-2">
+                          <b>{{i+1}}.</b> {{sale.itemType}}
+                          <b> MRP Amount &#x20b9;{{sale.saleAmount}}</b>
+                        </small>
+                      </div>
+                      <div>
+                        <small class="pl-3 "> Quantity:
+                          <b>{{sale.quantity}}</b>
+                        </small>
+                      </div>
+                      <div>
+                        <small class="pl-3 "> Total Amount:
+                          <b> &#x20b9;{{sale.saleAmount*sale.quantity}}</b>
+                        </small>
+                      </div>
+                    </td>
                     </tr>
                   </tbody>
                 </table>
-                <div class="pl-3">
-                  <p> Promo Code:
-                    <button class="btn btn-sm btn-outline-success">
+              </div>
+              <div class="pl-3">
+                <div>
+                  <small> Promo Code:
+                    <button class="btn btn-outline-success btn-sm " style="border-color: #e0e0e0;">
                       {{CostumeInfo.promoCode}}
-                      <span class="btn-label btn-label-right">
+                      <span class="btn-label btn-label-right ">
                         <i class="material-icons">check_circle_outline</i>
                       </span>
                     </button>
-                  </p>
-                  <p>Discount:
-                    <b>05%</b>
-                  </p>
-
+                  </small>
                 </div>
+                <div>
+                  <small>Discount:
+                    <b>05%</b>
+                  </small>
+                </div>
+
               </div>
+
             </div>
             <div class="col-md-4 col-xs-12">
               <div class="btn-group d-flex">
@@ -677,44 +733,58 @@
               </div>
               <div class="table-responsive">
                 <table class="table">
-                  <thead class="m-0 ">
-                    <th class="col-3 w-40 ">
+                  <thead class="m-0 " style="display:table; width:100%;table-layout:fixed">
+                    <th class="col-3  text-center p-2" style="width:35%;">
                       <small>Item Type</small>
                     </th>
-                    <th class="col-3 w-25">
+                    <th class="col-3  text-center p-2" style="width:25%;">
                       <small>Sale Amount</small>
                     </th>
-                    <th class="col-3 w-25">
+                    <th class="col-3  text-center p-2" style="width:25%;">
                       <small>Item Qty</small>
                     </th>
-                    <th class="col-3 w-25">
+                    <th class="col-3  text-center p-2" style="width:20%;">
                       <small>Amount</small>
                     </th>
                   </thead>
-                  <tbody>
-                    <tr *ngFor="let sale of salesItems;let i=index;">
-                      <td>{{i+1}} {{sale.itemType}}</td>
-                      <td> &#x20b9;{{sale.saleAmount}}</td>
-                      <td>{{sale.quantity}}</td>
-                      <td> &#x20b9;{{sale.saleAmount*sale.quantity}}</td>
+                  <tbody style="overflow-y:auto;height:160px;display: block">
+                    <tr *ngFor="let sale of salesItems;let i=index;" style="display:table; width:100%;table-layout:fixed">
+                      <td class="p-0 text-left col-3 pl-2">
+                        <small>{{i+1}} {{sale.itemType}}</small>
+                      </td>
+                      <td class="text-center p-0 col-3 ml-2">
+                        <small> &#x20b9;{{sale.saleAmount}}</small>
+                      </td>
+                      <td class="text-center p-0 col-3 ml-2">
+                        <small>{{sale.quantity}}</small>
+                      </td>
+                      <td class="text-center p-0 col-3 ml-2">
+                        <small>&#x20b9;{{sale.saleAmount*sale.quantity}}</small>
+                      </td>
                     </tr>
                   </tbody>
                 </table>
-                <br>
-                <br>
-                <br>
-                <br>
-                <hr>
-                <p class="textsmall">After Promo Code Apply Discount 05%
+              </div>
+              <!-- <br>
+              <br>
+              <br>
+              <br> -->
+
+              <hr class="mb-1 mt-1">
+              <div>
+                <small>After Promo Code Apply Discount 05%
                   <span class="float-right"> &#x20b9;{{dicountedAmount()}}</span>
-                </p>
-                <hr>
-                <p class="textsmall">
+                </small>
+              </div>
+              <hr class="mb-1">
+              <div>
+                <small>
                   <b>Total Payable Amount
                     <span class="float-right"> &#x20b9;{{dicountedAmount()}}</span>
                   </b>
-                </p>
+                </small>
               </div>
+
             </div>
           </div>
 
@@ -734,7 +804,7 @@
             </button>
             <button class="btn btn-info btn-round btn-sm float-left ml-3" (click)="onPageback3to2()">Back</button>
             <button class="btn btn-info btn-round btn-sm float-right ml-3" data-dismiss="modal" (click)="onSubmission()">Done</button>
-            <button class="btn btn-default btn-round btn-sm float-right" data-dismiss="modal">Close</button>
+            <button class="btn btn-white btn-round btn-sm float-right" data-dismiss="modal">Close</button>
           </div>
         </div>
       </div>

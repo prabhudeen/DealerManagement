@@ -2,30 +2,41 @@ import { Subject, Observable, Observer, BehaviorSubject } from "rxjs";
 import { CommonService, User } from "../../shared/common.service";
 import { HttpHeaders } from "@angular/common/http";
 import { Injectable, EventEmitter } from "@angular/core";
+import { SessionService } from "../../shared/session.service";
 
 @Injectable()
 export class ReportService {
+    private userName: string;
 
     private obser = new BehaviorSubject<any>("");
 
     transactionDataListObs = new EventEmitter<any[]>();
 
-    transactionDataList: any = [{
-        "TxId": "001",
-        "saleType": "Device",
+    transactionDataList1: any = [{
+        "TxId": "1",
+        "saleType": "DeviceSale",
         "saleAmount": 234,
         "txCreatedTime": 1539257119000,
-        "commission": "sale",
+        "commission": "23.4",
         "commissionSettlement": "False"
     },
     {
-        "TxId": "002",
-        "saleType": "Jio",
-        "saleAmount": 234,
+        "TxId": "2",
+        "saleType": "SimActivation",
+        "saleAmount": 356,
         "txCreatedTime": 1536043564000,
-        "commission": "sale",
+        "commission": "35.6",
         "commissionSettlement": "True"
-    }];
+    },
+    {
+        "deviceExchange": "0",
+        "deviceSale": "1",
+        "recharge": "0",
+        "simActivation": "1",
+        "totalCommision": "175.5",
+        "totalSale": "1755"
+    }
+    ];
 
     user: User;
 
@@ -34,15 +45,15 @@ export class ReportService {
         lastMonth: 100
     };
 
-    constructor(private server: CommonService) {
-        this.user = this.server.getUser();
+    constructor(private server: CommonService, private sessionService: SessionService) {
+        this.userName = this.sessionService.get('userName');
     }
 
     getTransactionDetails() {
 
         let promiseTemp = new Subject<any>();
         const headers1 = new HttpHeaders({
-            'dealerId': this.user.username,
+            'dealerId': this.userName,
         });
 
 
@@ -53,9 +64,11 @@ export class ReportService {
             });
 
         // setTimeout(() => {
-        //     console.log(this.transactionDataList);
-        //     promiseTemp.next(this.transactionDataList);
-        // }, 3000);
+        //     console.log(this.transactionDataList1);
+        //     promiseTemp.next(this.transactionDataList1);
+        // }, 0);
+
+
 
         return promiseTemp.asObservable();
     }
@@ -63,7 +76,7 @@ export class ReportService {
     getTransaction() {
         let promiseTemp = new Subject<any>();
         const headers1 = new HttpHeaders({
-            'dealerId': this.user.username,
+            'dealerId': this.userName,
         });
         this.server.sendRequest('post', '/getTransactionRange', null, headers1, null).subscribe(
             (response) => {
@@ -74,7 +87,7 @@ export class ReportService {
         // setTimeout(() => {
         //     console.log(this.transation);
         //     promiseTemp.next(this.transation);
-        // }, 3000);
+        // }, 0);
 
         return promiseTemp.asObservable();
     }
@@ -82,6 +95,81 @@ export class ReportService {
     addTransactionData(jsonBody) {
 
         let promiseTemp = new Subject<any>();
+        // let jsonObject: any;
+        // let counter = jsonBody['saleItems'].length;
+
+        // let tempCounter = 0;
+        // let size1 = this.transactionDataList1.length;
+        // let txId = parseInt(this.transactionDataList1[size1 - 2]['TxId']);
+
+        // let timerTask = setInterval(
+        //     () => {
+        //         txId++;
+        //         let size = this.transactionDataList1.length;
+        //         let jsonlastObject = this.transactionDataList1[size - 1];
+        //         this.transactionDataList1.splice(size - 1, 1);
+
+        //         var date = new Date();
+
+        //         jsonObject = {
+        //             "TxId": txId,
+        //             "saleType": jsonBody['saleItems'][tempCounter]['saleType'],
+        //             "saleAmount": jsonBody['saleItems'][tempCounter]['saleAmount'],
+        //             "txCreatedTime": date.getTime() * 1,
+        //             "commission": Math.round(jsonBody['saleItems'][tempCounter]['saleAmount'] * 0.1),
+        //             "commissionSettlement": "True"
+        //         }
+
+        //         switch (jsonBody['saleItems'][tempCounter]['saleType']) {
+        //             case "Recharge":
+        //                 {
+
+        //                    jsonlastObject['recharge']=parseInt(jsonlastObject['recharge']) + 1;
+        //                     break;
+        //                 }
+        //             case "DeviceExchange":
+        //                 {
+
+        //                     jsonlastObject['deviceExchange']=parseInt(jsonlastObject['deviceExchange']) + 1;
+        //                     break;
+        //                 }
+        //             case "DeviceSale":
+        //                 {
+
+        //                     jsonlastObject['deviceSale']=parseInt(jsonlastObject['deviceSale']) + 1;
+        //                     break;
+        //                 }
+        //             case "SimActivation":
+        //                 {
+
+        //                     jsonlastObject['simActivation']= parseInt(jsonlastObject['simActivation']) + 1;
+        //                     break;
+        //                 }
+        //             default: {
+        //                 console.log('default');
+        //             }
+        //         }
+
+        //         let totalcommission = parseInt(jsonlastObject['totalCommision']) + parseInt(jsonObject['commission']);
+        //         let totalsale = parseInt(jsonlastObject['totalSale']) + parseInt(jsonObject['saleAmount']);
+
+        //         jsonlastObject['totalCommision'] = totalcommission;
+        //         jsonlastObject['totalSale'] = totalsale;
+
+        //         console.log(totalcommission);
+        //         console.log(totalsale);
+
+        //         this.transactionDataList1.push(jsonObject);
+        //         this.transactionDataList1.push(jsonlastObject);
+        //         tempCounter++;
+        //         if (tempCounter == counter) {
+        //             clearInterval(timerTask);
+        //         }
+
+        //     }, 3000);
+
+
+
 
         const headers = new HttpHeaders({
             'Content-Type': "application/json"
@@ -89,20 +177,87 @@ export class ReportService {
 
         this.server.sendRequest('post', '/submitSaleTransaction', jsonBody, headers, null).subscribe(
             (data) => {
-                this.getTransactionDetails().subscribe(
-                    (response) => {
-                        // this.transactionDataListObs = response['body'];
-                        // this.obser.next(response['body']);
-                        this.transactionDataListObs.emit(response);
 
-                        console.log(JSON.stringify(response));
-                    });
+                let counter = jsonBody['saleItems'].length;
+                console.log(counter);
+
+
+                this.updateTransactionList(counter);
+                // this.getTransactionDetails().subscribe(
+                //     (response) => {
+                //         // this.transactionDataListObs = response['body'];
+                //         // this.obser.next(response['body']);
+                //         // this.transactionDataListObs.emit(response);
+
+
+                //         console.log(JSON.stringify(response));
+                //     });
 
                 promiseTemp.next("Successful Added");
             }
         );
 
+
+
+
+
+
+        // this.updateTransactionList(counter);
+
+        // promiseTemp.next("Successful Added");
+
+
+
         return promiseTemp.asObservable();
+
+    }
+
+    updateTransactionList(counter) {
+
+        let tempCounter = counter;
+        // let isCompleted = true;
+
+        setTimeout(() => {
+            this.getTransactionDetails().subscribe(
+                (response) => {
+
+                    this.transactionDataListObs.emit(response);
+                });
+        },tempCounter*3000)
+
+        // let timerTask = setInterval(
+        //     () => {
+
+        //         this.getTransactionDetails().subscribe(
+        //             (response) => {
+
+        //                 this.transactionDataListObs.emit(response);
+
+        //                 // response.forEach(element => {
+
+        //                 //     if (element.commissionSettlement === 'False') {
+        //                 //         isCompleted = false;
+        //                 //     }
+
+        //                 // });
+
+
+
+        //                 // if (isCompleted || tempCounter === 0) {
+        //                 //     clearInterval(timerTask);
+        //                 // }
+
+        //                 if (tempCounter === 0) {
+        //                     clearInterval(timerTask);
+        //                 }
+
+
+
+        //                 tempCounter--;
+
+        //             });
+        //     },
+        //     3000);
 
     }
 
