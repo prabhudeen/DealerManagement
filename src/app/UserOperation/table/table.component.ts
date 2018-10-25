@@ -151,6 +151,7 @@ export class TableComponent implements OnInit {
     customerType: new FormControl('', [Validators.required]),
     mobile: new FormControl('', [Validators.required]),
     promoCode: new FormControl('', [Validators.required]),
+    customerName: new FormControl('', [Validators.required])
 
 
   });
@@ -245,7 +246,7 @@ export class TableComponent implements OnInit {
   onSubmit() {
     this.step = "three";
     this.CostumeInfo = this.form3.value;
-    // console.log(this.CostumeInfo);
+    console.log(this.CostumeInfo);
     // this.form3.reset();
 
   }

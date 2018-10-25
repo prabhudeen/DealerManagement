@@ -463,8 +463,9 @@
                   </div>
                   <div class="col-lg-3">
                     <mat-form-field>
-                      <mat-label>Customer Name </mat-label>
-                      <input matInput name="customerName">
+                      <mat-label >Customer Name </mat-label>
+                      <input matInput required formControlName="customerName" name="customerName">
+                      <mat-error *ngIf="this.form3.get('customerName').touched">You must enter a customerName</mat-error>
                     </mat-form-field>
                   </div>
                   <div class="col-lg-3">
