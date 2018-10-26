@@ -24,8 +24,8 @@ export class TableComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   saleInfoData2: any;
   public dateTimeRange = [];
- productTypeList = [];
- transactionDataListTemp = [];
+  productTypeList = [];
+  transactionDataListTemp = [];
   planList = [];
   simActivation;
   recharge;
@@ -36,12 +36,12 @@ export class TableComponent implements OnInit {
   length: number;
   pageSize = 10;
   pageSizeOptions: number[] = [5, 10, 25, 100];
-  pageEvent: PageEvent; 
+  pageEvent: PageEvent;
   public tableData1: TableData;
-  public tableData2:TableData;
+  public tableData2: TableData;
 
-  invoiceData:any;
-  
+  invoiceData: any;
+
 
   ngOnInit() {
 
@@ -54,12 +54,23 @@ export class TableComponent implements OnInit {
       "totalSale": "0"
     }];
 
+    this.invoiceData = {};
+
 
 
     this.reportService.transactionDataListObs.subscribe(
       (response) => {
         this.transactionDataList = response;
-        console.log(JSON.stringify(response));
+        this.transactionDataListTemp = JSON.parse(JSON.stringify(response));
+        this.simActivation = this.transactionDataList[this.transactionDataList.length - 1].simActivation;
+        this.recharge = this.transactionDataList[this.transactionDataList.length - 1].recharge;
+        this.deviceSale = this.transactionDataList[this.transactionDataList.length - 1].deviceSale;
+        this.deviceExchange = this.transactionDataList[this.transactionDataList.length - 1].deviceExchange;
+        this.totalSale = this.transactionDataList[this.transactionDataList.length - 1].totalSale;
+        this.totalComission = this.transactionDataList[this.transactionDataList.length - 1].totalCommision;
+        this.transactionDataListTemp.splice(this.transactionDataList.length - 1, 1);
+        this.length = this.transactionDataListTemp.length;
+        console.log(JSON.stringify(this.transactionDataListTemp));
       });
 
     console.log("inside ngonint");
@@ -69,18 +80,18 @@ export class TableComponent implements OnInit {
     this.reportService.getTransactionDetails().subscribe(
       (response) => {
         this.transactionDataList = response;
-        this.transactionDataListTemp = response;
-        this.simActivation = this.transactionDataList[this.transactionDataList.length-1].simActivation;
-            this.recharge = this.transactionDataList[this.transactionDataList.length-1].recharge;
-            this.deviceSale = this.transactionDataList[this.transactionDataList.length-1].deviceSale;
-            this.deviceExchange = this.transactionDataList[this.transactionDataList.length-1].deviceExchange;
-           this.totalSale = this.transactionDataList[this.transactionDataList.length-1].totalSale;
-           this.totalComission = this.transactionDataList[this.transactionDataList.length-1].totalCommision;
-        this.transactionDataList.splice(this.transactionDataList.length-1, 1);
-        this.length = this.transactionDataList.length;
+        this.transactionDataListTemp = JSON.parse(JSON.stringify(response));
+        this.simActivation = this.transactionDataList[this.transactionDataList.length - 1].simActivation;
+        this.recharge = this.transactionDataList[this.transactionDataList.length - 1].recharge;
+        this.deviceSale = this.transactionDataList[this.transactionDataList.length - 1].deviceSale;
+        this.deviceExchange = this.transactionDataList[this.transactionDataList.length - 1].deviceExchange;
+        this.totalSale = this.transactionDataList[this.transactionDataList.length - 1].totalSale;
+        this.totalComission = this.transactionDataList[this.transactionDataList.length - 1].totalCommision;
+        this.transactionDataListTemp.splice(this.transactionDataList.length - 1, 1);
+        this.length = this.transactionDataListTemp.length;
       });
 
-    console.log(this.transactionDataList);
+    // console.log(this.transactionDataList);
 
     if (this.userName) {
       // console.log('inside if');
@@ -197,6 +208,7 @@ export class TableComponent implements OnInit {
   salesItems: any[];
   private totalSaleAmount = 0;
   private salesItems1: any[];
+
   onReset() {
     this.step = "one";
     this.salesItems = [];
@@ -209,6 +221,22 @@ export class TableComponent implements OnInit {
       saleAmount: ''
     });
 
+    console.log(this.salesItems);
+
+  }
+
+  onRecordTransactionClick() {
+    this.step = 'one';
+    this.salesItems = [];
+    this.salesItems.push({
+      saleType: '',
+      itemType: '',
+      itemId: '',
+      quantity: '',
+      planId: '',
+      saleAmount: ''
+    });
+    console.log(this.salesItems);
   }
 
   onPageback2to1() {
@@ -232,6 +260,7 @@ export class TableComponent implements OnInit {
           itemId: this.salesItems[i].itemId,
           planId: this.salesItems[i].planId,
           saleAmount: this.salesItems[i].quantity * this.salesItems[i].saleAmount,
+          quantity:this.salesItems[i].quantity
         }];
       } else {
         this.salesItems1.push({
@@ -241,6 +270,7 @@ export class TableComponent implements OnInit {
           itemId: this.salesItems[i].itemId,
           planId: this.salesItems[i].planId,
           saleAmount: this.salesItems[i].quantity * this.salesItems[i].saleAmount,
+          quantity:this.salesItems[i].quantity
         })
       }
     }
@@ -454,8 +484,8 @@ export class TableComponent implements OnInit {
   onSaleTypeChange(saleType, index) {
     console.log('inside onSaleTypeChange:' + saleType + index);
     this.planList[index] = [];
-    this.salesItems[index].saleAmount=null;
-    this.salesItems[index].quantity=0;
+    this.salesItems[index].saleAmount = null;
+    this.salesItems[index].quantity = 0;
     let tempList = [];
     switch (saleType) {
       case 'SimActivation':
@@ -482,7 +512,7 @@ export class TableComponent implements OnInit {
     let tempList = [];
     switch (itemType) {
       case 'LTE Voice':
-        tempList = [{ name: 'Plan 1', value: 'p1'}]
+        tempList = [{ name: 'Plan 1', value: 'p1' }]
         this.planList[index] = JSON.parse(JSON.stringify(tempList));
         break;
       case 'LTE Mobility':
@@ -494,54 +524,68 @@ export class TableComponent implements OnInit {
         this.planList[index] = JSON.parse(JSON.stringify(tempList));
         break;
       case 'Feature Phone':
-        tempList = [{ name: 'Plan 4', value: 'p4' }, { name: 'Plan 5', value: 'p5'}]
+        tempList = [{ name: 'Plan 4', value: 'p4' }, { name: 'Plan 5', value: 'p5' }]
         this.planList[index] = JSON.parse(JSON.stringify(tempList));
         break;
     }
   }
 
-  
-  onPlanTypeChange(plan,index){
+
+  onPlanTypeChange(plan, index) {
     console.log('amount change' + index);
-    switch(plan){
+    switch (plan) {
       case "p1":
-      this.salesItems[index].saleAmount=98;
-      break;
+        this.salesItems[index].saleAmount = 98;
+        break;
       case "p2":
-      this.salesItems[index].saleAmount=399;
-      break;
+        this.salesItems[index].saleAmount = 399;
+        break;
       case "p3":
-      this.salesItems[index].saleAmount=2000;
-      break;
+        this.salesItems[index].saleAmount = 2000;
+        break;
       case "p4":
-      this.salesItems[index].saleAmount=1299;
-      break;
+        this.salesItems[index].saleAmount = 1299;
+        break;
       case "p5":
-      this.salesItems[index].saleAmount=1499;
-      break;
+        this.salesItems[index].saleAmount = 1499;
+        break;
     }
   }
 
-  onClickListener() {
-   this.tableData2 = {
-    headerRow: [ 'CASH PAID', 'PROMO CODE', 'TOTAL AMOUNT'],
-    dataRows: [
+  onClickListener(index) {
+    this.tableData2 = {
+      headerRow: ['CASH PAID', 'PROMO CODE', 'TOTAL AMOUNT'],
+      dataRows: [
         ['12345', 'NEW123', '$36,738']
-    ]
-  };
+      ]
+    };
 
     console.log("Invoice Data method call")
     let headers = new HttpHeaders();
-    headers = headers.append('txnId', "Tx3");
+    headers = headers.append('txnId', this.transactionDataListTemp[index].TxId);
     this.server.sendRequest('post', '/getTransactionById', null, headers, null).subscribe(
       (data) => {
-        console.log(data);
+        // console.log(data);
         console.log("invoice data")
         this.invoiceData=data['body'];
+        console.log(this.invoiceData);
+        
       }
     );
+    // this.invoiceData = null;
 
   }
+
+  sales23 = null;
+  status123=null;
+   selectSalesTable(item : string){
+     this.sales23 = item;
+   }
+ 
+   selectSettlement(items: string){
+     this.status123 = items;
+   } 
+
 
   setPageSizeOptions(setPageSizeOptionsInput: string) {
     this.pageSizeOptions = setPageSizeOptionsInput.split(',').map(str => +str);

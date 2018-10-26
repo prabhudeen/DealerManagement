@@ -2,7 +2,7 @@
 
 
 
-  <div class="container">
+  <div class="col-md-12">
 
     <div class="row">
       <div class="col">
@@ -130,11 +130,20 @@
                     </mat-select>
                   </mat-form-field> -->
                   <div class="dropdown">
-                    <a data-toggle="dropdown">Sales</a>
+                    <a  class="dropdown-toggle" data-toggle="dropdown">Sales</a> <span class="caret"></span>
                     <div class="dropdown-menu">
                       <a class="dropdown-item" tabindex="i" (click)="selectSales(sales.value)" *ngFor="let sales of saleTypeList; let i = index" style="overflow: absolute">{{sales.name}}</a>
                     </div>
                   </div>
+
+
+                  <!-- <div class="dropdown">
+                      <a class="dropdown-toggle" data-toggle="dropdown">Sales</a> <span class="caret"></span>
+                      <div class="dropdown-menu">
+                        <a class="dropdown-item" (click)="selectSalesTable(sales.value)" *ngFor="let sales of saleTypeList; let i = index" style="overflow: absolute">{{sales.name}}</a>
+                      </div>
+                    </div> -->
+
                 </th>
 
                 <!-- <th class="dropdown">
@@ -156,18 +165,25 @@
 
                   </ul>
                 </th> -->
-                <th style="width: 20%" class="text-center">
-                  <mat-form-field class="example-full-width">
-                    <input matInput [owlDateTime]="dt10" [selectMode]="'range'" [owlDateTimeTrigger]="dt10" [(ngModel)]="dateTimeRange" placeholder="Date/Time ">
+                <th style="width: 20%" class="text-center p-0">
+                    <mat-form-field class="no-line" style="width: 150px;">                
+                      <mat-label>Date/Time</mat-label>             
+                      <input matInput [owlDateTime]="dt10" [selectMode]="'range'" [(ngModel)]="dateTimeRange">
+                      <owl-date-time #dt10></owl-date-time>
+                      <mat-datepicker-toggle matSuffix [for]="picker">
+                        <mat-icon [owlDateTimeTrigger]="dt10" matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+      
+                      </mat-datepicker-toggle>
+                      <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                    <!-- Date
                     <owl-date-time #dt10></owl-date-time>
                     <mat-datepicker-toggle matSuffix [for]="picker">
                       <mat-icon [owlDateTimeTrigger]="dt10" matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
-
                     </mat-datepicker-toggle>
-                    <mat-datepicker #picker></mat-datepicker>
-                  </mat-form-field>
-
-                </th>
+                    <mat-datepicker #picker></mat-datepicker> -->
+      
+                  </th>
                 <th style="width: 10%" class="text-center">{{ tableData3.headerRow[4] }}</th>
                 <th style="width: 20%" class="text-center">
                   <!-- <mat-form-field>
@@ -175,37 +191,39 @@
                       <mat-option *ngFor="let status of statusArray" [value]="status">{{status}}</mat-option>
                     </mat-select>
                   </mat-form-field> -->
-                  <div class="dropdown">
-                    <a data-toggle="dropdown">Settlement</a>
-                    <div class="dropdown-menu">
-                      <a class="dropdown-item" tabindex="i" (click)="selectSettlement(status)" *ngFor="let status of statusArray; let i = index" style="overflow: absolute">{{status}}</a>
+                  <div class="dropdown text-center">
+                      <a class="dropdown-toggle" data-toggle="dropdown">Settlement</a> <span class="caret"></span>
+                      <div class="dropdown-menu">
+                        <a class="dropdown-item" tabindex="i" (click)="selectSettlement(status)" *ngFor="let status of statusArray; let i = index">{{status}}</a>
+                      </div>
                     </div>
-                  </div>
                 </th>
               </tr>
             </thead>
             <tbody>
 
-              <tr *ngFor="let row of transactionDataList | filter:status | filter: sales | dateFilterPipe :dateTimeRange[0] : dateTimeRange[1]; let i = index" class="custom-table">
+              <tr *ngFor="let row of transactionDataListTemp | filter:status | filter: sales | dateFilterPipe :dateTimeRange[0] : dateTimeRange[1] | orderBy: 'txCreatedTime'; let i=index;" class="custom-table"
+              data-toggle="modal" data-target="#invoiceModal"  (click)="onClickListener(i)">
                 <td style="width: 10%" class="text-center">{{row.TxId}}</td>
                 <td style="width: 20%" class="text-center">{{row.saleType}}</td>
                 <td style="width: 10%" class="text-center">{{row.saleAmount}}</td>
-                <td style="width: 20%" class="text-center"> {{row.txCreatedTime*1000 | date:'medium'}}</td>
+                <td style="width: 20%" class="text-center"> {{row.txCreatedTime| date:'medium'}}</td>
                 <td style="width: 10%" class="text-center"> {{row.commission}}</td>
 
-                <td style="width: 20% " *ngIf="row.commissionSettlement==='True'">
+                <td  class="text-center" style="width: 20% " *ngIf="row.commissionSettlement==='True'">
 
-                  <i class="material-icons text-success text-center pl-5">done</i>
+                  <i class="material-icons text-success text-center">done</i>
 
                 </td>
-                <td style="width: 20%;" *ngIf="row.commissionSettlement==='False'">
+                <td class="text-center" style="width: 20%;" *ngIf="row.commissionSettlement==='False'">
 
-                  <i class="material-icons  text-danger text-center pl-5">close</i>
+                  <i class="material-icons  text-danger text-center">close</i>
 
                 </td>
               </tr>
             </tbody>
           </table>
+          <p *ngIf="transactionDataListTemp.length === 0" class="text-center">NO DATA AVAILABLE</p>
           <mat-paginator [length]="length"  [pageSize]="pageSize"  [pageSizeOptions]="pageSizeOptions"  (page)="onPageChanged($event)">
             </mat-paginator>
         </div>
@@ -214,3 +232,101 @@
     </div> -->
   </div>
 </div>
+
+<div class="modal" id="invoiceModal">
+    <div class="modal-dialog modalview">
+      <div class="modal-content">
+        <!-- Modal body -->
+        <div class="modal-body" style="padding: 50px;">
+          <h4 class="modal-title" style="color: dodgerblue;">
+            <b>INVOICE</b>
+          </h4>
+          <hr style="margin-top: 0px;">
+          <div class="row">
+
+            <div class="col-lg-6" style="font-size: 12px;">
+              <p class="text-muted" style="margin-bottom: 0px;">Customer ID :
+                <b>12345</b>
+              </p>
+              <p class="text-muted" style="margin-bottom: 0px">Dealer Management</p>
+              <p class="text-muted" style="margin-bottom: 0px">dealermanagement@ril.com</p>
+              <p class="text-muted" style="margin-bottom: 1px">8877811976</p>
+
+              <p class="text-muted" style="margin-bottom: 0px">Reliance corporate park,Ghansoli,Maharastra,pin-400709</p>
+
+            </div>
+            <div class="col-lg-6" style="text-align: right; font-size: 12px;">
+              <p class="text-muted" style="margin-bottom: -1px">Txn id-
+                <b>{{invoiceData.TxId}}</b>
+              </p>
+              <p class="text-muted">Date:
+                <b>{{invoiceData.txCreatedTime*1000 | date : 'medium'}}</b>
+              </p>
+            </div>
+          </div>
+          <br>
+          <br>
+         
+            <table class="table">
+              <thead class="text-primary">
+                <tr>
+                  <th class="text-muted" style="font-size: 13px; padding-left: 0px;">DESCRIPTION</th>
+                  <th class="text-muted" style="font-size: 13px; padding-left: 0px;">SALE AMOUNT</th>
+                  <th class="text-muted" style="font-size: 13px; padding-left: 0px;">QTY</th>
+                  <th class="text-muted" style="font-size: 13px; padding-left: 0px;">AMOUNT</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="text-muted" style="font-size: 13px">
+                  <td class="text-muted" style="font-size: 13px; padding-left: 0px;" >
+                    <b>{{invoiceData.itemType}}</b>
+                  </td>
+                  <td class="text-muted" style="font-size: 13px; padding-left: 0px;">
+                    <b>{{invoiceData.saleAmount/invoiceData.quantity}}</b>
+                  </td>
+                  <td class="text-muted" style="font-size: 13px; padding-left: 0px;">
+                    <b>{{invoiceData.quantity}}</b>
+                  </td>
+                  <td class="text-muted" style="font-size: 13px; padding-left: 0px;">
+                    <b>&#x20b9;{{invoiceData.saleAmount}}</b>
+                  </td>
+
+                </tr>
+              </tbody>
+            </table>
+
+          <br>
+
+        </div>
+        <div style="background-color: dodgerblue; padding:30px 50px;">
+
+
+
+         
+          <div class="row" style="color: white;font-size: 13px">
+            <div class="col">CASH PAID</div>
+            <div class="col">PROMO CODE</div>
+            <div class="col">TOTAL AMOUNT</div>
+          </div>
+          <hr style="margin-top: 0px;margin-bottom: 1px">
+          <div class="row" style="color: white;font-size: 13px">
+              <div class="col">&#x20b9;{{invoiceData.saleAmount}}</div>
+              <div class="col">NEW123</div>
+              <div class="col">&#x20b9;{{invoiceData.saleAmount}}</div>
+            </div>
+
+        </div>
+        <br>
+        <br>
+
+        <!-- Modal footer -->
+        <div class="modal-footer" style="color: dodgerblue;font-size: 15px">
+          <h4 class="mr-auto " style="margin-left: 26px;font-size: 15px"><b>Thank You!</b></h4>
+          <p>
+            <small>Dealer ID: {{invoiceData.dealerId}} | 09099788768</small>
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </div>

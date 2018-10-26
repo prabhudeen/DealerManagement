@@ -20,6 +20,9 @@ export class ReportTableComponent implements OnInit {
   pageSizeOptions: number[] = [5, 10, 25, 100];
   pageEvent: PageEvent;
   public dateTimeRange = [];
+  transactionDataListTemp = [];
+  invoiceData:any;
+  tableData2:any;
 
   public tableData3: TableData;
   transactionDataList: any = [];
@@ -34,7 +37,7 @@ export class ReportTableComponent implements OnInit {
   ]
 
 
-  constructor(private reportService: ReportService) {
+  constructor(private reportService: ReportService,private server: CommonService) {
   }
 
 
@@ -42,6 +45,7 @@ export class ReportTableComponent implements OnInit {
   transaction: any = {};
 
   ngOnInit() {
+    this.invoiceData={};
 
     this.tableData3 = {
       headerRow: ['Txn ID', 'Sale Type', 'Amount', 'Date/Time', 'Commission', 'Statement'],
@@ -75,6 +79,9 @@ export class ReportTableComponent implements OnInit {
     this.reportService.getTransactionDetails().subscribe(
       (response) => {
         this.transactionDataList = response;
+        this.transactionDataListTemp = JSON.parse(JSON.stringify(response));
+        this.transactionDataListTemp.splice(this.transactionDataList.length - 1, 1);
+        this.length = this.transactionDataListTemp.length;
       });
 
 
@@ -106,6 +113,30 @@ export class ReportTableComponent implements OnInit {
     let firstCut = e.pageIndex * e.pageSize;
     let secondCut = firstCut + e.pageSize;
     this.transactionDataList = this.transactionDataList.slice(firstCut, secondCut);
+  }
+
+  onClickListener(index) {
+    this.tableData2 = {
+      headerRow: ['CASH PAID', 'PROMO CODE', 'TOTAL AMOUNT'],
+      dataRows: [
+        ['12345', 'NEW123', '$36,738']
+      ]
+    };
+
+    console.log("Invoice Data method call")
+    let headers = new HttpHeaders();
+    headers = headers.append('txnId', this.transactionDataListTemp[index].TxId);
+    this.server.sendRequest('post', '/getTransactionById', null, headers, null).subscribe(
+      (data) => {
+        // console.log(data);
+        console.log("invoice data")
+        this.invoiceData=data['body'];
+        console.log(this.invoiceData);
+        
+      }
+    );
+    // this.invoiceData = null;
+
   }
 
 
