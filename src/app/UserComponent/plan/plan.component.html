@@ -1,51 +1,52 @@
 <div class="main-content">
   
-    <div class="row">
-      
-        <h3 class="mr-auto text-muted mt-0 ml-2">
-          <b>Plan Data</b>
-        </h3>
-      </div>
+  <div class="row">
     
-    <mat-divider></mat-divider>
-
-
-  <div class="col-md-12">
-    <div class="table-responsive table-hover" style="overflow-x: auto;">
-      <table class="table table-spacing">
-        <thead>
-          <tr>
-            <th class="text-center">Plan ID</th>
-            <th class="text-center">Product Offering</th>
-            <th class="text-center">Service Offering</th>
-            <th class="text-center">Plan/SKU</th>
-            <th class="text-center">Circle</th>
-            <th class="text-center">Plan Version</th>
-            <th class="text-center">MRP</th>
-            <th class="text-center">Sale Amount</th>
-            <th class="text-center">Old Device Brand</th>
-            <th class="text-center">Old Device Type</th>
-            <th class="text-center">Status</th>           
-          </tr>
-        </thead>
-        <tbody>
-
-          <tr *ngFor="let response of planResponseList"
-            class="custom-table">
-            <td class="text-center">{{response.planId}}</td>
-            <td class="text-center">{{response.productOffering}}</td>
-            <td class="text-center">{{response.serviceOffering}}</td>
-            <td class="text-center"> {{response.plan_SKU}}</td>
-            <td class="text-center"> {{response.planCircle}}</td>
-            <td class="text-center">{{response.planVersion}}</td>
-            <td class="text-center">{{response.mrp}}</td>
-            <td class="text-center">{{response.saleAmount}}</td>
-            <td class="text-center"> {{response.oldDeviceBrand}}</td>
-            <td class="text-center"> {{response.oldDeviceType}}</td>
-            <td class="text-center"> {{response.planStatus}}</td>           
-          </tr>
-        </tbody>
-      </table>
+      <h3 class="mr-auto text-muted mt-0 ml-2">
+        <b>Plan Data</b>
+      </h3>
     </div>
+  
+  <mat-divider></mat-divider>
+
+<div class="col-md-12">
+  <div class="table-responsive table-hover" style="overflow-x: auto;font-size: 14px;">
+    <table class="table table-spacing">
+      <thead style="font-size: 14px;">
+        <tr>
+          <th class="text-center" style="font-size: 14px;">Plan ID</th>
+          <th class="text-center" style="font-size: 14px;">Product Offering</th>
+          <th class="text-center" style="font-size: 14px;">Service Offering</th>
+          <th class="text-center" style="font-size: 14px;">Plan/SKU</th>
+          <th class="text-center" style="font-size: 14px;">Circle</th>
+          <th class="text-center" style="font-size: 14px;">Plan Version</th>
+          <th class="text-center" style="font-size: 14px;">MRP</th>
+          <th class="text-center" style="font-size: 14px;">Sale Amount</th>
+          <th class="text-center" style="font-size: 14px;">Old Device Brand</th>
+          <th class="text-center" style="font-size: 14px;">Old Device Type</th>
+          <th class="text-center" style="font-size: 14px;">Status</th>           
+        </tr>
+      </thead>
+      <tbody>
+
+        <tr *ngFor="let response of planResponseList"
+          class="custom-table">
+          <td class="text-center">{{response.planId}}</td>
+          <td class="text-center">{{response.productOffering}}</td>
+          <td class="text-center">{{response.serviceOffering}}</td>
+          <td class="text-center"> {{response.plan_SKU}}</td>
+          <td class="text-center"> {{response.planCircle}}</td>
+          <td class="text-center">{{response.planVersion}}</td>
+          <td class="text-center">{{response.mrp}}</td>
+          <td class="text-center">{{response.saleAmount}}</td>
+          <td class="text-center"> {{response.oldDeviceBrand}}</td>
+          <td class="text-center"> {{response.oldDeviceType}}</td>
+          <td class="text-center"> {{response.planStatus}}</td>           
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
 </div>
+
+

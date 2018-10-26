@@ -4,7 +4,7 @@
     padding-left: 4px;
   }
 </style>
-<div class="main-content">
+<div class="main-content" style="margin-top:0px;">
 
   <div class="col-md-12">
 
@@ -33,7 +33,7 @@
     <h4 class="text-muted" style="margin-top: 8px" style="margin-bottom: -10px">Today</h4>
     <div class="row">
 
-      <div class="col-lg-2 col-md-6 col-sm-6">
+      <div class="col-lg-2 col-md-6 col-sm-6 pr-2">
         <div class="card">
           <div class=card-body>
 
@@ -52,14 +52,14 @@
               <small>Sale</small>
             </h4>
             <span style="color:grey;">
-              <b>&#x20b9; {{totalSale}}</b>
+              <h4>&#x20b9; {{totalSale}}</h4>
             </span>
 
           </div>
         </div>
       </div>
 
-      <div class="col-lg-2 col-md-6 col-sm-6 ">
+      <div class="col-lg-2 col-md-6 col-sm-6 pr-2">
         <div class="card">
           <div class=card-body>
             <!-- <div class="progress progress-line-primary mb-0">
@@ -78,13 +78,13 @@
               <small>Commission</small>
             </h4>
             <span style="color:grey;">
-              <b>&#x20b9;{{totalComission}}</b>
+              <h4>&#x20b9;{{totalComission}}</h4>
             </span>
 
           </div>
         </div>
       </div>
-      <div class="col-lg-6 col-md-12 col-sm-12 ">
+      <div class="col-lg-6 col-md-12 col-sm-12 pr-2">
         <div class="card card-hieght">
           <div class=card-body>
             <div class="row">
@@ -106,7 +106,7 @@
                   <small>SIM Activation</small>
                 </h4>
                 <span style="color:grey;">
-                  <b> {{simActivation}}</b>
+                  <h4> {{simActivation}}</h4>
                 </span>
 
               </div>
@@ -128,7 +128,7 @@
                   <small>Recharge</small>
                 </h4>
                 <span style="color:grey;">
-                  <b>{{recharge}}</b>
+                  <h4>{{recharge}}</h4>
                 </span>
               </div>
 
@@ -149,7 +149,7 @@
                   <small>Device Sale</small>
                 </h4>
                 <span style="color:grey;">
-                  <b>{{deviceSale}}</b>
+                  <h4>{{deviceSale}}</h4>
                 </span>
               </div>
               <div class="col">
@@ -169,7 +169,7 @@
                   <small>Device Exch</small>
                 </h4>
                 <span style="color:grey;">
-                  <b>{{deviceExchange}}</b>
+                  <h4>{{deviceExchange}}</h4>
                 </span>
               </div>
             </div>
@@ -177,8 +177,8 @@
         </div>
       </div>
 
-      <div class="col-lg-2 col-md-12 col-sm-12 ">
-        <div class="card text-white bg-info text-center add-click">
+      <div class="col-lg-2 col-md-12 col-sm-12 pr-2">
+        <div class="card text-white bg-info text-center add-click" style="height: 98px;">
           <div class="card-body" data-toggle="modal" data-target="#myModal" (click)="onRecordTransactionClick()" style="cursor: pointer;margin-top: 4px;-ms-transform: translateY(-50%);
           transform: translateY(5%); ">
             <p style="margin-bottom: 6px ;"> Record
@@ -240,8 +240,8 @@
 
                   </ul>
                 </th> -->
-                <th style="width: 20%" class="text-center p-0">
-                    <mat-form-field class="no-line" style="width: 150px;">                
+                <th style="width: 20%" class="text-center">
+                    <mat-form-field class="no-line" style="width: 110px;margin-left: 60px;">                
                       <mat-label>Date/Time</mat-label>             
                       <input matInput [owlDateTime]="dt10" [selectMode]="'range'" [(ngModel)]="dateTimeRange">
                       <owl-date-time #dt10></owl-date-time>
@@ -282,7 +282,7 @@
                 <td style="width: 10%" class="text-center">{{row.TxId}}</td>
                 <td style="width: 20%" class="text-center">{{row.saleType}}</td>
                 <td style="width: 10%" class="text-center">{{row.saleAmount}}</td>
-                <td style="width: 20%" class="text-center"> {{row.txCreatedTime| date:'medium'}}</td>
+                <td style="width: 20%" class="text-center"> {{row.txCreatedTime*1000| date:'medium'}}</td>
                 <td style="width: 10%" class="text-center"> {{row.commission}}</td>
 
                 <td  class="text-center" style="width: 20% " *ngIf="row.commissionSettlement==='True'">
@@ -874,7 +874,7 @@
                   <th class="text-muted" style="font-size: 13px; padding-left: 0px;">DESCRIPTION</th>
                   <th class="text-muted" style="font-size: 13px; padding-left: 0px;">SALE AMOUNT</th>
                   <th class="text-muted" style="font-size: 13px; padding-left: 0px;">QTY</th>
-                  <th class="text-muted" style="font-size: 13px; padding-left: 0px;">AMOUNT</th>
+                  <th class="text-muted text-right" style="font-size: 13px; padding-right: 0px;">AMOUNT</th>
                 </tr>
               </thead>
               <tbody>
@@ -888,7 +888,7 @@
                   <td class="text-muted" style="font-size: 13px; padding-left: 0px;">
                     <b>{{invoiceData.quantity}}</b>
                   </td>
-                  <td class="text-muted" style="font-size: 13px; padding-left: 0px;">
+                  <td class="text-muted text-right" style="font-size: 13px; padding-right: 0px;">
                     <b>&#x20b9;{{invoiceData.saleAmount}}</b>
                   </td>
 
@@ -924,7 +924,7 @@
         <div class="modal-footer" style="color: dodgerblue;font-size: 15px">
           <h4 class="mr-auto " style="margin-left: 26px;font-size: 15px"><b>Thank You!</b></h4>
           <p>
-            <small>Dealer ID: {{invoiceData.dealerId}} | 09099788768</small>
+            <small style="margin-left: -90px">Dealer ID: {{invoiceData.dealerId}} | 09099788768</small>
           </p>
         </div>
 
