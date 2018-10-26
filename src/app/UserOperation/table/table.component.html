@@ -193,26 +193,46 @@
 
   <div class="col-md-12">
     <div class="table-responsive table-hover">
-      <table class="table table-spacing">
-        <thead>
-          <tr>
-            <th style="width:10%" class="text-center p-0">{{ tableData3.headerRow[0] }}</th>
-            <th style="width: 15%" class="text-center p-0">
-              <!-- <mat-form-field>
+        <table class="table table-spacing" style="overflow: hidden; z-index: -1000" style="margin-top: -20px">
+            <thead>
+              <tr>
+                <th style="width:10%" class="text-center">{{ tableData3.headerRow[0] }}</th>
+                <th style="width: 15%" class="text-center">
+                  <!-- <mat-form-field>
+                  <mat-form-field>
                     <mat-select class="text-justify" [(ngModel)]="sales" placeholder="Sales">
                       <mat-option *ngFor="let sales of saleTypeList" [value]="sales.value">{{sales.name}}</mat-option>
                     </mat-select>
                   </mat-form-field> -->
-              <div class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown">Sales</a> <span class="caret"></span>
-                <div class="dropdown-menu">
-                  <a class="dropdown-item" (click)="selectSalesTable(sales.value)" *ngFor="let sales of saleTypeList; let i = index" style="overflow: absolute">{{sales.name}}</a>
-                </div>
-              </div>
+                  <div class="dropdown">
+                    <a  class="dropdown-toggle" data-toggle="dropdown">Sales</a> <span class="caret"></span>
+                    <div class="dropdown-menu">
+                      <a class="dropdown-item" tabindex="i" (click)="selectSales(sales.value)" *ngFor="let sales of saleTypeList; let i = index" style="overflow: absolute">{{sales.name}}</a>
+                    </div>
+                  </div>
 
-            </th>
-            <th style="width: 10%" class="text-center p-0">{{ tableData3.headerRow[2] }}</th>
-            <!-- <th class="dropdown">
+
+                  <!-- <div class="dropdown">
+                      <a class="dropdown-toggle" data-toggle="dropdown">Sales</a> <span class="caret"></span>
+                      <div class="dropdown-menu">
+                        <a class="dropdown-item" (click)="selectSalesTable(sales.value)" *ngFor="let sales of saleTypeList; let i = index" style="overflow: absolute">{{sales.name}}</a>
+                      </div>
+                    </div> -->
+
+                </th>
+
+                <!-- <th class="dropdown">
+                  <a href="#" data-toggle="dropdown" class="dropdown-toggle">Messages <b class="caret"></b></a>
+                  <ul class="dropdown-menu">
+                     <li>Inbox</li>
+                     <li><a>Drafts</a></li>
+                     <li><a>Sent Items</a></li>
+                     <li class="divider"></li>
+                     <li><a href="#">Trash</a></li>
+                  </ul>
+               </th> -->
+                <th style="width: 10%" class="text-center">{{ tableData3.headerRow[2] }}</th>
+                <!-- <th class="dropdown">
                   <a class="dropdown-toggle" id="dropdownMenu" data-toggle="dropdow{{sales}}</mat-option>
                   </mat-select>
                 </th>n" aria-haspopup="true" aria-expanded="true">{{ tableData3.headerRow[3] }}</a>
@@ -220,64 +240,64 @@
 
                   </ul>
                 </th> -->
-            <th style="width: 20%" class="text-center p-0">
-              <mat-form-field class="no-line" style="width: 150px;">                
-                <mat-label>Date/Time</mat-label>             
-                <input matInput [owlDateTime]="dt10" [selectMode]="'range'" [(ngModel)]="dateTimeRange">
-                <owl-date-time #dt10></owl-date-time>
-                <mat-datepicker-toggle matSuffix [for]="picker">
-                  <mat-icon [owlDateTimeTrigger]="dt10" matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
-
-                </mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
-              </mat-form-field>
-              <!-- Date
-              <owl-date-time #dt10></owl-date-time>
-              <mat-datepicker-toggle matSuffix [for]="picker">
-                <mat-icon [owlDateTimeTrigger]="dt10" matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
-              </mat-datepicker-toggle>
-              <mat-datepicker #picker></mat-datepicker> -->
-
-            </th>
-            <th style="width: 10%" class="text-center p-0">{{ tableData3.headerRow[4] }}</th>
-            <th style="width: 20%" class="text-center p-0">
-              <!-- <mat-form-field>
+                <th style="width: 20%" class="text-center p-0">
+                    <mat-form-field class="no-line" style="width: 150px;">                
+                      <mat-label>Date/Time</mat-label>             
+                      <input matInput [owlDateTime]="dt10" [selectMode]="'range'" [(ngModel)]="dateTimeRange">
+                      <owl-date-time #dt10></owl-date-time>
+                      <mat-datepicker-toggle matSuffix [for]="picker">
+                        <mat-icon [owlDateTimeTrigger]="dt10" matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+      
+                      </mat-datepicker-toggle>
+                      <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                    <!-- Date
+                    <owl-date-time #dt10></owl-date-time>
+                    <mat-datepicker-toggle matSuffix [for]="picker">
+                      <mat-icon [owlDateTimeTrigger]="dt10" matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                    </mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker> -->
+      
+                  </th>
+                <th style="width: 10%" class="text-center">{{ tableData3.headerRow[4] }}</th>
+                <th style="width: 20%" class="text-center">
+                  <!-- <mat-form-field>
                     <mat-select class="ml-2" [(ngModel)]="status" placeholder="Settlement">
                       <mat-option *ngFor="let status of statusArray" [value]="status">{{status}}</mat-option>
                     </mat-select>
                   </mat-form-field> -->
+                  <div class="dropdown text-center">
+                      <a class="dropdown-toggle" data-toggle="dropdown">Settlement</a> <span class="caret"></span>
+                      <div class="dropdown-menu">
+                        <a class="dropdown-item" tabindex="i" (click)="selectSettlement(status)" *ngFor="let status of statusArray; let i = index">{{status}}</a>
+                      </div>
+                    </div>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
 
-              <div class="dropdown text-center">
-                <a class="dropdown-toggle" data-toggle="dropdown">Settlement</a> <span class="caret"></span>
-                <div class="dropdown-menu">
-                  <a class="dropdown-item" tabindex="i" (click)="selectSettlement(status)" *ngFor="let status of statusArray; let i = index">{{status}}</a>
-                </div>
-              </div>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let row of transactionDataListTemp | filter:status | filter: sales | dateFilterPipe :dateTimeRange[0] : dateTimeRange[1] | orderBy: 'txCreatedTime';let i=index; "
-            data-toggle="modal" data-target="#invoiceModal" class="custom-table" (click)="onClickListener(i)">
-            <td style="width: 10%" class="text-center">{{row.TxId}}</td>
-            <td style="width: 20%" class="text-center">{{row.saleType}}</td>
-            <td style="width: 10%" class="text-center">{{row.saleAmount}}</td>
-            <td style="width: 20%" class="text-center"> {{row.txCreatedTime*1000 | date:'medium'}}</td>
-            <td style="width: 10%" class="text-center"> {{row.commission}}</td>
+              <tr *ngFor="let row of transactionDataListTemp | filter:status | filter: sales | dateFilterPipe :dateTimeRange[0] : dateTimeRange[1] | orderBy: 'txCreatedTime'; let i=index;" class="custom-table"
+              data-toggle="modal" data-target="#invoiceModal"  (click)="onClickListener(i)">
+                <td style="width: 10%" class="text-center">{{row.TxId}}</td>
+                <td style="width: 20%" class="text-center">{{row.saleType}}</td>
+                <td style="width: 10%" class="text-center">{{row.saleAmount}}</td>
+                <td style="width: 20%" class="text-center"> {{row.txCreatedTime| date:'medium'}}</td>
+                <td style="width: 10%" class="text-center"> {{row.commission}}</td>
 
-            <td  class="text-center" style="width: 20% " *ngIf="row.commissionSettlement==='True'">
+                <td  class="text-center" style="width: 20% " *ngIf="row.commissionSettlement==='True'">
 
-              <i class="material-icons text-success text-center" >done</i>
+                  <i class="material-icons text-success text-center">done</i>
 
-            </td>
-            <td class="text-center" style="width: 20%;" *ngIf="row.commissionSettlement==='False'">
+                </td>
+                <td class="text-center" style="width: 20%;" *ngIf="row.commissionSettlement==='False'">
 
-              <i class="material-icons  text-danger text-center ">close</i>
+                  <i class="material-icons  text-danger text-center">close</i>
 
-            </td>
-          </tr>
-        </tbody>
-      </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
       <p *ngIf="transactionDataListTemp.length === 0" class="text-center">NO DATA AVAILABLE</p>
       <mat-paginator [length]="length"  [pageSize]="pageSize"  [pageSizeOptions]="pageSizeOptions"  (page)="onPageChanged($event)">
       </mat-paginator>
@@ -863,7 +883,7 @@
                     <b>{{invoiceData.itemType}}</b>
                   </td>
                   <td class="text-muted" style="font-size: 13px; padding-left: 0px;">
-                    <b>{{invoiceData.saleAmount/invoiceData.quantity}}</b>
+                    <b>&#x20b9;{{invoiceData.saleAmount/invoiceData.quantity}}</b>
                   </td>
                   <td class="text-muted" style="font-size: 13px; padding-left: 0px;">
                     <b>{{invoiceData.quantity}}</b>

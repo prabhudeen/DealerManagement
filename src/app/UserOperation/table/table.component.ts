@@ -576,14 +576,12 @@ export class TableComponent implements OnInit {
 
   }
 
-  sales23 = null;
-  status123=null;
-   selectSalesTable(item : string){
-     this.sales23 = item;
+   selectSales(item : string){
+     this.sales = item;
    }
  
    selectSettlement(items: string){
-     this.status123 = items;
+     this.status = items;
    } 
 
 
