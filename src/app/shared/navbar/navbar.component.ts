@@ -35,6 +35,8 @@ export class NavbarComponent implements OnInit {
         this.location = location;
         this.nativeElement = element.nativeElement;
         this.sidebarVisible = false;
+        console.log('inside navbar');
+        
     }
     minimizeSidebar(){
       const body = document.getElementsByTagName('body')[0];

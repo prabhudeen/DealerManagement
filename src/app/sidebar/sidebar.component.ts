@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import PerfectScrollbar from 'perfect-scrollbar';
+import { Router } from '@angular/router';
 
 declare const $: any;
 
@@ -55,12 +56,18 @@ export const ROUTES: RouteInfo[] = [{
 export class SidebarComponent implements OnInit {
     public menuItems: any[];
 
+    constructor(private router:Router){
+
+    }
+
     isMobileMenu() {
         if ($(window).width() > 991) {
             return false;
         }
         return true;
     };
+
+    
 
     ngOnInit() {
         this.menuItems = ROUTES.filter(menuItem => menuItem);

@@ -97,7 +97,7 @@
         <thead>
           <tr>
             <th style="width:10%" class="text-center p-0">{{ tableData3.headerRow[0] }}</th>
-            <th style="width: 15%" class="text-center p-0">
+            <th style="width: 15%" class="text-center p-0" [ngStyle]="{color:getSaleColour()}" >
               <div class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown">Sales</a>
                 <span class="caret"></span>
@@ -111,16 +111,16 @@
             <th style="width: 20%" class="text-center p-0">
               <mat-form-field class="no-line" style="width: 100px;margin-left: 60px;">
                 <mat-label>Date/Time</mat-label>
-                <input matInput [owlDateTime]="dt10" [selectMode]="'range'" [(ngModel)]="dateTimeRange">
+                <input  matInput [owlDateTime]="dt10" [selectMode]="'range'" [(ngModel)]="dateTimeRange" (ngModelChange)="DateUpdate()">
                 <owl-date-time #dt10></owl-date-time>
                 <mat-datepicker-toggle matSuffix [for]="picker">
-                  <mat-icon [owlDateTimeTrigger]="dt10" matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                  <mat-icon [owlDateTimeTrigger]="dt10" matDatepickerToggleIcon >keyboard_arrow_down</mat-icon>
                 </mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
               </mat-form-field>
             </th>
             <th style="width: 10%" class="text-center">{{ tableData3.headerRow[4] }}</th>
-            <th style="width: 20%" class="text-center">
+            <th style="width: 20%" class="text-center" [ngStyle]="{color:getSettlementColour()}">
               <div class="dropdown text-center">
                 <a class="dropdown-toggle" data-toggle="dropdown">Settlement</a>
                 <span class="caret"></span>
@@ -132,7 +132,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let row of transactionDataListTemp | filter:status | filter: sales | dateFilterPipe :dateTimeRange[0]: dateTimeRange[1]| orderBy: 'txCreatedTime'; let i=index;"
+          <tr *ngFor="let row of transactionDataListTemp; let i=index;"
             class="custom-table" data-toggle="modal" data-target="#invoiceModal" (click)="onClickListener(i)">
             <td style="width: 10%" class="text-center">{{row.TxId}}</td>
             <td style="width: 20%" class="text-center">{{row.saleType}}</td>
@@ -327,7 +327,7 @@
               <form [formGroup]="form2" class="mb-0" style="font-size:16px;">
                 <div>
                   <h4 style="font-size: 18px;" class="mr-auto pt-1 mb-0">
-                    <b>Costume information</b>
+                    <b>Customer Information</b>
                   </h4>
                 </div>
                 <div class="row">

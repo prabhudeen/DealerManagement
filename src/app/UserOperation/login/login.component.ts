@@ -90,7 +90,7 @@ export class LoginComponent implements OnInit {
   }
 
   validUser() {
-    console.log("entered");
+    //console.log("entered");
     console.log(this.validPasswordLogin);
     console.log(this.validuserNameLogin);
     return this.validuserNameLogin && this.validPasswordLogin;

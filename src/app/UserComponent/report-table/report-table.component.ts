@@ -5,6 +5,9 @@ import { CommonService, User } from '../../shared/common.service';
 import { FormControl } from '@angular/forms';
 import { ReportService } from './report.service';
 import { PageEvent, MatPaginator, MatInputModule, MatFormFieldModule } from '@angular/material';
+import { FilterPipe } from '../../UserOperation/table/Filter.pipe';
+import { OrderByPipe } from '../../UserOperation/table/order.pipe';
+import { Datefilterpipe } from '../../datefilterpipe';
 
 @Component({
   selector: 'app-report-table',
@@ -33,6 +36,9 @@ export class ReportTableComponent implements OnInit {
   transaction: any = {};
   sales = null;
   status = null;
+  tableDataCopyOriginal:any =[];
+  saleTriggered:boolean=false;
+  settlementTriggered:boolean=false;
 
   constructor(private reportService: ReportService, private server: CommonService) {
   }
@@ -63,37 +69,68 @@ export class ReportTableComponent implements OnInit {
         this.transactionDataList = response;
         this.transactionDataListTemp = JSON.parse(JSON.stringify(response));
         this.transactionDataListTemp.splice(this.transactionDataList.length - 1, 1);
+        this.transactionDataListTemp=new OrderByPipe().transform(this.transactionDataListTemp,'txCreatedTime');
+        this.tableDataCopyOriginal=this.transactionDataListTemp;
         this.tableDataCopy=this.transactionDataListTemp;
         this.length = this.transactionDataListTemp.length;
-        this.transactionDataListTemp = this.transactionDataListTemp.slice(0, 5);
+        this.transactionDataListTemp = this.transactionDataListTemp.slice(0, this.pageSize);
       });
-
     this.reportService.getTransaction().subscribe(
       (response) => {
-
         this.transaction = response;
         console.log(this.transaction);
       });
+  }
 
-
+  DateUpdate(){
+    console.log("click dateupdate()");
+    this.length = new Datefilterpipe().transform(this.tableDataCopyOriginal, this.dateTimeRange[0], this.dateTimeRange[1]).length;
+    this.tableDataCopy = new Datefilterpipe().transform(this.tableDataCopyOriginal, this.dateTimeRange[0], this.dateTimeRange[1]);
+    this.transactionDataListTemp = this.tableDataCopy.slice(0, this.pageSize);
   }
 
   selectSales(item: string) {
-    this.triggered=true;
-    console.log(this.triggered);
-    if(item==='All'){
-    this.triggered=false;
+    if (item != 'All') {
+      this.saleTriggered = true;
+    } else {
+      this.saleTriggered = false;
     }
+    this.length = new FilterPipe().transform(this.tableDataCopyOriginal, item).length;
+    this.tableDataCopy = new FilterPipe().transform(this.tableDataCopyOriginal, item);
+    this.transactionDataListTemp = this.tableDataCopy.slice(0, this.pageSize);
     this.sales = item;
   }
 
-  selectSettlement(items: string) {
-    this.triggered=true;
-    this.triggered=true;
-    if(items==='All'){
-      this.triggered=false;
+  getSaleColour(){
+    if(this.saleTriggered){
+      return 'red';
+      console.log('entered green');
+    }else{
+      return 'black';
+      console.log('entered black');
     }
+  }
+
+  selectSettlement(items: string) {
+    if (items != 'All') {
+      this.settlementTriggered = true;
+    } else {
+      this.settlementTriggered = false;
+    }
+    this.length = new FilterPipe().transform(this.tableDataCopyOriginal, items).length;
+    this.tableDataCopy = new FilterPipe().transform(this.tableDataCopyOriginal, items);
+    this.transactionDataListTemp = this.tableDataCopy.slice(0, this.pageSize);
     this.status = items;
+  }
+
+  getSettlementColour(){
+    if(this.settlementTriggered){
+      return 'red';
+      console.log('entered green');
+    }else{
+      return 'black';
+      console.log('entered black');
+    }
   }
 
   setPageSizeOptions(setPageSizeOptionsInput: string) {
@@ -104,8 +141,8 @@ export class ReportTableComponent implements OnInit {
     
     let firstCut = e.pageIndex * e.pageSize;
     let secondCut = firstCut + e.pageSize;
-    this.transactionDataListTemp=this.tableDataCopy;
-    this.transactionDataListTemp = this.transactionDataListTemp.slice(firstCut, secondCut);
+    this.transactionDataListTemp = this.tableDataCopy.slice(firstCut, secondCut);
+    // this.transactionDataListTemp = this.transactionDataListTemp.slice(firstCut, secondCut);
 
   }
 
