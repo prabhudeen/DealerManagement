@@ -59,10 +59,10 @@ export class ReportService {
                 promiseTemp.next(response['body'].slice());
             });
 
-        setTimeout(() => {
-            console.log(this.transactionDataList1);
-            promiseTemp.next(this.transactionDataList1);
-        }, 0);
+        // setTimeout(() => {
+        //     console.log(this.transactionDataList1);
+        //     promiseTemp.next(this.transactionDataList1);
+        // }, 0);
 
         return promiseTemp.asObservable();
     }
