@@ -1,37 +1,32 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpHeaders } from '@angular/common/http';
 import { CommonService } from '../../shared/common.service';
-
 @Component({
   selector: 'app-dealer',
   templateUrl: './dealer.component.html',
   styleUrls: ['./dealer.component.css']
 })
 export class DealerComponent implements OnInit {
-
   responseList= [];
-
+  tableDataCopy=[];
+  pageSize = 5;
+  pageSizeOptions: number[] = [5, 10, 25, 100];
+  length:number;
   constructor(private server: CommonService) { }
 
-
- 
-
-
   ngOnInit() {
-
-    
-
 
       const headers1 = new HttpHeaders({
       
       });
-  
-  
       this.server.sendRequest('post', '/getAllDealer', null, headers1, null).subscribe(
   
         (data) => {
           this.responseList = data['body'];
           console.log(this.responseList);
+          this.tableDataCopy=this.responseList;
+          this.length=this.tableDataCopy.length;
+          this.responseList = this.responseList.slice(0,this.pageSize);
         }
       );
       
@@ -110,11 +105,74 @@ export class DealerComponent implements OnInit {
     //         "dealerTier": "Platinum",
     //         "dealerType": "MyJio",
     //         "recordType": "dealer"
+    //     },
+    //     {
+    //         "Address": "Koparkhairane",
+    //         "Emailaddress": "hello@kv.com",
+    //         "jioPaymentsBank": "9090882",
+    //         "L1Parent": "dl3",
+    //         "L2Parent": "dl2",
+    //         "MobileNumber": "9990874156",
+    //         "channelID": "Third Party",
+    //         "dealerId": "dl4",
+    //         "dealerName": "VK Enterprises",
+    //         "dealerStatus": "Active",
+    //         "dealerTier": "Silver",
+    //         "dealerType": "Retailer",
+    //         "recordType": "dealer"
+    //     },
+    //     {
+    //         "Address": "Koparkhairane",
+    //         "Emailaddress": "hello@kv.com",
+    //         "jioPaymentsBank": "9090882",
+    //         "L1Parent": "dl3",
+    //         "L2Parent": "dl2",
+    //         "MobileNumber": "9990874156",
+    //         "channelID": "Third Party",
+    //         "dealerId": "dl4",
+    //         "dealerName": "VK Enterprises",
+    //         "dealerStatus": "Active",
+    //         "dealerTier": "Silver",
+    //         "dealerType": "Retailer",
+    //         "recordType": "dealer"
+    //     },
+    //     {
+    //         "Address": "Koparkhairane",
+    //         "Emailaddress": "hello@kv.com",
+    //         "jioPaymentsBank": "9090882",
+    //         "L1Parent": "dl3",
+    //         "L2Parent": "dl2",
+    //         "MobileNumber": "9990874156",
+    //         "channelID": "Third Party",
+    //         "dealerId": "dl4",
+    //         "dealerName": "VK Enterprises",
+    //         "dealerStatus": "Active",
+    //         "dealerTier": "Silver",
+    //         "dealerType": "Retailer",
+    //         "recordType": "dealer"
     //     }
+    
     // ]
+    // this.tableDataCopy=this.responseList;
+    // this.length=this.tableDataCopy.length;
+    // this.responseList = this.responseList.slice(0,this.pageSize);
     
   
     }
+
+    
+  setPageSizeOptions(setPageSizeOptionsInput: string) {
+    this.pageSizeOptions = setPageSizeOptionsInput.split(',').map(str => +str);
+  }
+
+  onPageChanged(e) {
+    
+    let firstCut = e.pageIndex * e.pageSize;
+    let secondCut = firstCut + e.pageSize;
+    this.responseList=this.tableDataCopy;
+    this.responseList = this.responseList.slice(firstCut, secondCut);
+
+  }
 
   }
 

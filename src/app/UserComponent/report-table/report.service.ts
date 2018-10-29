@@ -7,17 +7,14 @@ import { SessionService } from "../../shared/session.service";
 @Injectable()
 export class ReportService {
     private userName: string;
-
     private obser = new BehaviorSubject<any>("");
-
     transactionDataListObs = new EventEmitter<any[]>();
-
     transactionDataList1: any = [
         {
             "TxId": "2",
             "saleType": "DeviceSale",
             "saleAmount": 234,
-            "txCreatedTime": 1539257119000,
+            "txCreatedTime": 1539257119,
             "commission": "23.4",
             "commissionSettlement": "False"
         },
@@ -25,7 +22,7 @@ export class ReportService {
             "TxId": "1",
             "saleType": "SimActivation",
             "saleAmount": 356,
-            "txCreatedTime": 1536043564000,
+            "txCreatedTime": 1536043564,
             "commission": "35.6",
             "commissionSettlement": "True"
         },
@@ -38,9 +35,7 @@ export class ReportService {
             "totalSale": "1755"
         }
     ];
-
     user: User;
-
     transation: any = {
         lastWeek: 2000,
         lastMonth: 100
@@ -64,12 +59,10 @@ export class ReportService {
                 promiseTemp.next(response['body'].slice());
             });
 
-        // setTimeout(() => {
-        //     console.log(this.transactionDataList1);
-        //     promiseTemp.next(this.transactionDataList1);
-        // }, 0);
-
-
+        setTimeout(() => {
+            console.log(this.transactionDataList1);
+            promiseTemp.next(this.transactionDataList1);
+        }, 0);
 
         return promiseTemp.asObservable();
     }
@@ -94,33 +87,26 @@ export class ReportService {
     }
 
     addTransactionData(jsonBody) {
-
         let promiseTemp = new Subject<any>();
         // let jsonObject: any;
         // let counter = jsonBody['saleItems'].length;
-
         // let tempCounter = 0;
-        // let size1 = this.transactionDataList1.length;
         // let txId = parseInt(this.transactionDataList1[0]['TxId']);
-
         // let timerTask = setInterval(
         //     () => {
         //         txId++;
         //         let size = this.transactionDataList1.length;
         //         let jsonlastObject = this.transactionDataList1[size - 1];
         //         this.transactionDataList1.splice(size - 1, 1);
-
         //         var date = new Date();
-
         //         jsonObject = {
         //             "TxId": txId,
         //             "saleType": jsonBody['saleItems'][tempCounter]['saleType'],
         //             "saleAmount": jsonBody['saleItems'][tempCounter]['saleAmount'],
-        //             "txCreatedTime": date.getTime() * 1,
+        //             "txCreatedTime": (date.getTime() * 1)/1000,
         //             "commission": Math.round(jsonBody['saleItems'][tempCounter]['saleAmount'] * 0.1),
         //             "commissionSettlement": "True"
         //         }
-
         //         switch (jsonBody['saleItems'][tempCounter]['saleType']) {
         //             case "Recharge":
         //                 {
@@ -153,24 +139,19 @@ export class ReportService {
 
         //         let totalcommission = parseInt(jsonlastObject['totalCommision']) + parseInt(jsonObject['commission']);
         //         let totalsale = parseInt(jsonlastObject['totalSale']) + parseInt(jsonObject['saleAmount']);
-
         //         jsonlastObject['totalCommision'] = totalcommission;
         //         jsonlastObject['totalSale'] = totalsale;
-
         //         console.log(totalcommission);
         //         console.log(totalsale);
-
-        //         this.transactionDataList1.push(jsonObject);
+        //        this.transactionDataList1.splice(0,0,jsonObject)  //will insert item into arr at the specified index (deleting 0 items first, that is, it's just an insert
+        //         // this.transactionDataList1.insert(0,jsonObject);
+        //         // this.transactionDataList1.push(jsonObject);
         //         this.transactionDataList1.push(jsonlastObject);
         //         tempCounter++;
         //         if (tempCounter == counter) {
         //             clearInterval(timerTask);
         //         }
-
         //     }, 3000);
-
-
-
 
         const headers = new HttpHeaders({
             'Content-Type': "application/json"
@@ -198,26 +179,13 @@ export class ReportService {
             }
         );
 
-
-
-
-
-
         // this.updateTransactionList(counter);
-
         // promiseTemp.next("Successful Added");
-
-
-
         return promiseTemp.asObservable();
-
     }
 
     updateTransactionList(counter) {
-
         let tempCounter = counter;
-        // let isCompleted = true;
-
         setTimeout(() => {
             this.getTransactionDetails().subscribe(
                 (response) => {
@@ -225,41 +193,6 @@ export class ReportService {
                     this.transactionDataListObs.emit(response);
                 });
         }, tempCounter * 3000)
-
-        // let timerTask = setInterval(
-        //     () => {
-
-        //         this.getTransactionDetails().subscribe(
-        //             (response) => {
-
-        //                 this.transactionDataListObs.emit(response);
-
-        //                 // response.forEach(element => {
-
-        //                 //     if (element.commissionSettlement === 'False') {
-        //                 //         isCompleted = false;
-        //                 //     }
-
-        //                 // });
-
-
-
-        //                 // if (isCompleted || tempCounter === 0) {
-        //                 //     clearInterval(timerTask);
-        //                 // }
-
-        //                 if (tempCounter === 0) {
-        //                     clearInterval(timerTask);
-        //                 }
-
-
-
-        //                 tempCounter--;
-
-        //             });
-        //     },
-        //     3000);
-
     }
 
 }

@@ -1,23 +1,17 @@
-<div class="main-content" style="margin-top: 0px;">
-
-
-
+<div class="main-content">
   <div class="col-md-12">
-
     <div class="row">
       <div class="col">
-        <h3 class="mr-auto text-muted mt-0">
-          <b> Report</b>
+        <h3 class="mr-auto text-muted mt-0" style="margin-bottom:8px;">
+          <b>Reports</b>
         </h3>
       </div>
     </div>
     <mat-divider style="margin-bottom: 6px;"></mat-divider>
-    <h4 class="text-muted" style="margin-top: 8px" style="margin-bottom: -10px">Incentives</h4>
-
+    <h4 class="text-muted" style="margin-top: 8px" style="margin-bottom: -10px;font-size:16px;">Incentives</h4>
     <div class="row">
-
       <div class="col-lg-3 col-md-6 col-sm-6">
-        <div class="card" >
+        <div class="card">
           <div class=card-body>
             <h4 class="text-success">
               <small>Last week</small>
@@ -28,11 +22,9 @@
           </div>
         </div>
       </div>
-
       <div class="col-lg-3 col-md-6 col-sm-6">
         <div class="card">
           <div class=card-body>
-
             <h4 class="text-warning">
               <small>Last Month</small>
             </h4>
@@ -42,291 +34,152 @@
           </div>
         </div>
       </div>
-
     </div>
   </div>
-
   <div class="col-md-12" style="margin-top: -10px">
-    <!-- <div class="card">
-      <div class="card-body table-full-width"> -->
-        <div class="table-responsive table-hover">
-          <!-- <table class="table table-hover">
-            <thead>
-              <tr>            
-
-                <th>{{ tableData3.headerRow[0] }}</th>
-                <th class="dropdown">
-                  <a class="dropdown-toggle" id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">{{ tableData3.headerRow[1] }}</a>
-                  <ul class="dropdown-menu">
-                    <li>
-                      <a href="#">Inbox</a>
-                    </li>
-                    <li>
-                      <a href="#">Drafts</a>
-                    </li>
-                    <li>
-                      <a href="#">Sent Items</a>
-                    </li>
-                    <li class="divider"></li>
-                    <li>
-                      <a href="#">Trash</a>
-                    </li>
-                  </ul>
-                </th>
-                <th>{{ tableData3.headerRow[2] }}</th>
-                <th class="dropdown">
-                  <a class="dropdown-toggle" id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">{{ tableData3.headerRow[3] }}</a>
-                  <ul class="dropdown-menu">
-
-                  </ul>
-                </th>
-                <th>{{ tableData3.headerRow[4] }}</th>
-                <th class="dropdown">
-                  <a class="dropdown-toggle" id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">{{ tableData3.headerRow[5] }}</a>
-                  <ul class="dropdown-menu">
-                    <li>
-                      <a href="#">R</a>
-                    </li>
-                    <li>
-                      <a href="#">W</a>
-                    </li>
-
-                  </ul>
-                </th>
-
-              </tr>
-            </thead>
-            <tbody>
-
-              <tr *ngFor="let row of tableData3.dataRows">
-                <td class="pl-4">{{row[0]}}</td>
-                <td>{{row[1]}}</td>
-                <td>{{row[2]}}</td>
-                <td>{{row[3]}}</td>
-                <td> {{row[4]}}</td>
-                <td *ngIf="row[5]=='R'">
-
-                  <i class="material-icons pl-4">done</i>
-
-                </td>
-                <td *ngIf="row[5]=='W'">
-
-                  <i class="material-icons pl-4">close</i>
-
-                </td>
-
-              </tr>
-            </tbody>
-          </table> -->
-          <table class="table table-spacing" style="overflow: hidden; z-index: -1000" style="margin-top: -20px">
-            <thead>
-              <tr>
-                <th style="width:10%" class="text-center">{{ tableData3.headerRow[0] }}</th>
-                <th style="width: 15%" class="text-center">
-                  <!-- <mat-form-field>
-                  <mat-form-field>
-                    <mat-select class="text-justify" [(ngModel)]="sales" placeholder="Sales">
-                      <mat-option *ngFor="let sales of saleTypeList" [value]="sales.value">{{sales.name}}</mat-option>
-                    </mat-select>
-                  </mat-form-field> -->
-                  <div class="dropdown">
-                    <a  class="dropdown-toggle" data-toggle="dropdown">Sales</a> <span class="caret"></span>
-                    <div class="dropdown-menu">
-                      <a class="dropdown-item" tabindex="i" (click)="selectSales(sales.value)" *ngFor="let sales of saleTypeList; let i = index" style="overflow: absolute">{{sales.name}}</a>
-                    </div>
-                  </div>
-
-
-                  <!-- <div class="dropdown">
-                      <a class="dropdown-toggle" data-toggle="dropdown">Sales</a> <span class="caret"></span>
-                      <div class="dropdown-menu">
-                        <a class="dropdown-item" (click)="selectSalesTable(sales.value)" *ngFor="let sales of saleTypeList; let i = index" style="overflow: absolute">{{sales.name}}</a>
-                      </div>
-                    </div> -->
-
-                </th>
-
-                <!-- <th class="dropdown">
-                  <a href="#" data-toggle="dropdown" class="dropdown-toggle">Messages <b class="caret"></b></a>
-                  <ul class="dropdown-menu">
-                     <li>Inbox</li>
-                     <li><a>Drafts</a></li>
-                     <li><a>Sent Items</a></li>
-                     <li class="divider"></li>
-                     <li><a href="#">Trash</a></li>
-                  </ul>
-               </th> -->
-                <th style="width: 10%" class="text-center">{{ tableData3.headerRow[2] }}</th>
-                <!-- <th class="dropdown">
-                  <a class="dropdown-toggle" id="dropdownMenu" data-toggle="dropdow{{sales}}</mat-option>
-                  </mat-select>
-                </th>n" aria-haspopup="true" aria-expanded="true">{{ tableData3.headerRow[3] }}</a>
-                  <ul class="dropdown-menu">
-
-                  </ul>
-                </th> -->
-                <th style="width: 20%" class="text-center p-0">
-                    <mat-form-field class="no-line" style="width: 110px;margin-left: 60px;">                
-                      <mat-label>Date/Time</mat-label>             
-                      <input matInput [owlDateTime]="dt10" [selectMode]="'range'" [(ngModel)]="dateTimeRange">
-                      <owl-date-time #dt10></owl-date-time>
-                      <mat-datepicker-toggle matSuffix [for]="picker">
-                        <mat-icon [owlDateTimeTrigger]="dt10" matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
-      
-                      </mat-datepicker-toggle>
-                      <mat-datepicker #picker></mat-datepicker>
-                    </mat-form-field>
-                    <!-- Date
-                    <owl-date-time #dt10></owl-date-time>
-                    <mat-datepicker-toggle matSuffix [for]="picker">
-                      <mat-icon [owlDateTimeTrigger]="dt10" matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
-                    </mat-datepicker-toggle>
-                    <mat-datepicker #picker></mat-datepicker> -->
-      
-                  </th>
-                <th style="width: 10%" class="text-center">{{ tableData3.headerRow[4] }}</th>
-                <th style="width: 20%" class="text-center">
-                  <!-- <mat-form-field>
-                    <mat-select class="ml-2" [(ngModel)]="status" placeholder="Settlement">
-                      <mat-option *ngFor="let status of statusArray" [value]="status">{{status}}</mat-option>
-                    </mat-select>
-                  </mat-form-field> -->
-                  <div class="dropdown text-center">
-                      <a class="dropdown-toggle" data-toggle="dropdown">Settlement</a> <span class="caret"></span>
-                      <div class="dropdown-menu">
-                        <a class="dropdown-item" tabindex="i" (click)="selectSettlement(status)" *ngFor="let status of statusArray; let i = index">{{status}}</a>
-                      </div>
-                    </div>
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-
-              <tr *ngFor="let row of transactionDataListTemp | filter:status | filter: sales | dateFilterPipe :dateTimeRange[0] : dateTimeRange[1] | orderBy: 'txCreatedTime'; let i=index;" class="custom-table"
-              data-toggle="modal" data-target="#invoiceModal"  (click)="onClickListener(i)">
-                <td style="width: 10%" class="text-center">{{row.TxId}}</td>
-                <td style="width: 20%" class="text-center">{{row.saleType}}</td>
-                <td style="width: 10%" class="text-center">{{row.saleAmount}}</td>
-                <td style="width: 20%" class="text-center"> {{row.txCreatedTime*1000| date:'medium'}}</td>
-                <td style="width: 10%" class="text-center"> {{row.commission}}</td>
-
-                <td  class="text-center" style="width: 20% " *ngIf="row.commissionSettlement==='True'">
-
-                  <i class="material-icons text-success text-center">done</i>
-
-                </td>
-                <td class="text-center" style="width: 20%;" *ngIf="row.commissionSettlement==='False'">
-
-                  <i class="material-icons  text-danger text-center">close</i>
-
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <p *ngIf="transactionDataListTemp.length === 0" class="text-center">NO DATA AVAILABLE</p>
-          <mat-paginator [length]="length"  [pageSize]="pageSize"  [pageSizeOptions]="pageSizeOptions"  (page)="onPageChanged($event)">
-            </mat-paginator>
-        </div>
-
-      <!-- </div>
-    </div> -->
+    <div class="table-responsive table-hover">
+      <table class="table table-spacing" style="overflow: hidden; z-index: -1000" style="margin-top: -20px">
+        <thead>
+          <tr>
+            <th style="width:10%" class="text-center">{{ tableData3.headerRow[0] }}</th>
+            <th style="width: 15%" class="text-center">
+              <div class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown">Sales</a>
+                <span class="caret"></span>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" tabindex="i" (click)="selectSales(sales.value)" *ngFor="let sales of saleTypeList; let i = index"
+                    style="overflow: absolute">{{sales.name}}</a>
+                </div>
+              </div>
+            </th>
+            <th style="width: 10%" class="text-center">{{ tableData3.headerRow[2] }}</th>
+            <th style="width: 20%" class="text-center p-0">
+              <mat-form-field class="no-line" style="width: 100px;margin-left: 60px;">
+                <mat-label>Date/Time</mat-label>
+                <input matInput [owlDateTime]="dt10" [selectMode]="'range'" [(ngModel)]="dateTimeRange">
+                <owl-date-time #dt10></owl-date-time>
+                <mat-datepicker-toggle matSuffix [for]="picker">
+                  <mat-icon [owlDateTimeTrigger]="dt10" matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                </mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+            </th>
+            <th style="width: 10%" class="text-center">{{ tableData3.headerRow[4] }}</th>
+            <th style="width: 20%" class="text-center">
+              <div class="dropdown text-center">
+                <a class="dropdown-toggle" data-toggle="dropdown">Settlement</a>
+                <span class="caret"></span>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" tabindex="i" (click)="selectSettlement(status)" *ngFor="let status of statusArray; let i = index">{{status}}</a>
+                </div>
+              </div>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of transactionDataListTemp | filter:status | filter: sales | dateFilterPipe :dateTimeRange[0] : dateTimeRange[1] | orderBy: 'txCreatedTime'; let i=index;"
+            class="custom-table" data-toggle="modal" data-target="#invoiceModal" (click)="onClickListener(i)">
+            <td style="width: 10%" class="text-center">{{row.TxId}}</td>
+            <td style="width: 20%" class="text-center">{{row.saleType}}</td>
+            <td style="width: 10%" class="text-center">{{row.saleAmount}}</td>
+            <td style="width: 20%" class="text-center"> {{row.txCreatedTime*1000| date:'medium'}}</td>
+            <td style="width: 10%" class="text-center"> {{row.commission}}</td>
+            <td class="text-center" style="width: 20% " *ngIf="row.commissionSettlement==='True'">
+              <i class="material-icons text-success text-center">done</i>
+            </td>
+            <td class="text-center" style="width: 20%;" *ngIf="row.commissionSettlement==='False'">
+              <i class="material-icons  text-danger text-center">close</i>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <p *ngIf="transactionDataListTemp.length === 0" class="text-center">NO DATA AVAILABLE</p>
+      <mat-paginator [length]="length"  [pageSize]="pageSize"  [pageSizeOptions]="pageSizeOptions"  (page)="onPageChanged($event)">
+      </mat-paginator>
+    </div>
   </div>
 </div>
-
 <div class="modal" id="invoiceModal">
-    <div class="modal-dialog modalview">
-      <div class="modal-content">
-        <!-- Modal body -->
-        <div class="modal-body" style="padding: 50px;">
-          <h4 class="modal-title" style="color: dodgerblue;">
-            <b>INVOICE</b>
-          </h4>
-          <hr style="margin-top: 0px;">
-          <div class="row">
-
-            <div class="col-lg-6" style="font-size: 12px;">
-              <p class="text-muted" style="margin-bottom: 0px;">Customer ID :
-                <b>12345</b>
-              </p>
-              <p class="text-muted" style="margin-bottom: 0px">Dealer Management</p>
-              <p class="text-muted" style="margin-bottom: 0px">dealermanagement@ril.com</p>
-              <p class="text-muted" style="margin-bottom: 1px">8877811976</p>
-
-              <p class="text-muted" style="margin-bottom: 0px">Reliance corporate park,Ghansoli,Maharastra,pin-400709</p>
-
-            </div>
-            <div class="col-lg-6" style="text-align: right; font-size: 12px;">
-              <p class="text-muted" style="margin-bottom: -1px">Txn id-
-                <b>{{invoiceData.TxId}}</b>
-              </p>
-              <p class="text-muted">Date:
-                <b>{{invoiceData.txCreatedTime*1000 | date : 'medium'}}</b>
-              </p>
-            </div>
+  <div class="modal-dialog modalview">
+    <div class="modal-content">
+      <div class="modal-body" style="padding: 50px;">
+        <h4 class="modal-title" style="color: dodgerblue;">
+          <b>INVOICE</b>
+        </h4>
+        <hr style="margin-top: 0px;">
+        <div class="row">
+          <div class="col-lg-6" style="font-size: 12px;">
+            <p class="text-muted" style="margin-bottom: 0px;">Customer ID :
+              <b>12345</b>
+            </p>
+            <p class="text-muted" style="margin-bottom: 0px">Dealer Management</p>
+            <p class="text-muted" style="margin-bottom: 0px">dealermanagement@ril.com</p>
+            <p class="text-muted" style="margin-bottom: 1px">8877811976</p>
+            <p class="text-muted" style="margin-bottom: 0px">Reliance Corporate Park,Ghansoli,Maharastra</p>
+            <p class="text-muted" style="margin-bottom: 0px">PinCode-400701</p>
           </div>
-          <br>
-          <br>
-         
-            <table class="table">
-              <thead class="text-primary">
-                <tr>
-                  <th class="text-muted" style="font-size: 13px; padding-left: 0px;">DESCRIPTION</th>
-                  <th class="text-muted" style="font-size: 13px; padding-left: 0px;">SALE AMOUNT</th>
-                  <th class="text-muted" style="font-size: 13px; padding-left: 0px;">QTY</th>
-                  <th class="text-muted text-right" style="font-size: 13px; padding-right: 0px;">AMOUNT</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr class="text-muted" style="font-size: 13px">
-                  <td class="text-muted" style="font-size: 13px; padding-left: 0px;" >
-                    <b>{{invoiceData.itemType}}</b>
-                  </td>
-                  <td class="text-muted" style="font-size: 13px; padding-left: 0px;">
-                    <b>&#x20b9;{{invoiceData.saleAmount/invoiceData.quantity}}</b>
-                  </td>
-                  <td class="text-muted" style="font-size: 13px; padding-left: 0px;">
-                    <b>{{invoiceData.quantity}}</b>
-                  </td>
-                  <td class="text-muted text-right" style="font-size: 13px; padding-right: 0px;">
-                    <b>&#x20b9;{{invoiceData.saleAmount}}</b>
-                  </td>
-
-                </tr>
-              </tbody>
-            </table>
-
-          <br>
-
-        </div>
-        <div style="background-color: dodgerblue; padding:30px 50px;">
-
-
-
-         
-          <div class="row" style="color: white;font-size: 13px">
-            <div class="col">CASH PAID</div>
-            <div class="col">PROMO CODE</div>
-            <div class="col">TOTAL AMOUNT</div>
+          <div class="col-lg-6" style="text-align: right; font-size: 12px;">
+            <p class="text-muted" style="margin-bottom: -1px">Txn Id-
+              <b>{{invoiceData.TxId}}</b>
+            </p>
+            <p class="text-muted">Date:
+              <b>{{invoiceData.txCreatedTime*1000 | date : 'medium'}}</b>
+            </p>
           </div>
-          <hr style="margin-top: 0px;margin-bottom: 1px">
-          <div class="row" style="color: white;font-size: 13px">
-              <div class="col">&#x20b9;{{invoiceData.saleAmount}}</div>
-              <div class="col">NEW123</div>
-              <div class="col">&#x20b9;{{invoiceData.saleAmount}}</div>
-            </div>
-
         </div>
         <br>
         <br>
-
-        <!-- Modal footer -->
-        <div class="modal-footer" style="color: dodgerblue;font-size: 15px">
-          <h4 class="mr-auto " style="margin-left: 26px;font-size: 15px"><b>Thank You!</b></h4>
-          <p>
-            <small style="margin-left: -90px">Dealer ID: {{invoiceData.dealerId}} | 09099788768</small>
-          </p>
+        <table class="table">
+          <thead class="text-primary">
+            <tr>
+              <th class="text-muted" style="font-size: 13px; padding-left: 0px;">DESCRIPTION</th>
+              <th class="text-muted" style="font-size: 13px; padding-left: 0px;">SALE AMOUNT</th>
+              <th class="text-muted" style="font-size: 13px; padding-left: 0px;">QTY</th>
+              <th class="text-muted text-right" style="font-size: 13px; padding-right: 0px;">AMOUNT</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="text-muted" style="font-size: 13px">
+              <td class="text-muted" style="font-size: 13px; padding-left: 0px;">
+                <b>{{invoiceData.itemType}}</b>
+              </td>
+              <td class="text-muted" style="font-size: 13px; padding-left: 0px;">
+                <b>&#x20b9;{{invoiceData.saleAmount/invoiceData.quantity}}</b>
+              </td>
+              <td class="text-muted" style="font-size: 13px; padding-left: 0px;">
+                <b>{{invoiceData.quantity}}</b>
+              </td>
+              <td class="text-muted text-right" style="font-size: 13px; padding-right: 0px;">
+                <b>&#x20b9;{{invoiceData.saleAmount}}</b>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <br>
+      </div>
+      <div style="background-color: dodgerblue; padding:30px 50px;">
+        <div class="row" style="color: white;font-size: 13px">
+          <div class="col">CASH PAID</div>
+          <div class="col">PROMO CODE</div>
+          <div class="col">TOTAL AMOUNT</div>
         </div>
-
+        <hr style="margin-top: 0px;margin-bottom: 1px">
+        <div class="row" style="color: white;font-size: 13px">
+          <div class="col">&#x20b9;{{invoiceData.saleAmount}}</div>
+          <div class="col">NEW123</div>
+          <div class="col">&#x20b9;{{invoiceData.saleAmount}}</div>
+        </div>
+      </div>
+      <br>
+      <br>
+      <div class="modal-footer" style="color: dodgerblue;font-size: 15px">
+        <h4 class="mr-auto " style="margin-left: 26px;font-size: 15px">
+          <b>Thank You!</b>
+        </h4>
+        <p>
+          <small style="margin-left: -90px">Dealer ID: {{invoiceData.dealerId}} | 09099788768</small>
+        </p>
       </div>
     </div>
   </div>
+</div>

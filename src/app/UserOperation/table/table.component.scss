@@ -1,21 +1,3 @@
-/* table {
-    width: 100%;
-  }
-
-  hr {
-    margin-top: 0;
-    margin-bottom: 1rem;
-    border: 0;
-    border-top: 1px solid rgba(0, 0, 0, 0.1);
-  }
-
-  .vl {
-    border-right: 2px solid  rgba(192, 196, 194, 0.555) ;
-    height: 70px;
-    padding-left: 20px;
-} */
-
-
 
 #first{
   overflow-y:auto;
@@ -31,19 +13,11 @@ mat-paginator {
   background: none !important;
 }
 
-/* ::ng-deep .no-line .mat-form-field-underline {
-  .mat-form-field-ripple {
-    background: transparent !important;
-  }
-  
-} */
-
 .no-line {
   .mat-form-field-underline {
     background: transparent !important;
   }
 }
-
 
 $theme-color: #3f51b5;
 
@@ -541,6 +515,12 @@ $theme-color: #3f51b5;
   margin-bottom: 10px;
 }
 
+// .modal .modalUp {
+//   margin-top:0px;
+//   margin-bottom:0px;
+//   // margin-bottom:10px;
+//   // margin-bottom:100px;
+// }
 
 .owl-hidden-accessible {
   border: 0;
