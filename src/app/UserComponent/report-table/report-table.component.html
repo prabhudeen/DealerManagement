@@ -54,7 +54,7 @@
             </th>
             <th style="width: 10%" class="text-center">{{ tableData3.headerRow[2] }}</th>
             <th style="width: 20%" class="text-center p-0">
-              <mat-form-field class="no-line" style="width: 100px;margin-left: 60px;">
+              <mat-form-field class="no-line" style="width: 87px;margin-left: 73px;">
                 <mat-label>Date/Time</mat-label>
                 <input matInput [owlDateTime]="dt10" [selectMode]="'range'" [(ngModel)]="dateTimeRange" (ngModelChange)="DateUpdate()">
                 <owl-date-time #dt10></owl-date-time>
@@ -70,15 +70,25 @@
                 <a class="dropdown-toggle" data-toggle="dropdown">Settlement</a>
                 <span class="caret"></span>
                 <div class="dropdown-menu">
-                  <a class="dropdown-item" tabindex="i" (click)="selectSettlement(status)" *ngFor="let status of statusArray; let i = index">{{status}}</a>
+                  <a class="dropdown-item" tabindex="i" (click)="selectSettlement(status)" *ngFor="let status of statusArray; let i = index">
+                    <div *ngIf="status==='True'">
+                      <i class="material-icons text-success text-center">done</i>
+                    </div>
+                    <div *ngIf="status==='False'">
+                      <i class="material-icons text-danger text-center">close</i>
+                    </div>
+                    <div *ngIf="status==='All'">
+                      {{status}}
+                    </div>
+                  </a>
                 </div>
               </div>
             </th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let row of transactionDataListTemp; let i=index;"
-            class="custom-table" data-toggle="modal" data-target="#invoiceModal" (click)="onClickListener(i)">
+          <tr *ngFor="let row of transactionDataListTemp; let i=index;" class="custom-table" data-toggle="modal" data-target="#invoiceModal"
+            (click)="onClickListener(i)">
             <td style="width: 10%" class="text-center">{{row.TxId}}</td>
             <td style="width: 20%" class="text-center">{{row.saleType}}</td>
             <td style="width: 10%" class="text-center">{{row.saleAmount}}</td>
@@ -166,7 +176,7 @@
         <hr style="margin-top: 0px;margin-bottom: 1px">
         <div class="row" style="color: white;font-size: 13px">
           <div class="col">&#x20b9;{{invoiceData.saleAmount}}</div>
-          <div class="col">NEW123</div>
+          <div class="col" style="padding-left:75px;">-</div>
           <div class="col">&#x20b9;{{invoiceData.saleAmount}}</div>
         </div>
       </div>

@@ -539,3 +539,10 @@ $theme-color: #3f51b5;
   margin-bottom: 10px !important;
 }
 
+.pbClass .mat-form-field-wrapper {
+    padding-bottom: 20px;
+}
+
+button[disabled] {
+  cursor: not-allowed;
+}

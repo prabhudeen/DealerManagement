@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, ViewChild, HostListener, AfterViewInit } 
 import { Router, NavigationEnd, NavigationStart } from '@angular/router';
 
 import { Subscription } from 'rxjs/Subscription';
-import { Location, LocationStrategy, PathLocationStrategy, PopStateEvent } from '@angular/common';
+import { Location, PopStateEvent } from '@angular/common';
 import 'rxjs/add/operator/filter';
 import { NavbarComponent } from '../../shared/navbar/navbar.component';
 import PerfectScrollbar from 'perfect-scrollbar';
@@ -10,7 +10,7 @@ import { NavItem,NavItemType } from '../../md/md.module';
 declare const $: any;
 @Component({
   selector: 'app-layout',
-  templateUrl: './admin-layout.component.html'
+  templateUrl: './admin-layout.component.html',
 })
 export class AdminLayoutComponent implements OnInit, AfterViewInit {
     public navItems: NavItem[];

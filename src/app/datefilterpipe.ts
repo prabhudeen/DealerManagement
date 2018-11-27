@@ -3,6 +3,7 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'dateFilterPipe'
 })
 export class Datefilterpipe implements PipeTransform {
+
   transform(items: any, startTime: any, endTime: any): any {
     let filtered = [];
 

@@ -3,8 +3,6 @@ import { AdminLayoutComponent } from './layouts/admin/admin-layout.component';
 import { TableComponent } from './UserOperation/table/table.component';
 import { ReportTableComponent } from './UserComponent/report-table/report-table.component';
 import { LoginComponent } from './UserOperation/login/login.component';
-import { DealerComponent } from './UserComponent/dealer/dealer.component';
-import { PlanComponent } from './UserComponent/plan/plan.component';
 import { AuthGuard } from './shared/auth.guard';
 export const AppRoutes: Routes = [
   {
@@ -19,16 +17,10 @@ export const AppRoutes: Routes = [
       {
         path: 'table', component: TableComponent, canActivate: [AuthGuard]
 
-      },
-      {
-        path: 'dealer', component: DealerComponent
-      },
+      },     
       {
         path: 'report', component: ReportTableComponent, canActivate: [AuthGuard]
-      },
-      {
-        path: 'plan', component: PlanComponent
-      },
+      },     
     ]
   },
   {

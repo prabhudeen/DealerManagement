@@ -51,14 +51,13 @@ import { HttpClientModule } from '@angular/common/http';
 import { FilterPipe } from './UserOperation/table/Filter.pipe';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { ReportService } from './UserComponent/report-table/report.service';
-import { DealerComponent } from './UserComponent/dealer/dealer.component';
-import { PlanComponent } from './UserComponent/plan/plan.component';
 import { AngularWebStorageModule } from 'angular-web-storage';
 import { SessionService } from './shared/session.service';
 import { AuthGuard } from './shared/auth.guard';
 import { OrderByPipe } from './UserOperation/table/order.pipe';
 import { FixedpluginModule } from './shared/fixedplugin/fixedplugin.module';
 import { Datefilterpipe } from './datefilterpipe';
+
 @NgModule({
   exports: [
     MatAutocompleteModule,
@@ -110,7 +109,9 @@ export class MaterialModule { }
     FooterModule,
     FixedpluginModule,
     HttpClientModule,
-    RouterModule.forRoot(AppRoutes),
+    RouterModule.forRoot(AppRoutes,{
+      useHash:true
+    }),
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
     AngularWebStorageModule
@@ -118,11 +119,9 @@ export class MaterialModule { }
   declarations: [
     AppComponent,
     TableComponent,
-    AdminLayoutComponent,
-    PlanComponent,
+    AdminLayoutComponent,   
     ReportTableComponent,
-    LoginComponent,
-    DealerComponent,
+    LoginComponent,    
     Datefilterpipe,
     FilterPipe,
     OrderByPipe

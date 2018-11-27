@@ -34,18 +34,7 @@ export const ROUTES: RouteInfo[] = [{
         type: 'link',
         icontype: 'bar_chart'
      },
-     {
-        path: '/dealer',
-        title: 'DealerInfo',
-        type: 'link',
-        icontype: 'grid_on'
-     },
-     {
-        path: '/plan',
-        title: 'PlanInfo',
-        type: 'link',
-        icontype: 'content_paste'
-     }
+     
 ];
 @Component({
     selector: 'app-sidebar-cmp',

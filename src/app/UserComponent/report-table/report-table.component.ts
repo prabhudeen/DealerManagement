@@ -17,7 +17,7 @@ import { Datefilterpipe } from '../../datefilterpipe';
   changeDetection: ChangeDetectionStrategy.Default
 })
 export class ReportTableComponent implements OnInit {
-  tableDataCopy=[];
+  tableDataCopy = [];
   length: number;
   pageSize = 5;
   pageSizeOptions: number[] = [5, 10, 25, 100];
@@ -26,28 +26,28 @@ export class ReportTableComponent implements OnInit {
   transactionDataListTemp = [];
   invoiceData: any;
   tableData2: any;
-  triggered=false;
+  triggered = false;
   public tableData3: TableData;
   transactionDataList: any = [];
   headers1: HttpHeaders;
-  public statusArray: string[] =[];
+  public statusArray: string[] = [];
   public saleTypeList;
   toppingList: string[] = [];
   transaction: any = {};
   sales = null;
   status = null;
-  tableDataCopyOriginal:any =[];
-  saleTriggered:boolean=false;
-  settlementTriggered:boolean=false;
+  tableDataCopyOriginal: any = [];
+  saleTriggered: boolean = false;
+  settlementTriggered: boolean = false;
 
   constructor(private reportService: ReportService, private server: CommonService) {
   }
 
   ngOnInit() {
     this.invoiceData = {};
-    this.statusArray=["All", "True", "False"];
-    this.toppingList=['Extra cheese', 'Mushroom', 'Onion', 'Pepperoni', 'Sausage', 'Tomato'];
-    this.saleTypeList=[
+    this.statusArray = ["All", "True", "False"];
+    this.toppingList = ['Extra cheese', 'Mushroom', 'Onion', 'Pepperoni', 'Sausage', 'Tomato'];
+    this.saleTypeList = [
       { name: 'All', value: 'All' },
       { name: 'SIM Activation', value: 'SimActivation' },
       { name: 'Recharge', value: 'Recharge' },
@@ -69,9 +69,9 @@ export class ReportTableComponent implements OnInit {
         this.transactionDataList = response;
         this.transactionDataListTemp = JSON.parse(JSON.stringify(response));
         this.transactionDataListTemp.splice(this.transactionDataList.length - 1, 1);
-        this.transactionDataListTemp=new OrderByPipe().transform(this.transactionDataListTemp,'txCreatedTime');
-        this.tableDataCopyOriginal=this.transactionDataListTemp;
-        this.tableDataCopy=this.transactionDataListTemp;
+        this.transactionDataListTemp = new OrderByPipe().transform(this.transactionDataListTemp, 'txCreatedTime');
+        this.tableDataCopyOriginal = this.transactionDataListTemp;
+        this.tableDataCopy = this.transactionDataListTemp;
         this.length = this.transactionDataListTemp.length;
         this.transactionDataListTemp = this.transactionDataListTemp.slice(0, this.pageSize);
       });
@@ -82,7 +82,7 @@ export class ReportTableComponent implements OnInit {
       });
   }
 
-  DateUpdate(){
+  DateUpdate() {
     console.log("click dateupdate()");
     this.length = new Datefilterpipe().transform(this.tableDataCopyOriginal, this.dateTimeRange[0], this.dateTimeRange[1]).length;
     this.tableDataCopy = new Datefilterpipe().transform(this.tableDataCopyOriginal, this.dateTimeRange[0], this.dateTimeRange[1]);
@@ -90,44 +90,81 @@ export class ReportTableComponent implements OnInit {
   }
 
   selectSales(item: string) {
+
+    this.sales = item;
     if (item != 'All') {
       this.saleTriggered = true;
     } else {
       this.saleTriggered = false;
     }
-    this.length = new FilterPipe().transform(this.tableDataCopyOriginal, item).length;
-    this.tableDataCopy = new FilterPipe().transform(this.tableDataCopyOriginal, item);
-    this.transactionDataListTemp = this.tableDataCopy.slice(0, this.pageSize);
-    this.sales = item;
+
+    if (!this.settlementTriggered) {
+
+      this.tableDataCopy = new FilterPipe().transform(this.tableDataCopyOriginal, item);
+      this.length = this.tableDataCopy.length;
+      this.transactionDataListTemp = this.tableDataCopy.slice(0, this.pageSize);
+
+    } else {
+
+      this.tableDataCopy = new FilterPipe().transform(this.tableDataCopyOriginal, this.status);
+      this.length = this.tableDataCopy.length;
+      this.transactionDataListTemp = this.tableDataCopy.slice(0, this.pageSize);
+
+      this.tableDataCopy = new FilterPipe().transform(this.tableDataCopy, item);
+      this.length = this.tableDataCopy.length;
+      this.transactionDataListTemp = this.tableDataCopy.slice(0, this.pageSize);
+
+    }
+
+
   }
 
-  getSaleColour(){
-    if(this.saleTriggered){
+  getSaleColour() {
+    if (this.saleTriggered) {
       return 'red';
       console.log('entered green');
-    }else{
+    } else {
       return 'black';
       console.log('entered black');
     }
   }
 
   selectSettlement(items: string) {
+    this.status = items;
+
     if (items != 'All') {
       this.settlementTriggered = true;
     } else {
       this.settlementTriggered = false;
     }
-    this.length = new FilterPipe().transform(this.tableDataCopyOriginal, items).length;
-    this.tableDataCopy = new FilterPipe().transform(this.tableDataCopyOriginal, items);
-    this.transactionDataListTemp = this.tableDataCopy.slice(0, this.pageSize);
-    this.status = items;
+
+    if (!this.saleTriggered) {
+
+
+      this.tableDataCopy = new FilterPipe().transform(this.tableDataCopyOriginal, items);
+      this.length = this.tableDataCopy.length;
+      this.transactionDataListTemp = this.tableDataCopy.slice(0, this.pageSize);
+
+    } else {
+
+      this.tableDataCopy = new FilterPipe().transform(this.tableDataCopyOriginal, this.sales);
+      this.length = this.tableDataCopy.length;
+      this.transactionDataListTemp = this.tableDataCopy.slice(0, this.pageSize);
+
+      this.tableDataCopy = new FilterPipe().transform(this.tableDataCopy, items);
+      this.length = this.tableDataCopy.length;
+      this.transactionDataListTemp = this.tableDataCopy.slice(0, this.pageSize);
+
+    }
+
+
   }
 
-  getSettlementColour(){
-    if(this.settlementTriggered){
+  getSettlementColour() {
+    if (this.settlementTriggered) {
       return 'red';
       console.log('entered green');
-    }else{
+    } else {
       return 'black';
       console.log('entered black');
     }
@@ -138,7 +175,7 @@ export class ReportTableComponent implements OnInit {
   }
 
   onPageChanged(e) {
-    
+
     let firstCut = e.pageIndex * e.pageSize;
     let secondCut = firstCut + e.pageSize;
     this.transactionDataListTemp = this.tableDataCopy.slice(firstCut, secondCut);

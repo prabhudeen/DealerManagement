@@ -1,12 +1,10 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation, ChangeDetectionStrategy } from '@angular/core';
 import { TableData } from '../../md/md-table/md-table.component';
-import { Statement } from '@angular/compiler';
 import { FormControl, Validators, NgForm, FormGroup, FormBuilder } from '@angular/forms';
 import { CommonService, User } from '../../shared/common.service';
 import { HttpHeaders } from '@angular/common/http';
 import { ReportService } from '../../UserComponent/report-table/report.service';
 import { SessionService } from '../../shared/session.service';
-import { stringify } from '@angular/core/src/util';
 import { MatPaginator, PageEvent } from '@angular/material';
 import { FilterPipe } from './Filter.pipe';
 import { OrderByPipe } from './order.pipe';
@@ -86,16 +84,14 @@ export class TableComponent implements OnInit {
     this.saleTypeList = [
       { name: 'SIM Activation', value: 'SimActivation' },
       { name: 'Recharge', value: 'Recharge' },
-      { name: 'Device Sale', value: 'DeviceSale' },
-      { name: 'Device Exchange', value: 'DeviceExchange' }
+      { name: 'Device Sale', value: 'DeviceSale' }
     ]
 
     this.saleTypeListHeader = [
       { name: 'All', value: 'All' },
       { name: 'SIM Activation', value: 'SimActivation' },
       { name: 'Recharge', value: 'Recharge' },
-      { name: 'Device Sale', value: 'DeviceSale' },
-      { name: 'Device Exchange', value: 'DeviceExchange' }
+      { name: 'Device Sale', value: 'DeviceSale' }
     ]
 
     this.statusArray = ["All", "True", "False"];
@@ -186,12 +182,6 @@ export class TableComponent implements OnInit {
     for (let i = 0; i < this.salesItems.length; i++)
       total += this.salesItems[i].quantity * this.salesItems[i].saleAmount;
     return total;
-  }
-
-  createdDate() {
-    let date = new Date();
-    let month = date.getMonth() + 1;
-    return '' + date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
   }
 
   getErrorEmailMessage() {
@@ -317,32 +307,29 @@ export class TableComponent implements OnInit {
   }
 
   dicountedAmount() {
-    return Math.round(this.saleInfoData.totalSaleAmount * .95);
+    //using this function I am returning the total amount;
+    return Math.round(this.saleInfoData.totalSaleAmount * 1);
   }
 
   onSaleTypeChange(saleType, index) {
     console.log('inside onSaleTypeChange:' + saleType + index);
     this.planList[index] = [];
     this.salesItems[index].saleAmount = null;
-    this.salesItems[index].quantity = 0;
+    this.salesItems[index].quantity = 1;
     this.salesItems[index].saleAmount = 0;
-    this.salesItems[index].itemId = '-';
+    this.salesItems[index].itemId = ' ';
     let tempList = [];
     switch (saleType) {
       case 'SimActivation':
-        tempList = ['LTE Voice']
+        tempList = ['Connectivity']
         this.productTypeList[index] = JSON.parse(JSON.stringify(tempList));
         break;
       case 'Recharge':
-        tempList = ['LTE Mobility']
+        tempList = ['Main Plans', 'Booster Plans']
         this.productTypeList[index] = JSON.parse(JSON.stringify(tempList));
         break;
       case 'DeviceSale':
-        tempList = ['STB', 'Feature Phone']
-        this.productTypeList[index] = JSON.parse(JSON.stringify(tempList));
-        break;
-      case 'DeviceExchange':
-        tempList = []
+        tempList = ['Feature Phone', 'Set Top Box']
         this.productTypeList[index] = JSON.parse(JSON.stringify(tempList));
         break;
     }
@@ -350,26 +337,33 @@ export class TableComponent implements OnInit {
 
   onItemTypeChange(itemType, index) {
     this.planList[index] = [];
-    this.salesItems[index].quantity = 0;
+    this.salesItems[index].quantity = 1;
     this.salesItems[index].saleAmount = 0;
-    this.salesItems[index].itemId = '-';
+    this.salesItems[index].itemId = ' ';
     console.log('inside onItemTypeChange:' + itemType + index);
     let tempList = [];
     switch (itemType) {
-      case 'LTE Voice':
-        tempList = [{ name: 'SACHET 98', value: 'p1' }]
+      case 'Connectivity':
+        tempList = [{ name: 'Starter 98', value: 'p1' },
+        { name: 'Starter 149', value: 'p2' }]
         this.planList[index] = JSON.parse(JSON.stringify(tempList));
         break;
-      case 'LTE Mobility':
-        tempList = [{ name: 'MRP 399 - 84 Days', value: 'p2' }]
+      case 'Main Plans':
+        tempList = [{ name: 'Rs. 399', value: 'p3' },
+        { name: 'Rs. 459', value: 'p4' }]
         this.planList[index] = JSON.parse(JSON.stringify(tempList));
         break;
-      case 'STB':
-        tempList = [{ name: 'Set Top Box 1', value: 'p3' }]
+      case 'Booster Plans':
+        tempList = [{ name: 'Rs. 21 – 1GB', value: 'p5' },
+        { name: 'Rs. 51 – 3 GB', value: 'p6' }]
         this.planList[index] = JSON.parse(JSON.stringify(tempList));
         break;
       case 'Feature Phone':
-        tempList = [{ name: 'JioPhone', value: 'p4' }, { name: 'JioPhone2', value: 'p5' }]
+        tempList = [{ name: 'JioPhone1', value: 'p7' }, { name: 'JioPhone2', value: 'p8' }]
+        this.planList[index] = JSON.parse(JSON.stringify(tempList));
+        break;
+      case 'Set Top Box':
+        tempList = [{ name: 'STB 1', value: 'p9' }]
         this.planList[index] = JSON.parse(JSON.stringify(tempList));
         break;
     }
@@ -382,16 +376,28 @@ export class TableComponent implements OnInit {
         this.salesItems[index].saleAmount = 98;
         break;
       case "p2":
-        this.salesItems[index].saleAmount = 399;
+        this.salesItems[index].saleAmount = 149;
         break;
       case "p3":
-        this.salesItems[index].saleAmount = 2000;
+        this.salesItems[index].saleAmount = 399;
         break;
       case "p4":
-        this.salesItems[index].saleAmount = 1299;
+        this.salesItems[index].saleAmount = 459;
         break;
       case "p5":
+        this.salesItems[index].saleAmount = 21;
+        break;
+      case "p6":
+        this.salesItems[index].saleAmount = 51;
+        break;
+      case "p7":
+        this.salesItems[index].saleAmount = 1299;
+        break;
+      case "p8":
         this.salesItems[index].saleAmount = 1499;
+        break;
+      case "p9":
+        this.salesItems[index].saleAmount = 2000;
         break;
     }
   }
@@ -410,7 +416,9 @@ export class TableComponent implements OnInit {
     this.server.sendRequest('post', '/getTransactionById', null, headers, null).subscribe(
       (data) => {
         console.log("invoice data")
+
         this.invoiceData = data['body'];
+        this.invoiceData.planId = this.GetPlanName(data['body'].planId);
         console.log(this.invoiceData);
 
       }
@@ -426,44 +434,83 @@ export class TableComponent implements OnInit {
   }
 
   selectSales(item: string) {
+
+    this.sales = item;
+
     if (item != 'All') {
       this.saleTriggered = true;
     } else {
       this.saleTriggered = false;
     }
-    this.sales = item;
-    this.length = new FilterPipe().transform(this.tableDataCopyOriginal, item).length;
-    this.tableDataCopy = new FilterPipe().transform(this.tableDataCopyOriginal, item);
-    this.transactionDataListTemp = this.tableDataCopy.slice(0, this.pageSize);
+
+    if (!this.settlementTriggered) {
+
+      this.tableDataCopy = new FilterPipe().transform(this.tableDataCopyOriginal, item);
+      this.length=this.tableDataCopy.length;
+      this.transactionDataListTemp = this.tableDataCopy.slice(0, this.pageSize);
+
+    }else{
+
+      this.tableDataCopy = new FilterPipe().transform(this.tableDataCopyOriginal, this.status);
+      this.length=this.tableDataCopy.length;
+      this.transactionDataListTemp = this.tableDataCopy.slice(0, this.pageSize);
+
+      this.tableDataCopy = new FilterPipe().transform(this.tableDataCopy, item);
+      this.length=this.tableDataCopy.length;
+      this.transactionDataListTemp = this.tableDataCopy.slice(0, this.pageSize);
+
+    }
+
   }
 
-  getSaleColour(){
-    if(this.saleTriggered){
+  getSaleColour() {
+    if (this.saleTriggered) {
       return 'red';
       console.log('entered green');
-    }else{
+    } else {
       return 'black';
       console.log('entered black');
     }
   }
 
   selectSettlement(items: string) {
+
+
+    this.status = items;
+
+
     if (items != 'All') {
       this.settlementTriggered = true;
     } else {
       this.settlementTriggered = false;
     }
-    this.status = items;
-    this.length = new FilterPipe().transform(this.tableDataCopyOriginal, items).length;
-    this.tableDataCopy = new FilterPipe().transform(this.tableDataCopyOriginal, items);
-    this.transactionDataListTemp = this.tableDataCopy.slice(0, this.pageSize);
+
+    if (!this.saleTriggered) {
+
+     
+      this.tableDataCopy = new FilterPipe().transform(this.tableDataCopyOriginal, items);
+      this.length=this.tableDataCopy.length;
+      this.transactionDataListTemp = this.tableDataCopy.slice(0, this.pageSize);
+
+    } else {
+
+      this.tableDataCopy = new FilterPipe().transform(this.tableDataCopyOriginal, this.sales);
+      this.length=this.tableDataCopy.length;
+      this.transactionDataListTemp = this.tableDataCopy.slice(0, this.pageSize);
+
+      this.tableDataCopy = new FilterPipe().transform(this.tableDataCopy, items);
+      this.length=this.tableDataCopy.length;
+      this.transactionDataListTemp = this.tableDataCopy.slice(0, this.pageSize);
+
+    }
+
   }
 
-  getSettlementColour(){
-    if(this.settlementTriggered){
+  getSettlementColour() {
+    if (this.settlementTriggered) {
       return 'red';
       console.log('entered green');
-    }else{
+    } else {
       return 'black';
       console.log('entered black');
     }
@@ -479,6 +526,20 @@ export class TableComponent implements OnInit {
     let secondCut = firstCut + e.pageSize;
     this.transactionDataListTemp = this.tableDataCopy.slice(firstCut, secondCut);
 
+  }
+
+  GetPlanName(planId): string {
+    switch (planId) {
+      case 'p1': return 'Starter 98';
+      case 'p2': return 'Starter 149';
+      case 'p3': return 'Rs. 399';
+      case 'p4': return 'Rs. 459';
+      case 'p5': return 'Rs. 21 – 1GB';
+      case 'p6': return 'Rs. 51 – 3 GB';
+      case 'p7': return 'JioPhone 1';
+      case 'p8': return 'JioPhone 2';
+      case 'p9': return 'STB 1';
+    }
   }
 
   // DetailsChange(index){
