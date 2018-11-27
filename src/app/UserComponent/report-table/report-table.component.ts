@@ -51,8 +51,7 @@ export class ReportTableComponent implements OnInit {
       { name: 'All', value: 'All' },
       { name: 'SIM Activation', value: 'SimActivation' },
       { name: 'Recharge', value: 'Recharge' },
-      { name: 'Device Sale', value: 'DeviceSale' },
-      { name: 'Device Exchange', value: 'DeviceExchange' }
+      { name: 'Device Sale', value: 'DeviceSale' }
     ];
     this.tableData3 = {
       headerRow: ['Txn ID', 'Sale Type', 'Amount', 'Date/Time', 'Commission', 'Statement'],
