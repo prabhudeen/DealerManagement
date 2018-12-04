@@ -124,7 +124,16 @@ export class CommonService {
         + ` | Subscriber = `
         + ` | appData = `
         + JSON.stringify(response['app-data']));
-    } else {
+    } else if (response['status'] === 202) {
+      toasterType = 'warning';
+      toasterMsg = response['body']['description'];
+      console.log(` Status = ` + response['type']
+        + ` | Http Status = ` + response['http-status-code']
+        + ` | Subscriber = `
+        + ` | appData = `
+        + JSON.stringify(response['app-data']));
+    }
+    else {
       toasterType = 'danger';
       toasterMsg = `Error Ack : ` + response['error-message'];
       console.log(` | Message = `
