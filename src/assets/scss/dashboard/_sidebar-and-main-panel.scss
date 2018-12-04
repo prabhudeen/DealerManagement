@@ -1,3 +1,4 @@
+$blue-color:rgb(59, 133, 254);
 .wrapper{
     position: relative;
     top: 0;
@@ -38,15 +39,12 @@
       border-left: 4px solid transparent;
     }
 
-    &[data-background-color="black"]{
-        background-color: #191919;
+    &[data-background-color="white"]{
+        background-color: #ebeff1;
     }
 
     &[data-background-color="red"]{
         background-color: #e53935;
-    }
-    &[data-background-color="blue"]{
-        background-color: #5c10d6;
     }
 
     .sidebar-wrapper{
@@ -213,7 +211,7 @@
     .nav li .dropdown-menu a{
           margin: 10px 15px 0;
           border-radius: $border-radius-base;
-          color: $black-color;
+          color: #fafafa;
           padding-left: 10px;
           padding-right: 10px;
           text-transform: capitalize;
@@ -231,16 +229,16 @@
         background-size: cover;
         background-position: center center;
 
-        // &:after{
-        //     position: absolute;
-        //     z-index: 3;
-        //     width: 100%;
-        //     height: 100%;
-        //     content: "";
-        //     display: block;
-        //     background: rgb(35, 11, 170);
-        //     opacity: .93;
-        // }
+        &:after{
+            position: absolute;
+            z-index: 3;
+            width: 100%;
+            height: 100%;
+            content: "";
+            display: block;
+            background: $blue-color;
+            opacity: 1;
+        }
     }
 
     .logo{
@@ -377,14 +375,7 @@
         }
     }
     &[data-background-color="black"]{
-        @include sidebar-background-color($gray-base, $white-color);
-
-        .nav li .dropdown-menu .dropdown-item{
-          color: $white-color;
-        }
-    }
-    &[data-background-color="red"]{
-        @include sidebar-background-color($gray-base, $white-color);
+        @include sidebar-background-color($gray-base, $blue-color);
 
         .nav li .dropdown-menu .dropdown-item{
           color: $white-color;
@@ -422,8 +413,8 @@
         @include sidebar-active-color($black-color);
     }
 
-    &[data-background-color="red"]{
-        @include sidebar-background-color($brand-danger, $white-color);
+    &[data-background-color="blue"]{
+        @include sidebar-background-color($brand-danger, $blue-color);
 
         .user,
         .logo,
