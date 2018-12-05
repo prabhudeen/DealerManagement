@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project default="build_completion" name="Create binaries for Dealer Management" basedir=".">
+
+	<target name="init">
+
+		<mkdir dir="${basedir}/dist/DealerManagement" />
+
+		<mkdir dir="${basedir}/dist/DealerManagement/logs" />
+
+		<mkdir dir="${basedir}/dist/DealerManagement/lib" />
+
+		<mkdir dir="${basedir}/dist/DealerManagement/bin" />
+
+		<mkdir dir="${basedir}/bin" />
+
+		<mkdir dir="${basedir}/dist/DealerManagement/configuration" />
+
+		<mkdir dir="${basedir}/dist/DealerManagement/WebContent" />
+
+	</target>
+
+
+
+	<target name="conf">
+
+
+
+		<copy todir="${basedir}/dist/DealerManagement/bin" overwrite="true">
+
+			<fileset file="${basedir}/run-as.sh" />
+
+		</copy>
+
+		<copy todir="${basedir}/dist/DealerManagement/bin" overwrite="true">
+
+			<fileset file="${basedir}/run-as.bat" />
+
+		</copy>
+
+		<copy todir="${basedir}/dist/DealerManagement/configuration" overwrite="true">
+
+			<fileset file="${basedir}/configuration/server.properties" />
+
+		</copy>
+
+		<copy todir="${basedir}/dist/DealerManagement/WebContent" overwrite="true">
+
+			<fileset file="${basedir}/WebContent/**"   includes="${basedir}/WebContent/**"/>
+
+		</copy>
+
+
+	</target>
+
+	<target name="lib">
+
+		<copy todir="${basedir}/dist/DealerManagement/lib" overwrite="true">
+
+			<fileset dir="${basedir}/lib" />
+
+		</copy>
+
+	</target>
+
+
+
+	<target name="create_run_jar" depends="init,conf,lib">
+
+		<jar destfile="${basedir}/dist/DealerManagement/bin/DealerManagement.jar" filesetmanifest="mergewithoutmain">
+
+			<manifest>
+
+				<attribute name="Built-By" value="aayush.bhatnagar@ril.com" />
+
+				<attribute name="Main-Class" value="com.jio.dealer.manager.RTJioDealerManager" />
+
+				<attribute name="Class-Path" value="." />
+
+			</manifest>
+
+			<fileset dir="${basedir}/bin" />
+
+		</jar>
+
+	</target>
+
+
+
+	<target name="build_completion" depends="create_run_jar">
+
+		<checksum file="${basedir}/dist/DealerManagement/bin/DealerManagement.jar" property="DealerManagement.jar" />
+
+		<echo file="${basedir}/dist/DealerManagement/bin/checksum.md5" append="false">${DealerManagement.jar}  DealerManagement.jar&#10;</echo>
+
+	</target>
+
+
+
+</project>
