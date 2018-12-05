@@ -53,7 +53,7 @@ export class ReportService {
         });
 
 
-        this.server.sendRequest('post', '/getDealerDataByDealerId', null, headers1, null).subscribe(
+        this.server.sendRequest('post', '/getDealerDataByDealerId', null, headers1,false, null).subscribe(
             (response) => {
                 console.log(response['body']);
                 promiseTemp.next(response['body'].slice());
@@ -72,7 +72,7 @@ export class ReportService {
             const headers1 = new HttpHeaders({
                 'dealerId': this.userName,
             });
-            this.server.sendRequest('post', '/getTransactionRange', null, headers1, null).subscribe(
+            this.server.sendRequest('post', '/getTransactionRange', null, headers1,false, null).subscribe(
                 (response) => {
                     console.log(response['body']);
                     promiseTemp.next(response['body']);
@@ -157,7 +157,7 @@ export class ReportService {
             'Content-Type': "application/json"
         });
 
-        this.server.sendRequest('post', '/submitSaleTransaction', jsonBody, headers, null).subscribe(
+        this.server.sendRequest('post', '/submitSaleTransaction', jsonBody, headers,true, null).subscribe(
             (data) => {
 
                 let counter = jsonBody['saleItems'].length;

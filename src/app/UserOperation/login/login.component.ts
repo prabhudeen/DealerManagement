@@ -63,7 +63,7 @@ export class LoginComponent implements OnInit {
     let headers = new HttpHeaders();
     headers = headers.append('username', this.login.value.userName).append('password', this.login.value.password);
 
-     this.server.sendRequest('post', '/login', null, headers, null).subscribe(
+     this.server.sendRequest('post', '/login', null, headers,false, null).subscribe(
       (data) => {
         if(data.status == 200) {
           this.sessionService.clear();

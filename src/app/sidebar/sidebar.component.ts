@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import PerfectScrollbar from 'perfect-scrollbar';
 import { Router } from '@angular/router';
+import { SessionService } from '../shared/session.service';
 
 declare const $: any;
 
@@ -45,7 +46,7 @@ export const ROUTES: RouteInfo[] = [{
 export class SidebarComponent implements OnInit {
     public menuItems: any[];
 
-    constructor(private router:Router){
+    constructor(private router:Router, private sessionService: SessionService){
 
     }
 
@@ -61,6 +62,11 @@ export class SidebarComponent implements OnInit {
     ngOnInit() {
         this.menuItems = ROUTES.filter(menuItem => menuItem);
     }
+    logout(){
+        this.sessionService.remove('userName');
+        this.router.navigate(['login']);
+    }
+
     updatePS(): void  {
         if (window.matchMedia(`(min-width: 960px)`).matches && !this.isMac()) {
             const elemSidebar = <HTMLElement>document.querySelector('.sidebar .sidebar-wrapper');

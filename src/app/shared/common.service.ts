@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
 import { EventConstants } from './constant.model';
+import { AppConfigurationService } from '../app-configuration.service';
 declare const $: any;
 export class User {
   username: string;
@@ -10,7 +11,8 @@ export class User {
   providedIn: 'root'
 })
 export class CommonService {
-  constructor(private httpClient: HttpClient) { }
+
+  constructor(private httpClient: HttpClient,private appConfigurationService: AppConfigurationService) { }
   private subject = new Subject<any>();
   private user = {
     username: null,
@@ -25,23 +27,24 @@ export class CommonService {
   }
 
   sendRequest(requestType: string, context: string,
-    reqBody: any, headers: HttpHeaders, queryString: string): Observable<HttpResponse<any>> {
+    reqBody: any, headers: HttpHeaders,flag: boolean, queryString: string): Observable<HttpResponse<any>> {
     let url: string;
+    let appConfiguration= this.appConfigurationService.getConfiguration();
     // let url: string = 'http://10.64.217.120:8090' + context;
 
     url = `${EventConstants.PROTOCOL}${EventConstants.IP}:${EventConstants.PORT}`;
     // url=configUrl;
-    // if (context) {
-    //   url = `${url}${context}`;
-    // } else {
-    //   url = `${url}${EventConstants.CONTEXT}`;
-    // }
+    if (context) {
+      url = `${url}${context}`;
+    } else {
+      url = `${url}${EventConstants.CONTEXT}`;
+    }
 
     // if (queryString) {
     //   url = `${url}${queryString}`;
     // }
 
-    url = `${url}${context}`;
+    // url = `${url}${context}`;
 
     console.log(`Sending Request : Type = `, requestType, ` | URL = `
       , url, `| request body = `, JSON.stringify(reqBody));
@@ -56,6 +59,7 @@ export class CommonService {
         return new Observable<any>(observe => {
           this.httpClient.post(url, reqBody, httpOptions).subscribe(
             (response) => {
+              if(flag)
               this.displayToaster(response);
               observe.next(response);
             },
@@ -70,7 +74,7 @@ export class CommonService {
         return new Observable<any>(observe => {
           this.httpClient.get(url, httpOptions).subscribe(
             (response) => {
-              console.log(response);
+              if(flag)
               this.displayToaster(response);
               observe.next(response);
             },
@@ -85,6 +89,7 @@ export class CommonService {
         return new Observable<any>(observe => {
           this.httpClient.put(url, reqBody, httpOptions).subscribe(
             (response) => {
+              if(flag)
               this.displayToaster(response);
               observe.next(response);
             },
@@ -100,6 +105,7 @@ export class CommonService {
         return new Observable<any>(observe => {
           this.httpClient.delete(url, httpOptions).subscribe(
             (response) => {
+              if(flag)
               this.displayToaster(response);
               observe.next(response);
             },
@@ -124,7 +130,18 @@ export class CommonService {
         + ` | Subscriber = `
         + ` | appData = `
         + JSON.stringify(response['app-data']));
-    } else {
+    } else if ( response['status'] === 202 ){
+      toasterType = 'warning';
+      toasterMsg = response['body']['description'];
+      console.log(` | Message = `
+      + JSON.stringify(response['body']['description']));
+    }else if ( response['status'] === 401){
+      toasterType = 'danger';
+      toasterMsg = response['statusText'];
+      console.log(` | Message = `
+      + JSON.stringify(response['statusText']));
+    }
+    else {
       toasterType = 'danger';
       toasterMsg = `Error Ack : ` + response['error-message'];
       console.log(` | Message = `

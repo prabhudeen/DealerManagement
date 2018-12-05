@@ -413,7 +413,7 @@ export class TableComponent implements OnInit {
     console.log("Invoice Data method call")
     let headers = new HttpHeaders();
     headers = headers.append('txnId', this.transactionDataListTemp[index].TxId);
-    this.server.sendRequest('post', '/getTransactionById', null, headers, null).subscribe(
+    this.server.sendRequest('post', '/getTransactionById', null, headers,false, null).subscribe(
       (data) => {
         console.log("invoice data")
 

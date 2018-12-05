@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { HttpModule } from '@angular/http';
@@ -57,6 +57,25 @@ import { AuthGuard } from './shared/auth.guard';
 import { OrderByPipe } from './UserOperation/table/order.pipe';
 import { FixedpluginModule } from './shared/fixedplugin/fixedplugin.module';
 import { Datefilterpipe } from './datefilterpipe';
+import { AppConfigurationService } from './app-configuration.service';
+
+
+export function initializeApp(appConfigurationService: AppConfigurationService) {
+  return () => new Promise((resolve, reject) => {
+    appConfigurationService.loadConfiguration('assets/configuration/config.json').then(
+      (response) => {
+        console.log(response);
+        resolve();
+      }
+    ).catch(
+      (error) => {
+        console.log(error);
+        reject();
+      }
+    )
+  });
+
+}
 
 @NgModule({
   exports: [
@@ -129,7 +148,14 @@ export class MaterialModule { }
   providers: [CommonService,
     ReportService,
     SessionService,
-    AuthGuard],
+    AuthGuard, 
+    AppConfigurationService,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initializeApp,
+      deps: [AppConfigurationService],
+      multi: true
+    }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
