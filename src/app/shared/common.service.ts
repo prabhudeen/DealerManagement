@@ -153,7 +153,7 @@ export class CommonService {
     }, {
         type: toasterType,
         delay: 500,
-        timer: 800,
+        timer: 800, 
         placement: {
           from: 'top',
           align: 'right'
