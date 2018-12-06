@@ -207,7 +207,7 @@
                   </h4>
                 </div>
                 <div class="float-right">
-                  <button class="btn btn-info btn-round btn-sm" type="button" (click)="onAdd()">+Add</button>
+                  <button class="btn btn-info btn-round btn-sm" type="button" [disabled]="form1.invalid" (click)="onAdd()">+Add</button>
                 </div>
               </div>
             </div>
