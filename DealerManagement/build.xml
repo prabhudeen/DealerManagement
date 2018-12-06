@@ -73,7 +73,7 @@
 
 				<attribute name="Built-By" value="aayush.bhatnagar@ril.com" />
 
-				<attribute name="Main-Class" value="com.jio.dealer.manager.RTJioDealerManager" />
+				<attribute name="Main-Class" value="com.jio.dealer.manager.RTJioDealerManagerServerClass" />
 
 				<attribute name="Class-Path" value="." />
 
