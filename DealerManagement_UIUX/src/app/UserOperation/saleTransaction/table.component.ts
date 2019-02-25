@@ -1,14 +1,15 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation, ChangeDetectionStrategy } from '@angular/core';
-import { TableData } from '../../md/md-table/md-table.component';
-import { FormControl, Validators, NgForm, FormGroup, FormBuilder } from '@angular/forms';
-import { CommonService, User } from '../../shared/common.service';
+import { FormControl, Validators, NgForm, FormGroup } from '@angular/forms';
+import { CommonService } from '../../shared/common.service';
 import { HttpHeaders } from '@angular/common/http';
-import { ReportService } from '../../UserComponent/report-table/report.service';
 import { SessionService } from '../../shared/session.service';
 import { MatPaginator, PageEvent } from '@angular/material';
-import { FilterPipe } from './Filter.pipe';
-import { OrderByPipe } from './order.pipe';
-import { Datefilterpipe } from '../../datefilterpipe';
+import { ReportService } from '../report-table/report.service';
+import { OrderByPipe } from '../../Shared/order.pipe';
+import { Datefilterpipe } from '../../Shared/datefilterpipe';
+import { FilterPipe } from '../../Shared/Filter.pipe';
+import { TableData } from '../../Helpers/md/md-table/md-table.component';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-table',
@@ -28,13 +29,13 @@ export class TableComponent implements OnInit {
   productTypeList = [];
   transactionDataListTemp = [];
   planList = [];
-  simActivation;
-  recharge;
-  deviceSale;
-  deviceExchange;
-  totalSale;
-  totalComission;
-  length: number;
+  simActivation = 0;
+  recharge = 0;
+  deviceSale = 0;
+  deviceExchange = 0;
+  totalSale = 0;
+  totalComission = 0;
+  length: number = 0;
   pageSize = 5;
   pageSizeOptions: number[] = [5, 10, 25, 100];
   pageEvent: PageEvent;
@@ -65,13 +66,9 @@ export class TableComponent implements OnInit {
   settlementTriggered: boolean = false;
   dateTriggered: boolean = false;
 
-
-
-
   constructor(private server: CommonService,
     private reportService: ReportService,
     private sessionService: SessionService) {
-    console.log('inside constructor');
   }
 
   ngOnInit() {
@@ -125,27 +122,27 @@ export class TableComponent implements OnInit {
     this.reportService.transactionDataListObs.subscribe(
       (response) => {
         this.transactionDataList = response;
+        let length = this.transactionDataList.length - 1; // length of the transactionDataList not global length variable
         this.transactionDataListTemp = JSON.parse(JSON.stringify(response));
-        this.simActivation = this.transactionDataList[this.transactionDataList.length - 1].simActivation;
-        this.recharge = this.transactionDataList[this.transactionDataList.length - 1].recharge;
-        this.deviceSale = this.transactionDataList[this.transactionDataList.length - 1].deviceSale;
-        this.deviceExchange = this.transactionDataList[this.transactionDataList.length - 1].deviceExchange;
-        this.totalSale = this.transactionDataList[this.transactionDataList.length - 1].totalSale;
-        this.totalComission = this.transactionDataList[this.transactionDataList.length - 1].totalCommision;
-        this.transactionDataListTemp.splice(this.transactionDataList.length - 1, 1);
+        this.simActivation = this.transactionDataList[length - 1].simActivation;
+        this.recharge = this.transactionDataList[length - 1].recharge;
+        this.deviceSale = this.transactionDataList[length - 1].deviceSale;
+        this.deviceExchange = this.transactionDataList[length - 1].deviceExchange;
+        this.totalSale = this.transactionDataList[length - 1].totalSale;
+        this.totalComission = this.transactionDataList[length - 1].totalCommision;
+        this.transactionDataListTemp.splice(length - 1, 1);
         this.transactionDataListTemp = new OrderByPipe().transform(this.transactionDataListTemp, 'txCreatedTime');
         this.tableDataCopyOriginal = this.transactionDataListTemp;
         this.length = this.transactionDataListTemp.length;
         this.transactionDataListTemp = this.transactionDataListTemp.slice(0, this.pageSize);
       });
 
-    console.log("inside ngonint");
     this.userName = this.sessionService.get('userName');
-    console.log(this.userName);
 
     this.reportService.getTransactionDetails().subscribe(
       (response) => {
         this.transactionDataList = response;
+       
         this.transactionDataListTemp = JSON.parse(JSON.stringify(response));
         this.simActivation = this.transactionDataList[this.transactionDataList.length - 1].simActivation;
         this.recharge = this.transactionDataList[this.transactionDataList.length - 1].recharge;
@@ -215,18 +212,16 @@ export class TableComponent implements OnInit {
   }
 
   DateUpdate() {
-    console.log("click dateupdate()");
-
     this.length = new Datefilterpipe().transform(this.tableDataCopyOriginal, this.dateTimeRange[0], this.dateTimeRange[1]).length;
     this.tableDataCopy = new Datefilterpipe().transform(this.tableDataCopyOriginal, this.dateTimeRange[0], this.dateTimeRange[1]);
     this.transactionDataListTemp = this.tableDataCopy.slice(0, this.pageSize);
   }
 
   pageFront1to2() {
-    this.step = "two";
-    console.log(JSON.stringify(this.salesItems));
+
+    this.totalSaleAmount = 0;
+    this.step ="two";
     for (let i = 0; i < this.salesItems.length; i++) {
-      console.log('entered');
       if (i == 0) {
         this.salesItems1 = [{
           saleType: this.salesItems[i].saleType,
@@ -260,39 +255,20 @@ export class TableComponent implements OnInit {
       "saleItems": this.salesItems1,
     };
 
-    console.log(this.saleInfoData);
   }
 
   pageFront2to3() {
     this.step = "three";
     this.CostumeInfo = this.form2.value;
-    console.log(this.CostumeInfo);
   }
 
   onSubmission() {
-    console.log(this.saleInfoData);
 
+    console.log(this.saleInfoData);
     this.reportService.addTransactionData(this.saleInfoData).subscribe(
       (response) => {
         console.log(response);
       });
-
-    //  console.log(this.saleInfoData);
-    // const headers = new HttpHeaders({
-    //   'Content-Type': "application/json"
-    // })
-    // this.server.sendRequest('post', '/submitSaleTransaction', this.saleInfoData, headers, null).subscribe(
-    //   (data) => {
-    //     console.log("inside response!")
-    //     console.log(data);
-
-    //     setTimeout(() => {
-    //       this.UpdateTable();
-    //     }, 30000);
-
-    //   }
-    // );
-
   }
 
   onAdd() {
@@ -312,7 +288,6 @@ export class TableComponent implements OnInit {
   }
 
   onSaleTypeChange(saleType, index) {
-    console.log('inside onSaleTypeChange:' + saleType + index);
     this.planList[index] = [];
     this.salesItems[index].saleAmount = null;
     this.salesItems[index].quantity = 1;
@@ -340,7 +315,6 @@ export class TableComponent implements OnInit {
     this.salesItems[index].quantity = 1;
     this.salesItems[index].saleAmount = 0;
     this.salesItems[index].itemId = ' ';
-    console.log('inside onItemTypeChange:' + itemType + index);
     let tempList = [];
     switch (itemType) {
       case 'Connectivity':
@@ -370,7 +344,6 @@ export class TableComponent implements OnInit {
   }
 
   onPlanTypeChange(plan, index) {
-    console.log('amount change' + index);
     switch (plan) {
       case "p1":
         this.salesItems[index].saleAmount = 98;
@@ -403,6 +376,7 @@ export class TableComponent implements OnInit {
   }
 
   onClickListener(index) {
+
     this.tableData2 = {
       headerRow: ['CASH PAID', 'PROMO CODE', 'TOTAL AMOUNT'],
       dataRows: [
@@ -410,33 +384,21 @@ export class TableComponent implements OnInit {
       ]
     };
 
-    console.log("Invoice Data method call")
     let headers = new HttpHeaders();
-    headers = headers.append('txnId', this.transactionDataListTemp[index].TxId);
-    this.server.sendRequest('post', '/getTransactionById', null, headers,false, null).subscribe(
-      (data) => {
-        console.log("invoice data")
 
+    headers = headers.append('txnId', this.transactionDataListTemp[index].TxId);
+    this.server.sendRequest('get', null, null, headers,true,'GetTransactionById' ).subscribe(
+      (data) => {
         this.invoiceData = data['body'];
         this.invoiceData.planId = this.GetPlanName(data['body'].planId);
-        console.log(this.invoiceData);
-
       }
     );
-    // this.invoiceData = {
-    //   quantity:15,
-    //   saleAmount:this.transactionDataListTemp[index].saleAmount,
-    //   TxId:this.transactionDataListTemp[index].TxId,
-    //   itemType:this.transactionDataListTemp[index].saleType,
-    //   txCreatedTime:this.transactionDataListTemp[index].txCreatedTime,
-    //   dealerId:"Dosapati Nikhil"
-    // };
+
   }
 
   selectSales(item: string) {
 
     this.sales = item;
-
     if (item != 'All') {
       this.saleTriggered = true;
     } else {
@@ -444,21 +406,16 @@ export class TableComponent implements OnInit {
     }
 
     if (!this.settlementTriggered) {
-
       this.tableDataCopy = new FilterPipe().transform(this.tableDataCopyOriginal, item);
       this.length=this.tableDataCopy.length;
       this.transactionDataListTemp = this.tableDataCopy.slice(0, this.pageSize);
-
     }else{
-
       this.tableDataCopy = new FilterPipe().transform(this.tableDataCopyOriginal, this.status);
       this.length=this.tableDataCopy.length;
       this.transactionDataListTemp = this.tableDataCopy.slice(0, this.pageSize);
-
       this.tableDataCopy = new FilterPipe().transform(this.tableDataCopy, item);
       this.length=this.tableDataCopy.length;
       this.transactionDataListTemp = this.tableDataCopy.slice(0, this.pageSize);
-
     }
 
   }
@@ -466,19 +423,14 @@ export class TableComponent implements OnInit {
   getSaleColour() {
     if (this.saleTriggered) {
       return 'red';
-      console.log('entered green');
     } else {
       return 'black';
-      console.log('entered black');
     }
   }
 
   selectSettlement(items: string) {
 
-
     this.status = items;
-
-
     if (items != 'All') {
       this.settlementTriggered = true;
     } else {
@@ -486,22 +438,16 @@ export class TableComponent implements OnInit {
     }
 
     if (!this.saleTriggered) {
-
-     
       this.tableDataCopy = new FilterPipe().transform(this.tableDataCopyOriginal, items);
       this.length=this.tableDataCopy.length;
       this.transactionDataListTemp = this.tableDataCopy.slice(0, this.pageSize);
-
     } else {
-
       this.tableDataCopy = new FilterPipe().transform(this.tableDataCopyOriginal, this.sales);
       this.length=this.tableDataCopy.length;
       this.transactionDataListTemp = this.tableDataCopy.slice(0, this.pageSize);
-
       this.tableDataCopy = new FilterPipe().transform(this.tableDataCopy, items);
       this.length=this.tableDataCopy.length;
       this.transactionDataListTemp = this.tableDataCopy.slice(0, this.pageSize);
-
     }
 
   }
@@ -509,23 +455,16 @@ export class TableComponent implements OnInit {
   getSettlementColour() {
     if (this.settlementTriggered) {
       return 'red';
-      console.log('entered green');
     } else {
       return 'black';
-      console.log('entered black');
     }
   }
 
-  setPageSizeOptions(setPageSizeOptionsInput: string) {
-    this.pageSizeOptions = setPageSizeOptionsInput.split(',').map(str => +str);
-  }
-
   onPageChanged(e) {
-    console.log(e);
+    this.pageSize = e.pageSize;
     let firstCut = e.pageIndex * e.pageSize;
     let secondCut = firstCut + e.pageSize;
     this.transactionDataListTemp = this.tableDataCopy.slice(firstCut, secondCut);
-
   }
 
   GetPlanName(planId): string {
@@ -541,13 +480,6 @@ export class TableComponent implements OnInit {
       case 'p9': return 'STB 1';
     }
   }
-
-  // DetailsChange(index){
-  //   console.log('entered details change');
-  //  if(this.salesItems[index].itemId==='-'){
-  //   this.salesItems[index].itemId = '';
-  //  }
-  // }
 
 }
 

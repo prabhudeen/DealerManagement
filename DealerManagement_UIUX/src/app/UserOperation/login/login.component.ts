@@ -34,12 +34,6 @@ export class LoginComponent implements OnInit {
   }
 
   userNameValidationLogin(e) {
-    // const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    // if (re.test(String(e).toLowerCase())) {
-    //   this.validuserNameLogin = true;
-    // } else {
-    //   this.validuserNameLogin = false;
-    // }
     if (e.length > 1) {
       this.validuserNameLogin = true;
     } else {
@@ -62,27 +56,23 @@ export class LoginComponent implements OnInit {
   onSubmit() {
     let headers = new HttpHeaders();
     headers = headers.append('username', this.login.value.userName).append('password', this.login.value.password);
-
-     this.server.sendRequest('post', '/login', null, headers,false, null).subscribe(
-      (data) => {
-        if(data.status == 200) {
-          this.sessionService.clear();
-          this.sessionService.set('userName',this.login.value.userName);
-          this.router.navigate(['table']);
-        }
-      }
-    ); 
-
-    // if (200 == 200) {
-    //   this.sessionService.clear();
-    //   this.sessionService.set('userName', this.login.value.userName);
-    //   this.router.navigate(['table']);
-    // }
+   
+    this.sessionService.clear();
+    this.sessionService.set('userName',this.login.value.userName);
+    this.router.navigate(['table']);
+    //  this.server.sendRequest('post', '/login', null, headers,false, null).subscribe(
+    //   (data) => {
+    //     if(data.status == 200) {
+    //       this.sessionService.clear();
+    //       this.sessionService.set('userName',this.login.value.userName);
+    //       this.router.navigate(['table']);
+    //     }
+    //   }
+    // ); 
   }
 
   validateUser() {
     if (this.sessionService.get('userName')) {
-      console.log(this.sessionService.get('userName'));
       this.router.navigate(['table']);
     } else {
       this.router.navigate(['login']);
@@ -90,9 +80,6 @@ export class LoginComponent implements OnInit {
   }
 
   validUser() {
-    //console.log("entered");
-    console.log(this.validPasswordLogin);
-    console.log(this.validuserNameLogin);
     return this.validuserNameLogin && this.validPasswordLogin;
   }
 

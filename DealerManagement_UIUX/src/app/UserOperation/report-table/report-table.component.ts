@@ -1,13 +1,12 @@
 import { Component, OnInit, ViewEncapsulation, ChangeDetectionStrategy } from '@angular/core';
-import { TableData } from '../../md/md-table/md-table.component';
 import { HttpHeaders } from '@angular/common/http';
-import { CommonService, User } from '../../shared/common.service';
-import { FormControl } from '@angular/forms';
+import { CommonService } from '../../shared/common.service';
 import { ReportService } from './report.service';
-import { PageEvent, MatPaginator, MatInputModule, MatFormFieldModule } from '@angular/material';
-import { FilterPipe } from '../../UserOperation/table/Filter.pipe';
-import { OrderByPipe } from '../../UserOperation/table/order.pipe';
-import { Datefilterpipe } from '../../datefilterpipe';
+import { PageEvent } from '@angular/material';
+import { OrderByPipe } from '../../Shared/order.pipe';
+import { Datefilterpipe } from '../../Shared/datefilterpipe';
+import { FilterPipe } from '../../Shared/Filter.pipe';
+import { TableData } from '../../Helpers/md/md-table/md-table.component';
 
 @Component({
   selector: 'app-report-table',
@@ -18,7 +17,7 @@ import { Datefilterpipe } from '../../datefilterpipe';
 })
 export class ReportTableComponent implements OnInit {
   tableDataCopy = [];
-  length: number;
+  length: number = 0;
   pageSize = 5;
   pageSizeOptions: number[] = [5, 10, 25, 100];
   pageEvent: PageEvent;
@@ -66,6 +65,7 @@ export class ReportTableComponent implements OnInit {
     this.reportService.getTransactionDetails().subscribe(
       (response) => {
         this.transactionDataList = response;
+        console.log('getTransactionDetails=='+JSON.stringify(this.transactionDataList));
         this.transactionDataListTemp = JSON.parse(JSON.stringify(response));
         this.transactionDataListTemp.splice(this.transactionDataList.length - 1, 1);
         this.transactionDataListTemp = new OrderByPipe().transform(this.transactionDataListTemp, 'txCreatedTime');
@@ -77,12 +77,10 @@ export class ReportTableComponent implements OnInit {
     this.reportService.getTransaction().subscribe(
       (response) => {
         this.transaction = response;
-        console.log(this.transaction);
       });
   }
 
   DateUpdate() {
-    console.log("click dateupdate()");
     this.length = new Datefilterpipe().transform(this.tableDataCopyOriginal, this.dateTimeRange[0], this.dateTimeRange[1]).length;
     this.tableDataCopy = new Datefilterpipe().transform(this.tableDataCopyOriginal, this.dateTimeRange[0], this.dateTimeRange[1]);
     this.transactionDataListTemp = this.tableDataCopy.slice(0, this.pageSize);
@@ -98,39 +96,30 @@ export class ReportTableComponent implements OnInit {
     }
 
     if (!this.settlementTriggered) {
-
       this.tableDataCopy = new FilterPipe().transform(this.tableDataCopyOriginal, item);
       this.length = this.tableDataCopy.length;
       this.transactionDataListTemp = this.tableDataCopy.slice(0, this.pageSize);
-
     } else {
-
       this.tableDataCopy = new FilterPipe().transform(this.tableDataCopyOriginal, this.status);
       this.length = this.tableDataCopy.length;
       this.transactionDataListTemp = this.tableDataCopy.slice(0, this.pageSize);
-
       this.tableDataCopy = new FilterPipe().transform(this.tableDataCopy, item);
       this.length = this.tableDataCopy.length;
       this.transactionDataListTemp = this.tableDataCopy.slice(0, this.pageSize);
-
     }
-
-
   }
 
   getSaleColour() {
     if (this.saleTriggered) {
       return 'red';
-      console.log('entered green');
     } else {
       return 'black';
-      console.log('entered black');
     }
   }
 
   selectSettlement(items: string) {
-    this.status = items;
 
+    this.status = items;
     if (items != 'All') {
       this.settlementTriggered = true;
     } else {
@@ -138,48 +127,33 @@ export class ReportTableComponent implements OnInit {
     }
 
     if (!this.saleTriggered) {
-
-
       this.tableDataCopy = new FilterPipe().transform(this.tableDataCopyOriginal, items);
       this.length = this.tableDataCopy.length;
       this.transactionDataListTemp = this.tableDataCopy.slice(0, this.pageSize);
-
     } else {
-
       this.tableDataCopy = new FilterPipe().transform(this.tableDataCopyOriginal, this.sales);
       this.length = this.tableDataCopy.length;
       this.transactionDataListTemp = this.tableDataCopy.slice(0, this.pageSize);
-
       this.tableDataCopy = new FilterPipe().transform(this.tableDataCopy, items);
       this.length = this.tableDataCopy.length;
       this.transactionDataListTemp = this.tableDataCopy.slice(0, this.pageSize);
-
     }
-
 
   }
 
   getSettlementColour() {
     if (this.settlementTriggered) {
       return 'red';
-      console.log('entered green');
     } else {
       return 'black';
-      console.log('entered black');
     }
   }
 
-  setPageSizeOptions(setPageSizeOptionsInput: string) {
-    this.pageSizeOptions = setPageSizeOptionsInput.split(',').map(str => +str);
-  }
-
   onPageChanged(e) {
-
+    this.pageSize = e.pageSize;
     let firstCut = e.pageIndex * e.pageSize;
     let secondCut = firstCut + e.pageSize;
     this.transactionDataListTemp = this.tableDataCopy.slice(firstCut, secondCut);
-    // this.transactionDataListTemp = this.transactionDataListTemp.slice(firstCut, secondCut);
-
   }
 
   onClickListener(index) {
@@ -190,21 +164,12 @@ export class ReportTableComponent implements OnInit {
       ]
     };
 
-    console.log("Invoice Data method call")
     let headers = new HttpHeaders();
     headers = headers.append('txnId', this.transactionDataListTemp[index].TxId);
-    this.server.sendRequest('post', '/getTransactionById', null, headers,false, null).subscribe(
+    this.server.sendRequest('get', null, null, headers, false,'GetTransactionById').subscribe(
       (data) => {
-        // console.log(data);
-        console.log("invoice data")
         this.invoiceData = data['body'];
-        console.log(this.invoiceData);
-
       }
     );
-    // this.invoiceData = null;
-
   }
-
-
 }

@@ -38,26 +38,26 @@ import {
 } from '@angular/material';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { AppComponent } from './app.component';
-import { TableComponent } from './UserOperation/table/table.component';
 import { AppRoutes } from './app.routing';
-import { SidebarModule } from './sidebar/sidebar.module';
-import { AdminLayoutComponent } from './layouts/admin/admin-layout.component';
-import { NavbarModule } from './shared/navbar/navbar.module';
-import { FooterModule } from './shared/footer/footer.module';
-import { ReportTableComponent } from './UserComponent/report-table/report-table.component';
 import { LoginComponent } from './UserOperation/login/login.component';
 import { CommonService } from './shared/common.service';
 import { HttpClientModule } from '@angular/common/http';
-import { FilterPipe } from './UserOperation/table/Filter.pipe';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
-import { ReportService } from './UserComponent/report-table/report.service';
 import { AngularWebStorageModule } from 'angular-web-storage';
 import { SessionService } from './shared/session.service';
 import { AuthGuard } from './shared/auth.guard';
-import { OrderByPipe } from './UserOperation/table/order.pipe';
-import { FixedpluginModule } from './shared/fixedplugin/fixedplugin.module';
-import { Datefilterpipe } from './datefilterpipe';
 import { AppConfigurationService } from './app-configuration.service';
+import { TableComponent } from './UserOperation/saleTransaction/table.component';
+import { ReportTableComponent } from './UserOperation/report-table/report-table.component';
+import { ReportService } from './UserOperation/report-table/report.service';
+import { Datefilterpipe } from './Shared/datefilterpipe';
+import { FilterPipe } from './Shared/Filter.pipe';
+import { OrderByPipe } from './Shared/order.pipe';
+import { SidebarModule } from './Helpers/sidebar/sidebar.module';
+import { NavbarModule } from './Helpers/shared/navbar/navbar.module';
+import { FixedpluginModule } from './Helpers/shared/fixedplugin/fixedplugin.module';
+import { FooterModule } from './Helpers/shared/footer/footer.module';
+import { AdminLayoutComponent } from './Helpers/layouts/admin/admin-layout.component';
 
 
 export function initializeApp(appConfigurationService: AppConfigurationService) {

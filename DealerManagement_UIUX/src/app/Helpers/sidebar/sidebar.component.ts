@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import PerfectScrollbar from 'perfect-scrollbar';
 import { Router } from '@angular/router';
-import { SessionService } from '../shared/session.service';
+import { SessionService } from '../../shared/session.service';
 
 declare const $: any;
 

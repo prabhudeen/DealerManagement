@@ -1,9 +1,9 @@
 import { Routes } from '@angular/router';
-import { AdminLayoutComponent } from './layouts/admin/admin-layout.component';
-import { TableComponent } from './UserOperation/table/table.component';
-import { ReportTableComponent } from './UserComponent/report-table/report-table.component';
 import { LoginComponent } from './UserOperation/login/login.component';
 import { AuthGuard } from './shared/auth.guard';
+import { TableComponent } from './UserOperation/saleTransaction/table.component';
+import { ReportTableComponent } from './UserOperation/report-table/report-table.component';
+import { AdminLayoutComponent } from './Helpers/layouts/admin/admin-layout.component';
 export const AppRoutes: Routes = [
   {
     path: '',

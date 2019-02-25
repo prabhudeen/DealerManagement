@@ -3,7 +3,7 @@ import { ROUTES } from '../.././sidebar/sidebar.component';
 import { Router, ActivatedRoute, NavigationEnd, NavigationStart } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
-import { SessionService } from '../session.service';
+import { SessionService } from '../../../shared/session.service';
 const misc: any = {
     navbar_menu_visible: 0,
     active_collapse: true,
@@ -28,7 +28,6 @@ export class NavbarComponent implements OnInit {
     @ViewChild('app-navbar-cmp') button: any;
 
     constructor(location: Location, 
-                    private renderer: Renderer, 
                         private element: ElementRef, 
                             private router: Router,
                                 private sessionService: SessionService) {
